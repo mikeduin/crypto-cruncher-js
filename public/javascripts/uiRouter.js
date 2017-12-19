@@ -1,11 +1,19 @@
 angular
   .module('cryptoCruncher', [
-    'ui.router'
+    'ui.router',
+    'pusher-angular'
   ])
   .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', siteConfig])
+  // .config(['PusherServiceProvider', function(PusherServiceProvider){
+  //   PusherServiceProvider
+  //   .setToken('7b31edc5de6a16ed6419')
+  //   .setOptions({})
+  // }])
   // .config(['$locationProvider', function($locationProvider) {
   //   $locationProvider.html5Mode(true);
   // }])
+
+
 
 function siteConfig($stateProvider, $urlRouterProvider, $locationProvider) {
   $urlRouterProvider.otherwise('/')
