@@ -1,2 +1,4 @@
 node_modules
 .env
+analyze_new_cluster.sh
+delete_old_cluster.sh

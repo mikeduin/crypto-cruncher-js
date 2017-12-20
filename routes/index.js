@@ -8,19 +8,6 @@ router.get('/', function(req, res, next) {
   res.redirect('index.html');
 });
 
-// bittrex.getmarketsummaries(function(data, err){
-//   if (err) {
-//     return console.error(err)
-//   };
-//   for (var i in data.result) {
-//     bittrex.getticker({market: data.result[i].MarketName}, function(ticker){
-//       console.log(ticker);
-//     })
-//   }
-// });
-
-
-
 var pusher = new Pusher({
   appId: process.env.PUSHER_APP_ID,
   key: process.env.PUSHER_KEY,
@@ -29,17 +16,14 @@ var pusher = new Pusher({
   encrypted: true
 });
 
-// pusher.trigger('my-channel', 'my-event', {
-//   "message": "hello world"
-// });
 
 console.log('Connecting ....');
 bittrex.websockets.listen(function(data, client) {
-  var lastPrices = {};
+  var bittrexMkt = {};
   if (data.M === 'updateSummaryState') {
     data.A.forEach(function(data_for) {
       data_for.Deltas.forEach(function(marketsDelta) {
-        lastPrices[marketsDelta.MarketName] = {
+        bittrexMkt[marketsDelta.MarketName] = {
           'Last': marketsDelta.Last,
           'High': marketsDelta.High,
           'Low': marketsDelta.Low,
@@ -50,10 +34,14 @@ bittrex.websockets.listen(function(data, client) {
       });
     });
   }
-  // pusher.trigger('lastPrices', 'updated', lastPrices);
-  // console.log(lastPrices);
+  // pusher.trigger('bittrexMkt', 'updated', bittrexMkt);
+  // console.log(bittrexMkt);
   pusher.trigger('my-channel', 'my-event', {
-    "message": "hello world"
+    "BTC-XRP": bittrexMkt['BTC-XRP'],
+    "BTC-LTC": bittrexMkt['BTC-LTC'],
+    "BTC-POWR": bittrexMkt['BTC-POWR'],
+    "BTC-XMR": bittrexMkt['BTC-XMR'],
+    "BTC-BCC": bittrexMkt['BTC-ZEC']
   })
 });
 
