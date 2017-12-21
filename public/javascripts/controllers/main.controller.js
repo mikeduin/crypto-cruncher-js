@@ -6,16 +6,21 @@ function MainController ($state, $pusher) {
   var vm = this;
   vm.bittrexMkt = {};
   vm.binanceMkt = {};
-  vm.
 
   var client = new Pusher('7b31edc5de6a16ed6419', {
     cluster: 'us2'
   });
   var pusher = $pusher(client);
-  var channel = pusher.subscribe('my-channel');
-  channel.bind('my-event', function(data){
+  var bittrexChannel = pusher.subscribe('bittrex-channel');
+  bittrexChannel.bind('update', function(data){
     console.log(data);
     vm.bittrexMkt = data;
+  });
+
+  var binanceChannel = pusher.subscribe('binance-channel');
+  binanceChannel.bind('update', function(data){
+    console.log(data);
+    vm.binanceMkt = data;
   })
 
 

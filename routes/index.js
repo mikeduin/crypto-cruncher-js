@@ -1,6 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var bittrex = require('node-bittrex-api');
+var WebSocket = require('ws');
+var ws = new WebSocket('wss://stream.binance.com:9443/ws/!ticker@arr');
+// var binance = require('binance');
+// var binanceWS = new binance.BinanceWS();
 var Pusher = require('pusher');
 
 /* GET home page. */
@@ -27,6 +31,8 @@ bittrex.websockets.listen(function(data, client) {
           'Last': marketsDelta.Last,
           'High': marketsDelta.High,
           'Low': marketsDelta.Low,
+          'Bid': marketsDelta.Bid,
+          'Ask': marketsDelta.Ask,
           'BaseVol': marketsDelta.BaseVolume
         };
         // console.log('Ticker Update for '+ marketsDelta.MarketName, marketsDelta);
@@ -34,23 +40,42 @@ bittrex.websockets.listen(function(data, client) {
       });
     });
   }
-  // pusher.trigger('bittrexMkt', 'updated', bittrexMkt);
-  // console.log(bittrexMkt);
-  pusher.trigger('my-channel', 'my-event', {
+  pusher.trigger('bittrex-channel', 'update', {
     "BTC-XRP": bittrexMkt['BTC-XRP'],
     "BTC-LTC": bittrexMkt['BTC-LTC'],
     "BTC-POWR": bittrexMkt['BTC-POWR'],
     "BTC-XMR": bittrexMkt['BTC-XMR'],
-    "BTC-BCC": bittrexMkt['BTC-ZEC']
+    "BTC-BCC": bittrexMkt['BTC-BCC']
   })
 });
 
-// bittrex.websockets.subscribe(['BTC-ETH','BTC-SC','BTC-ZEN'], function(data, client) {
-//   if (data.M === 'updateExchangeState') {
-//     data.A.forEach(function(data_for) {
-//       console.log('Market Update for '+ data_for.MarketName, data_for);
-//     });
-//   }
+ws.on('message', function incoming(feed){
+  var binanceMkt = {};
+  var data = JSON.parse(feed);
+  data.forEach(function(ticker){
+    binanceMkt[ticker['s']] = {
+      'Last': (ticker['h']+ticker['l'])/2,
+      'High': ticker['h'],
+      'Low': ticker['l'],
+      'Bid': ticker['b'],
+      'Ask': ticker['a'],
+      'BaseVol': ticker['v']
+    };
+  })
+  pusher.trigger('binance-channel', 'update', {
+    "BTC-XRP": binanceMkt['XRPBTC'],
+    "BTC-LTC": binanceMkt['LTCBTC'],
+    "BTC-XMR": binanceMkt['XMRBTC'],
+    "BTC-BCC": binanceMkt['BCCBTC']
+  })
+})
+
+
+
+// binanceWS.onDepthUpdate('BNBBTC', function(data) {
+//   console.log(data);
 // });
+
+
 
 module.exports = router;
