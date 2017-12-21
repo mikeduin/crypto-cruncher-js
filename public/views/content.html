@@ -3,11 +3,11 @@
   <thead>
     <tr>
       <th>Currency</th>
-      <th colspan='2'>Bittrex</th>
-      <th colspan='2'>Binance</th>
-      <th colspan='2'>HitBTC</th>
+      <th>Bittrex</th>
+      <th>Binance</th>
+      <th>HitBTC</th>
     </tr>
-    <tr>
+    <!-- <tr>
       <th></th>
       <th>Bid</th>
       <th>Ask</th>
@@ -15,15 +15,13 @@
       <th>Ask</th>
       <th>Bid</th>
       <th>Ask</th>
-    </tr>
+    </tr> -->
   </thead>
   <tbody>
     <tr>
       <td>XRP</td>
-      <td>{{vm.bittrexMkt['BTC-XRP'].Bid}}</td>
-      <td>{{vm.bittrexMkt['BTC-XRP'].Ask}}</td>
-      <td>{{vm.binanceMkt['BTC-XRP'].Bid}}</td>
-      <td>{{vm.binanceMkt['BTC-XRP'].Ask}}</td>
+      <td>{{vm.bittrexMkt['BTC-XRP'].Last}}</td>
+      <td>{{vm.binanceMkt['BTC-XRP'].Last | number:8}}</td>
     </tr>
   </tbody>
 </table>

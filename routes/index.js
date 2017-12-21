@@ -53,8 +53,9 @@ ws.on('message', function incoming(feed){
   var binanceMkt = {};
   var data = JSON.parse(feed);
   data.forEach(function(ticker){
+    var last = (parseFloat(ticker['b']) + parseFloat(ticker['a']))/2;
     binanceMkt[ticker['s']] = {
-      'Last': (ticker['h']+ticker['l'])/2,
+      'Last': last,
       'High': ticker['h'],
       'Low': ticker['l'],
       'Bid': ticker['b'],
