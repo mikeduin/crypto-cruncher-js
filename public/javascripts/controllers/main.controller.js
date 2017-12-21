@@ -11,16 +11,19 @@ function MainController ($state, $pusher) {
     cluster: 'us2'
   });
   var pusher = $pusher(client);
+  
   var bittrexChannel = pusher.subscribe('bittrex-channel');
   bittrexChannel.bind('update', function(data){
-    console.log(data);
-    vm.bittrexMkt = data;
+    Object.keys(data).forEach(function(key){
+      vm.bittrexMkt[key] = data[key];
+    })
   });
 
   var binanceChannel = pusher.subscribe('binance-channel');
   binanceChannel.bind('update', function(data){
-    console.log(data);
-    vm.binanceMkt = data;
+    Object.keys(data).forEach(function(key){
+      vm.binanceMkt[key] = data[key];
+    })
   })
 
 
