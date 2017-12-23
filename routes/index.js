@@ -33,19 +33,9 @@ setInterval(function(req, res, next){
   }).then(function(ticker){
     var hitbtcMkt = {};
     ticker.forEach(function(token){
-      // console.log(token.symbol);
-      // hitbtcMkt[token.symbol] = {
-      //   'Last': token.last,
-      //   'High': token.high,
-      //   'Low': token.low,
-      //   'Bid': token.bid,
-      //   'Ask': token.ask,
-      //   'BaseVol': token.volume
-      // }
+      hitbtcMkt[token.symbol] = token.last
     });
-    // pusher.trigger('hitbtc-channel', 'update', {
-    //
-    // })
+    pusher.trigger('hitbtc-channel', 'update', hitbtcMkt);
   })
 }, 2000)
 
@@ -91,14 +81,12 @@ gdaxWs.on('open', function open() {
 })
 
 
+var gdaxMkt = {};
 
 gdaxWs.on('message', function incoming(feed){
-  var gdaxMkt = {};
   var data = JSON.parse(feed);
-  // console.log(data);
-  // data.forEach(function(ticker){
-  //   gdaxtMkt[ticker['product_id']]
-  // })
+  gdaxMkt[data['product_id']] = data['price'];
+  pusher.trigger('gdax-channel', 'update', gdaxMkt);
 })
 
 // btcEthWs.on('open', function open() {

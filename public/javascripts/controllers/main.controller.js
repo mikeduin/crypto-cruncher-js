@@ -7,6 +7,7 @@ function MainController ($state, $pusher) {
   vm.bittrexMkt = {};
   vm.binanceMkt = {};
   vm.hitbtcMkt = {};
+  vm.gdaxMkt = {};
 
   var client = new Pusher('7b31edc5de6a16ed6419', {
     cluster: 'us2'
@@ -18,7 +19,7 @@ function MainController ($state, $pusher) {
     Object.keys(data).forEach(function(key){
       vm.bittrexMkt[key] = data[key];
     })
-    console.log('vm.bittrexMkt is ', vm.bittrexMkt);
+    // console.log('vm.bittrexMkt is ', vm.bittrexMkt);
   });
 
   var binanceChannel = pusher.subscribe('binance-channel');
@@ -27,6 +28,14 @@ function MainController ($state, $pusher) {
       vm.binanceMkt[key] = data[key];
     })
     // console.log('vm.binanceMkt is ', vm.binanceMkt);
+  });
+
+  var gdaxChannel = pusher.subscribe('gdax-channel');
+  gdaxChannel.bind('update', function(data){
+    Object.keys(data).forEach(function(key){
+      vm.gdaxMkt[key] = data[key];
+    })
+    // console.log(data);
   })
 
 
