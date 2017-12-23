@@ -3,9 +3,21 @@
   <thead>
     <tr>
       <th>Currency</th>
-      <th>Bittrex</th>
-      <th>Binance</th>
-      <th>HitBTC</th>
+      <th colspan="2">GDAX</th>
+      <th colspan="2">Bittrex</th>
+      <th colspan="2">Binance</th>
+      <th colspan="2">HitBTC</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>BTC</th>
+      <th>USD$</th>
+      <th>BTC</th>
+      <th>USD$</th>
+      <th>BTC</th>
+      <th>USD$</th>
+      <th>BTC</th>
+      <th>USD$</th>
     </tr>
     <!-- <tr>
       <th></th>
@@ -19,9 +31,31 @@
   </thead>
   <tbody>
     <tr>
+      <td>BTC</td>
+      <td></td>
+      <td></td>
+      <td> - </td>
+      <td>{{vm.bittrexMkt['USDT-BTC'] | number:2}}</td>
+      <td> - </td>
+      <td>{{vm.binanceMkt['BTCUSDT'] | number:2}}</td>
+    </tr>
+    <tr>
       <td>XRP</td>
-      <td>{{vm.bittrexMkt['BTC-XRP'].Last}}</td>
-      <td>{{vm.binanceMkt['BTC-XRP'].Last | number:8}}</td>
+      <td></td>
+      <td></td>
+      <td>{{vm.bittrexMkt['BTC-XRP'] | number:8}}</td>
+      <td>{{vm.bittrexMkt['USDT-XRP'] | number:2}}</td>
+      <td>{{vm.binanceMkt['XRPBTC'] | number:8}}</td>
+      <td>{{vm.binanceMkt['XRPBTC'] * vm.binanceMkt['BTCUSDT'] | number:2}}</td>
+    </tr>
+    <tr>
+      <td>BCC</td>
+      <td></td>
+      <td></td>
+      <td>{{vm.bittrexMkt['BTC-BCC'] | number:4}}</td>
+      <td>{{vm.bittrexMkt['USDT-BCC'] | number:2}}</td>
+      <td>{{vm.binanceMkt['BCCBTC'] | number:4}}</td>
+      <td>{{vm.binanceMkt['BCCUSDT'] | number:2}}</td>
     </tr>
   </tbody>
 </table>

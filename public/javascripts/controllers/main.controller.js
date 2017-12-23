@@ -18,6 +18,7 @@ function MainController ($state, $pusher) {
     Object.keys(data).forEach(function(key){
       vm.bittrexMkt[key] = data[key];
     })
+    console.log('vm.bittrexMkt is ', vm.bittrexMkt);
   });
 
   var binanceChannel = pusher.subscribe('binance-channel');
@@ -25,6 +26,7 @@ function MainController ($state, $pusher) {
     Object.keys(data).forEach(function(key){
       vm.binanceMkt[key] = data[key];
     })
+    // console.log('vm.binanceMkt is ', vm.binanceMkt);
   })
 
 
