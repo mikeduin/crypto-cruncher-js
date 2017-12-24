@@ -23,13 +23,18 @@ function MainController ($state, $pusher) {
       parseFloat(vm.hitbtcMkt['XRPBTC'])
     );
 
-    console.log(parseFloat(vm.gdaxMkt['BCH-USD'] / vm.gdaxMkt['BTC-USD']));
-
     vm.bccMin = Math.min(
       parseFloat(vm.gdaxMkt['BCH-USD'] / vm.gdaxMkt['BTC-USD']),
       parseFloat(vm.bittrexMkt['BTC-BCC']),
       parseFloat(vm.binanceMkt['BCCBTC']),
       parseFloat(vm.hitbtcMkt['BCHBTC'])
+    );
+
+    vm.ltcMin = Math.min(
+      parseFloat(vm.gdaxMkt['LTC-BTC']),
+      parseFloat(vm.bittrexMkt['BTC-LTC']),
+      parseFloat(vm.binanceMkt['LTCBTC']),
+      parseFloat(vm.hitbtcMkt['LTCBTC'])
     )
   };
 
@@ -53,6 +58,13 @@ function MainController ($state, $pusher) {
       parseFloat(vm.binanceMkt['BCCBTC']),
       parseFloat(vm.hitbtcMkt['BCHBTC'])
     );
+
+    vm.ltcMax = Math.max(
+      parseFloat(vm.gdaxMkt['LTC-BTC']),
+      parseFloat(vm.bittrexMkt['BTC-LTC']),
+      parseFloat(vm.binanceMkt['LTCBTC']),
+      parseFloat(vm.hitbtcMkt['LTCBTC'])
+    )
   }
 
   var client = new Pusher('7b31edc5de6a16ed6419', {

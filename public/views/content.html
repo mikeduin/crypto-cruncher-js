@@ -69,9 +69,9 @@
       </tr>
       <tr>
         <td>LTC</td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td ng-show="vm.ltcMin !== NaN"> {{vm.ltcMin | number:4}}</td>
+        <td ng-show="vm.ltcMax !== NaN"> {{vm.ltcMax | number:4}}</td>
+        <td ng-show="vm.ltcMin !== NaN && vm.ltcMax !== NaN"> {{ ((vm.ltcMax - vm.ltcMin) / vm.ltcMax) | percentage:1 }}</td>
         <td>{{vm.gdaxMkt['LTC-BTC'] | number:4}}</td>
         <td>{{vm.gdaxMkt['LTC-USD'] | number:2}}</td>
         <td>{{vm.bittrexMkt['BTC-LTC'] | number:4}}</td>
