@@ -9,6 +9,33 @@ function MainController ($state, $pusher) {
   vm.hitbtcMkt = {};
   vm.gdaxMkt = {};
 
+  function findMins () {
+    vm.btcMin = Math.min(
+      parseFloat(vm.gdaxMkt['BTC-USD']),
+      parseFloat(vm.bittrexMkt['USDT-BTC']),
+      parseFloat(vm.binanceMkt['BTCUSDT']),
+      parseFloat(vm.hitbtcMkt['BTCUSD'])
+    );
+  };
+
+  function findMaxs () {
+    vm.btcMax = Math.max(
+      parseFloat(vm.gdaxMkt['BTC-USD']),
+      parseFloat(vm.bittrexMkt['USDT-BTC']),
+      parseFloat(vm.binanceMkt['BTCUSDT']),
+      parseFloat(vm.hitbtcMkt['BTCUSD'])
+    );
+  }
+
+  // vm.btcMin = function () {
+  //   return Math.min(
+  //     vm.gdaxMkt['BTC-USD'],
+  //     vm.bittrexMkt['USDT-BTC'],
+  //     vm.binanceMkt['BTCUSDT'],
+  //     vm.hitbtcMkt['BTCUSC']
+  //   );
+  // };
+
   var client = new Pusher('7b31edc5de6a16ed6419', {
     cluster: 'us2'
   });
@@ -18,7 +45,9 @@ function MainController ($state, $pusher) {
   bittrexChannel.bind('update', function(data){
     Object.keys(data).forEach(function(key){
       vm.bittrexMkt[key] = data[key];
-    })
+    });
+    findMins();
+
     // console.log('vm.bittrexMkt is ', vm.bittrexMkt);
   });
 
@@ -26,7 +55,8 @@ function MainController ($state, $pusher) {
   binanceChannel.bind('update', function(data){
     Object.keys(data).forEach(function(key){
       vm.binanceMkt[key] = data[key];
-    })
+    });
+    findMins();
     // console.log('vm.binanceMkt is ', vm.binanceMkt);
   });
 
@@ -34,9 +64,18 @@ function MainController ($state, $pusher) {
   gdaxChannel.bind('update', function(data){
     Object.keys(data).forEach(function(key){
       vm.gdaxMkt[key] = data[key];
-    })
+    });
+    findMins();
     // console.log(data);
   })
 
+  var hitbtcChannel = pusher.subscribe('hitbtc-channel');
+  hitbtcChannel.bind('update', function(data){
+    Object.keys(data).forEach(function(key){
+      vm.hitbtcMkt[key] = data[key];
+    });
+    findMins();
+    // console.log(vm.hitbtcMkt);
+  })
 
 }
