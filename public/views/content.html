@@ -3,7 +3,7 @@
   <table class="col s12">
     <thead>
       <tr>
-        <th></th>
+        <th colspan="4"></th>
         <th colspan="2" class="center-align">GDAX</th>
         <th colspan="2" class="center-align">Bittrex</th>
         <th colspan="2" class="center-align">Binance</th>
@@ -27,9 +27,9 @@
     <tbody>
       <tr>
         <td>BTC</td>
-        <td> {{vm.btcMin | number:0}}</td>
-        <td> </td>
-        <td></td>
+        <td ng-show="vm.btcMin !== NaN"> {{vm.btcMin | number:0}}</td>
+        <td ng-show="vm.btcMax !== NaN"> {{vm.btcMax | number:0}}</td>
+        <td ng-show="vm.btcMin !== NaN && vm.btcMax !== NaN"> {{ ((vm.btcMax - vm.btcMin) / vm.btcMax) | percentage:1 }}</td>
         <td> - </td>
         <td>{{vm.gdaxMkt['BTC-USD'] | number:0}}</td>
         <td> - </td>

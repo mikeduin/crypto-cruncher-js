@@ -47,6 +47,7 @@ function MainController ($state, $pusher) {
       vm.bittrexMkt[key] = data[key];
     });
     findMins();
+    findMaxs();
 
     // console.log('vm.bittrexMkt is ', vm.bittrexMkt);
   });
@@ -57,6 +58,7 @@ function MainController ($state, $pusher) {
       vm.binanceMkt[key] = data[key];
     });
     findMins();
+    findMaxs();
     // console.log('vm.binanceMkt is ', vm.binanceMkt);
   });
 
@@ -66,6 +68,7 @@ function MainController ($state, $pusher) {
       vm.gdaxMkt[key] = data[key];
     });
     findMins();
+    findMaxs();
     // console.log(data);
   })
 
@@ -75,6 +78,7 @@ function MainController ($state, $pusher) {
       vm.hitbtcMkt[key] = data[key];
     });
     findMins();
+    findMaxs();
     // console.log(vm.hitbtcMkt);
   })
 
