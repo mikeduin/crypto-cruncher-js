@@ -4,9 +4,6 @@ var bittrex = require('node-bittrex-api');
 var WebSocket = require('ws');
 var binanceWs = new WebSocket('wss://stream.binance.com:9443/ws/!ticker@arr');
 var gdaxWs = new WebSocket('wss://ws-feed.gdax.com');
-// var btcEthWs = new WebSocket('wss://api.hitbtc.com/api/2/ws');
-// var btcLtcWs = new WebSocket('wss://api.hitbtc.com/api/2/ws');
-// var btcXrpWs = new WebSocket('wss://api.hitbtc.com/api/2/ws');
 var fetch = require('node-fetch');
 
 var Pusher = require('pusher');
@@ -24,7 +21,6 @@ var pusher = new Pusher({
   encrypted: true
 });
 
-
 console.log('Connecting ....');
 
 setInterval(function(req, res, next){
@@ -37,7 +33,7 @@ setInterval(function(req, res, next){
     });
     pusher.trigger('hitbtc-channel', 'update', hitbtcMkt);
   })
-}, 2000)
+}, 4000);
 
 
 bittrex.websockets.listen(function(data, client) {
@@ -45,7 +41,7 @@ bittrex.websockets.listen(function(data, client) {
   if (data.M === 'updateSummaryState') {
     data.A.forEach(function(data_for) {
       data_for.Deltas.forEach(function(marketsDelta) {
-        bittrexMkt[marketsDelta.MarketName] = marketsDelta.Last
+        bittrexMkt[marketsDelta.MarketName] = marketsDelta.Last;
       });
     });
   }
@@ -80,59 +76,16 @@ gdaxWs.on('open', function open() {
   gdaxWs.send(req);
 })
 
-
 var gdaxMkt = {};
+var count = 0;
 
 gdaxWs.on('message', function incoming(feed){
+  count++;
   var data = JSON.parse(feed);
   gdaxMkt[data['product_id']] = data['price'];
-  pusher.trigger('gdax-channel', 'update', gdaxMkt);
+  if (count % 4 === 0) {
+    pusher.trigger('gdax-channel', 'update', gdaxMkt);
+  };
 })
-
-// btcEthWs.on('open', function open() {
-//   var req = JSON.stringify({
-//     "method": "subscribeTicker",
-//     "params": {
-//       "symbol": "ETHBTC"
-//     },
-//     "id": 123});
-//   btcEthWs.send(req);
-// })
-//
-// btcLtcWs.on('open', function open() {
-//   var req = JSON.stringify({
-//     "method": "subscribeTicker",
-//     "params": {
-//       "symbol": "LTCBTC"
-//     },
-//     "id": 123});
-//   btcLtcWs.send(req);
-// })
-//
-// btcXrpWs.on('open', function open() {
-//   var req = JSON.stringify({
-//     "method": "subscribeTicker",
-//     "params": {
-//       "symbol": "XRPBTC"
-//     },
-//     "id": 123});
-//   btcXrpWs.send(req);
-// })
-
-// btcEthWs.on('message', function incoming(data){
-//   pusher.trigger('hitbtc-channel', 'ethbtc', {
-//
-//   })
-// })
-//
-// btcLtcWs.on('message', function incoming(data){
-//   console.log(data)
-// })
-//
-// btcXrpWs.on('message', function incoming(data){
-//   console.log(data)
-// })
-
-
 
 module.exports = router;

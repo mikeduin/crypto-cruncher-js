@@ -9,6 +9,60 @@ function MainController ($state, $pusher) {
   vm.hitbtcMkt = {};
   vm.gdaxMkt = {};
 
+  var symbolIndex = {
+    'Bitcoin (BTC)': {
+      'gdax': 'BTC-USD',
+      'bittrex': 'USDT-BTC',
+      'binance': 'BTCUSDT',
+      'hitbtc': 'BTCUSD'
+    },
+    'Ripple (XRP)': {
+      'bittrex': 'BTC-XRP',
+      'binance': 'XRPBTC',
+      'hitbtc': 'XRPBTC'
+    }
+  };
+
+  vm.activeTickers = [
+    {
+      name: 'Bitcoin (BTC)',
+      market: {
+        'USD': {
+          'symbols': {
+            'gdax': 'BTC-USD',
+            'bittrex': 'USDT-BTC',
+            'binance': 'BTCUSDT',
+            'hitbtc': 'BTCUSD'
+          },
+          'decimals': 0
+        }
+      },
+    },
+    {
+      name: 'Ripple (XRP)',
+      market: {
+        'BTC': {
+          'symbols': {
+            'bittrex': 'BTC-XRP',
+            'binance': 'XRPBTC',
+            'hitbtc': 'XRPBTC'
+          },
+          'decimals': 8
+        },
+        'USD': {
+          'symbols': {
+            'bittrex': 'USDT-XRP',
+            'binance': '',
+            'hitbtc': 'XRP-USDT'
+          },
+          'decimals': 2
+        }
+      }
+    }
+  ];
+
+
+
   function findMins () {
     vm.btcMin = Math.min(
       parseFloat(vm.gdaxMkt['BTC-USD']),
@@ -35,7 +89,13 @@ function MainController ($state, $pusher) {
       parseFloat(vm.bittrexMkt['BTC-LTC']),
       parseFloat(vm.binanceMkt['LTCBTC']),
       parseFloat(vm.hitbtcMkt['LTCBTC'])
-    )
+    );
+
+    vm.xmrMin = Math.min(
+      parseFloat(vm.bittrexMkt['BTC-XMR']),
+      parseFloat(vm.binanceMkt['XMRBTC']),
+      parseFloat(vm.hitbtcMkt['XMRBTC'])
+    );
   };
 
   function findMaxs () {
@@ -64,7 +124,13 @@ function MainController ($state, $pusher) {
       parseFloat(vm.bittrexMkt['BTC-LTC']),
       parseFloat(vm.binanceMkt['LTCBTC']),
       parseFloat(vm.hitbtcMkt['LTCBTC'])
-    )
+    );
+
+    vm.xmrMax = Math.max(
+      parseFloat(vm.bittrexMkt['BTC-XMR']),
+      parseFloat(vm.binanceMkt['XMRBTC']),
+      parseFloat(vm.hitbtcMkt['XMRBTC'])
+    );
   }
 
   var client = new Pusher('7b31edc5de6a16ed6419', {
