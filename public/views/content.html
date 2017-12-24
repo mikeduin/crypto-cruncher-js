@@ -41,9 +41,9 @@
       </tr>
       <tr>
         <td>XRP</td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td ng-show="vm.xrpMin !== NaN"> {{vm.xrpMin | number:8}}</td>
+        <td ng-show="vm.xrpMax !== NaN"> {{vm.xrpMax | number:8}}</td>
+        <td ng-show="vm.xrpMin !== NaN && vm.xrpMax !== NaN"> {{ ((vm.xrpMax - vm.xrpMin) / vm.xrpMax) | percentage:1 }}</td>
         <td><i>n/a</i></td>
         <td><i>n/a</i></td>
         <td>{{vm.bittrexMkt['BTC-XRP'] | number:8}}</td>
@@ -55,9 +55,9 @@
       </tr>
       <tr>
         <td>BCC</td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td ng-show="vm.bccMin !== NaN"> {{vm.bccMin | number:4}}</td>
+        <td ng-show="vm.bccMax !== NaN"> {{vm.bccMax | number:4}}</td>
+        <td ng-show="vm.bccMin !== NaN && vm.bccMax !== NaN"> {{ ((vm.bccMax - vm.bccMin) / vm.bccMax) | percentage:1 }}</td>
         <td><i>{{vm.gdaxMkt['BCH-USD'] / vm.gdaxMkt['BTC-USD'] | number:4}}</i></td>
         <td>{{vm.gdaxMkt['BCH-USD'] | number:2}}</td>
         <td>{{vm.bittrexMkt['BTC-BCC'] | number:4}}</td>

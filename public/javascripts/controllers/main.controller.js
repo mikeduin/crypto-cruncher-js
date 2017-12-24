@@ -16,6 +16,21 @@ function MainController ($state, $pusher) {
       parseFloat(vm.binanceMkt['BTCUSDT']),
       parseFloat(vm.hitbtcMkt['BTCUSD'])
     );
+
+    vm.xrpMin = Math.min(
+      parseFloat(vm.bittrexMkt['BTC-XRP']),
+      parseFloat(vm.binanceMkt['XRPBTC']),
+      parseFloat(vm.hitbtcMkt['XRPBTC'])
+    );
+
+    console.log(parseFloat(vm.gdaxMkt['BCH-USD'] / vm.gdaxMkt['BTC-USD']));
+
+    vm.bccMin = Math.min(
+      parseFloat(vm.gdaxMkt['BCH-USD'] / vm.gdaxMkt['BTC-USD']),
+      parseFloat(vm.bittrexMkt['BTC-BCC']),
+      parseFloat(vm.binanceMkt['BCCBTC']),
+      parseFloat(vm.hitbtcMkt['BCHBTC'])
+    )
   };
 
   function findMaxs () {
@@ -25,16 +40,20 @@ function MainController ($state, $pusher) {
       parseFloat(vm.binanceMkt['BTCUSDT']),
       parseFloat(vm.hitbtcMkt['BTCUSD'])
     );
-  }
 
-  // vm.btcMin = function () {
-  //   return Math.min(
-  //     vm.gdaxMkt['BTC-USD'],
-  //     vm.bittrexMkt['USDT-BTC'],
-  //     vm.binanceMkt['BTCUSDT'],
-  //     vm.hitbtcMkt['BTCUSC']
-  //   );
-  // };
+    vm.xrpMax = Math.max(
+      parseFloat(vm.bittrexMkt['BTC-XRP']),
+      parseFloat(vm.binanceMkt['XRPBTC']),
+      parseFloat(vm.hitbtcMkt['XRPBTC'])
+    );
+
+    vm.bccMax = Math.max(
+      parseFloat(vm.gdaxMkt['BCH-USD'] / vm.gdaxMkt['BTC-USD']),
+      parseFloat(vm.bittrexMkt['BTC-BCC']),
+      parseFloat(vm.binanceMkt['BCCBTC']),
+      parseFloat(vm.hitbtcMkt['BCHBTC'])
+    );
+  }
 
   var client = new Pusher('7b31edc5de6a16ed6419', {
     cluster: 'us2'
