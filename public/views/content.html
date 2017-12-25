@@ -1,15 +1,26 @@
+<div class="input-field col s4">
+  <select ng-model="vm.activeMkt">
+    <option selected value="BTC">Bitcoin (BTC)</option>
+    <option value="USD">USD$ (USD)</option>
+    <option value="ETH">Ethereum (ETH)</option>
+  </select>
+  <label>Select Market</label>
+</div>
 
 <div class="row">
   <table class="col s12">
     <thead>
       <tr>
-        <th colspan="4"></th>
-        <th colspan="2" class="center-align">GDAX</th>
-        <th colspan="2" class="center-align">Bittrex</th>
-        <th colspan="2" class="center-align">Binance</th>
-        <th colspan="2" class="center-align">HitBTC</th>
+        <th></th>
+        <th>Low</th>
+        <th>High</th>
+        <th>Spread %</th>
+        <th>GDAX</th>
+        <th>Bittrex</th>
+        <th>Binance</th>
+        <th>HitBTC</th>
       </tr>
-      <tr>
+      <!-- <tr>
         <th></th>
         <th>Low</th>
         <th>High</th>
@@ -22,22 +33,22 @@
         <th>USD$</th>
         <th>BTC</th>
         <th>USD$</th>
-      </tr>
+      </tr> -->
     </thead>
     <tbody>
       <tr ng-repeat="ticker in vm.activeTickers">
-        <td>{{ticker.name}}</td>
+        <td>{{ticker.name}} ({{ticker.symbol}})</td>
         <td> low </td>
         <td> high </td>
         <td> spread </td>
-        <td> {{vm.gdaxMkt[ticker.market['BTC']['symbols']['gdax']] | number: ticker.market['BTC']['decimals']}}</td>
-        <td> {{vm.gdaxMkt[ticker.market['USD']['symbols']['gdax']] | number: ticker.market['USD']['decimals']}}</td>
-        <td> {{vm.bittrexMkt[ticker.market['BTC']['symbols']['bittrex']] | number: ticker.market['BTC']['decimals']}}</td>
-        <td> {{vm.bittrexMkt[ticker.market['USD']['symbols']['bittrex']] | number: ticker.market['USD']['decimals']}}</td>
-        <td> {{vm.binanceMkt[ticker.market['BTC']['symbols']['binance']] | number: ticker.market['BTC']['decimals']}}</td>
-        <td> {{vm.binanceMkt[ticker.market['USD']['symbols']['binance']] | number: ticker.market['USD']['decimals']}}</td>
-        <td> {{vm.hitbtcMkt[ticker.market['BTC']['symbols']['hitbtc']] | number: ticker.market['BTC']['decimals']}}</td>
-        <td> {{vm.hitbtcMkt[ticker.market['USD']['symbols']['hitbtc']] | number: ticker.market['USD']['decimals']}}</td>
+        <td> {{vm.gdaxMkt[ticker.market[vm.activeMkt]['symbols']['gdax']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
+        <!-- <td> {{vm.gdaxMkt[ticker.market['USD']['symbols']['gdax']] | number: ticker.market['USD']['decimals']}}</td> -->
+        <td> {{vm.bittrexMkt[ticker.market[vm.activeMkt]['symbols']['bittrex']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
+        <!-- <td> {{vm.bittrexMkt[ticker.market['USD']['symbols']['bittrex']] | number: ticker.market['USD']['decimals']}}</td> -->
+        <td> {{vm.binanceMkt[ticker.market[vm.activeMkt]['symbols']['binance']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
+        <!-- <td> {{vm.binanceMkt[ticker.market['USD']['symbols']['binance']] | number: ticker.market['USD']['decimals']}}</td> -->
+        <td> {{vm.hitbtcMkt[ticker.market[vm.activeMkt]['symbols']['hitbtc']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
+        <!-- <td> {{vm.hitbtcMkt[ticker.market['USD']['symbols']['hitbtc']] | number: ticker.market['USD']['decimals']}}</td> -->
       </tr>
       <!-- <tr>
         <td>Bitcoin <br>BTC</td>

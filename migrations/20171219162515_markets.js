@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
     table.increments();
     table.string('symbol').notNullable();
     table.string('name');
+    table.integer('decimals');
     table.boolean('binance');
     table.boolean('bittrex');
     table.boolean('hitbtc');

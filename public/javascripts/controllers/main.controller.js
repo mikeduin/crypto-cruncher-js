@@ -3,29 +3,38 @@ angular
   .controller('MainController', ['$state', '$pusher', MainController])
 
 function MainController ($state, $pusher) {
+
+  $(document).ready(function() {
+    $('select').material_select();
+  });
+
   var vm = this;
   vm.bittrexMkt = {};
   vm.binanceMkt = {};
   vm.hitbtcMkt = {};
   vm.gdaxMkt = {};
+  vm.mins = {};
+  vm.maxs = {};
+  vm.activeMkt = 'BTC';
 
-  var symbolIndex = {
-    'Bitcoin (BTC)': {
-      'gdax': 'BTC-USD',
-      'bittrex': 'USDT-BTC',
-      'binance': 'BTCUSDT',
-      'hitbtc': 'BTCUSD'
-    },
-    'Ripple (XRP)': {
-      'bittrex': 'BTC-XRP',
-      'binance': 'XRPBTC',
-      'hitbtc': 'XRPBTC'
-    }
-  };
+  // var symbolIndex = {
+  //   'Bitcoin (BTC)': {
+  //     'gdax': 'BTC-USD',
+  //     'bittrex': 'USDT-BTC',
+  //     'binance': 'BTCUSDT',
+  //     'hitbtc': 'BTCUSD'
+  //   },
+  //   'Ripple (XRP)': {
+  //     'bittrex': 'BTC-XRP',
+  //     'binance': 'XRPBTC',
+  //     'hitbtc': 'XRPBTC'
+  //   }
+  // };
 
   vm.activeTickers = [
     {
-      name: 'Bitcoin (BTC)',
+      name: 'Bitcoin',
+      symbol: 'BTC',
       market: {
         'USD': {
           'symbols': {
@@ -39,7 +48,8 @@ function MainController ($state, $pusher) {
       },
     },
     {
-      name: 'Ripple (XRP)',
+      name: 'Ripple',
+      symbol: 'XRP',
       market: {
         'BTC': {
           'symbols': {
@@ -53,7 +63,7 @@ function MainController ($state, $pusher) {
           'symbols': {
             'bittrex': 'USDT-XRP',
             'binance': '',
-            'hitbtc': 'XRP-USDT'
+            'hitbtc': 'XRPUSDT'
           },
           'decimals': 2
         }
@@ -64,39 +74,51 @@ function MainController ($state, $pusher) {
 
 
   function findMins () {
-    vm.btcMin = Math.min(
-      parseFloat(vm.gdaxMkt['BTC-USD']),
-      parseFloat(vm.bittrexMkt['USDT-BTC']),
-      parseFloat(vm.binanceMkt['BTCUSDT']),
-      parseFloat(vm.hitbtcMkt['BTCUSD'])
-    );
-
-    vm.xrpMin = Math.min(
-      parseFloat(vm.bittrexMkt['BTC-XRP']),
-      parseFloat(vm.binanceMkt['XRPBTC']),
-      parseFloat(vm.hitbtcMkt['XRPBTC'])
-    );
-
-    vm.bccMin = Math.min(
-      parseFloat(vm.gdaxMkt['BCH-USD'] / vm.gdaxMkt['BTC-USD']),
-      parseFloat(vm.bittrexMkt['BTC-BCC']),
-      parseFloat(vm.binanceMkt['BCCBTC']),
-      parseFloat(vm.hitbtcMkt['BCHBTC'])
-    );
-
-    vm.ltcMin = Math.min(
-      parseFloat(vm.gdaxMkt['LTC-BTC']),
-      parseFloat(vm.bittrexMkt['BTC-LTC']),
-      parseFloat(vm.binanceMkt['LTCBTC']),
-      parseFloat(vm.hitbtcMkt['LTCBTC'])
-    );
-
-    vm.xmrMin = Math.min(
-      parseFloat(vm.bittrexMkt['BTC-XMR']),
-      parseFloat(vm.binanceMkt['XMRBTC']),
-      parseFloat(vm.hitbtcMkt['XMRBTC'])
-    );
+    // for (var i=0; i<vm.activeTickers.length; i++) {
+    //   var mins = [];
+    //   var symbols = vm.activeTickers[i].market[vm.activeMkt]['symbols'];
+    //   console.log(symbols.length);
+    //   // for (var j=0; j<symbols.length; j++) {
+    //   //   if (symbols[j])
+    //   // }
+    // }
   };
+
+
+
+  //   vm.btcMin = Math.min(
+  //     parseFloat(vm.gdaxMkt['BTC-USD']),
+  //     parseFloat(vm.bittrexMkt['USDT-BTC']),
+  //     parseFloat(vm.binanceMkt['BTCUSDT']),
+  //     parseFloat(vm.hitbtcMkt['BTCUSD'])
+  //   );
+  //
+  //   vm.xrpMin = Math.min(
+  //     parseFloat(vm.bittrexMkt['BTC-XRP']),
+  //     parseFloat(vm.binanceMkt['XRPBTC']),
+  //     parseFloat(vm.hitbtcMkt['XRPBTC'])
+  //   );
+  //
+  //   vm.bccMin = Math.min(
+  //     parseFloat(vm.gdaxMkt['BCH-USD'] / vm.gdaxMkt['BTC-USD']),
+  //     parseFloat(vm.bittrexMkt['BTC-BCC']),
+  //     parseFloat(vm.binanceMkt['BCCBTC']),
+  //     parseFloat(vm.hitbtcMkt['BCHBTC'])
+  //   );
+  //
+  //   vm.ltcMin = Math.min(
+  //     parseFloat(vm.gdaxMkt['LTC-BTC']),
+  //     parseFloat(vm.bittrexMkt['BTC-LTC']),
+  //     parseFloat(vm.binanceMkt['LTCBTC']),
+  //     parseFloat(vm.hitbtcMkt['LTCBTC'])
+  //   );
+  //
+  //   vm.xmrMin = Math.min(
+  //     parseFloat(vm.bittrexMkt['BTC-XMR']),
+  //     parseFloat(vm.binanceMkt['XMRBTC']),
+  //     parseFloat(vm.hitbtcMkt['XMRBTC'])
+  //   );
+  // };
 
   function findMaxs () {
     vm.btcMax = Math.max(
@@ -145,7 +167,6 @@ function MainController ($state, $pusher) {
     });
     findMins();
     findMaxs();
-
     // console.log('vm.bittrexMkt is ', vm.bittrexMkt);
   });
 
