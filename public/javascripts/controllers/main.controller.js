@@ -1,8 +1,8 @@
 angular
   .module('cryptoCruncher')
-  .controller('MainController', ['$state', '$pusher', MainController])
+  .controller('MainController', ['$state', '$pusher', 'marketService', MainController])
 
-function MainController ($state, $pusher) {
+function MainController ($state, $pusher, marketService) {
 
   $(document).ready(function() {
     $('select').material_select();
@@ -16,6 +16,12 @@ function MainController ($state, $pusher) {
   vm.mins = {};
   vm.maxs = {};
   vm.activeMkt = 'BTC';
+
+  (function getSymbols () {
+    marketService.getSymbols().then(function(res){
+      console.log(res)
+    })
+  })();
 
   // var symbolIndex = {
   //   'Bitcoin (BTC)': {

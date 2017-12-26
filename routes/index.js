@@ -24,54 +24,58 @@ var pusher = new Pusher({
 
 console.log('Connecting ....');
 
-knex('index as i')
-  .leftJoin('bittrex as bitt', 'bitt.mySymbol', 'i.mySymbol')
-  .leftJoin('gdax as g', 'g.mySymbol', 'i.mySymbol')
-  .leftJoin('binance as bin', 'bin.mySymbol', 'i.mySymbol')
-  .leftJoin('hitbtc as hit', 'hit.mySymbol', 'i.mySymbol')
-  .select('i.mySymbol as symbol',
-    'i.name as name',
-    'g.btc as g.btc',
-    'g.usd as g.usd',
-    'bitt.btc as bitt.btc',
-    'bitt.usd as bitt.usd',
-    'bitt.eth as bitt.eth',
-    'bin.btc as bin.btc',
-    'bin.usd as bin.usd',
-    'bin.eth as bin.eth',
-    'hit.btc as hit.btc',
-    'hit.usd as hit.usd',
-    'hit.eth as hit.eth'
-  )
-  .then(function(ticker){
-    var marketIndex = {};
-    for (var i=0; i<ticker.length; i++) {
-      marketIndex[ticker[i].name] = {
-        'symbol': ticker[i].symbol,
-        market: {
-          'USD': {
-            'gdax': ticker[i]['g.usd'],
-            'bittrex': ticker[i]['bitt.usd'],
-            'binance': ticker[i]['bin.usd'],
-            'hitbtc': ticker[i]['hit.usd']
-          },
-          'BTC': {
-            'gdax': ticker[i]['g.btc'],
-            'bittrex': ticker[i]['bitt.btc'],
-            'binance': ticker[i]['bin.btc'],
-            'hitbtc': ticker[i]['hit.btc']
-          },
-          'ETH': {
-            'gdax': ticker[i]['g.eth'],
-            'bittrex': ticker[i]['bitt.eth'],
-            'binance': ticker[i]['bin.eth'],
-            'hitbtc': ticker[i]['hit.eth']
+
+
+router.get('/getSymbols', function(req, res, next){
+  knex('index as i')
+    .leftJoin('bittrex as bitt', 'bitt.mySymbol', 'i.mySymbol')
+    .leftJoin('gdax as g', 'g.mySymbol', 'i.mySymbol')
+    .leftJoin('binance as bin', 'bin.mySymbol', 'i.mySymbol')
+    .leftJoin('hitbtc as hit', 'hit.mySymbol', 'i.mySymbol')
+    .select('i.mySymbol as symbol',
+      'i.name as name',
+      'g.btc as g.btc',
+      'g.usd as g.usd',
+      'bitt.btc as bitt.btc',
+      'bitt.usd as bitt.usd',
+      'bitt.eth as bitt.eth',
+      'bin.btc as bin.btc',
+      'bin.usd as bin.usd',
+      'bin.eth as bin.eth',
+      'hit.btc as hit.btc',
+      'hit.usd as hit.usd',
+      'hit.eth as hit.eth'
+    )
+    .then(function(ticker){
+      var marketIndex = {};
+      for (var i=0; i<ticker.length; i++) {
+        marketIndex[ticker[i].name] = {
+          'symbol': ticker[i].symbol,
+          market: {
+            'USD': {
+              'gdax': ticker[i]['g.usd'],
+              'bittrex': ticker[i]['bitt.usd'],
+              'binance': ticker[i]['bin.usd'],
+              'hitbtc': ticker[i]['hit.usd']
+            },
+            'BTC': {
+              'gdax': ticker[i]['g.btc'],
+              'bittrex': ticker[i]['bitt.btc'],
+              'binance': ticker[i]['bin.btc'],
+              'hitbtc': ticker[i]['hit.btc']
+            },
+            'ETH': {
+              'gdax': ticker[i]['g.eth'],
+              'bittrex': ticker[i]['bitt.eth'],
+              'binance': ticker[i]['bin.eth'],
+              'hitbtc': ticker[i]['hit.eth']
+            }
           }
         }
-      }
-    };
-    console.log(marketIndex);
-});
+      };
+      res.json(marketIndex);
+  });
+})
 
 setInterval(function(req, res, next){
   fetch('https://api.hitbtc.com/api/2/public/ticker').then(function(res){
