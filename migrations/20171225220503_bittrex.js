@@ -1,6 +1,5 @@
-
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('hitbtc', function(t){
+  return knex.schema.createTable('bittrex', function(t){
     t.increments();
     t.string('mySymbol');
     t.string('mktSymbol');
@@ -11,5 +10,5 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('hitbtc');
+  return knex.schema.dropTable('bittrex');
 };
