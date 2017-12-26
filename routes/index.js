@@ -5,6 +5,7 @@ var WebSocket = require('ws');
 var binanceWs = new WebSocket('wss://stream.binance.com:9443/ws/!ticker@arr');
 var gdaxWs = new WebSocket('wss://ws-feed.gdax.com');
 var fetch = require('node-fetch');
+var knex = require('../db/knex');
 
 var Pusher = require('pusher');
 
@@ -22,6 +23,34 @@ var pusher = new Pusher({
 });
 
 console.log('Connecting ....');
+
+// knex('index').then(function(symbols){
+//   console.log(symbols);
+// });
+
+knex('index as i')
+  .leftJoin('bittrex as bitt', 'bitt.mySymbol', 'i.mySymbol')
+  .leftJoin('gdax as g', 'g.mySymbol', 'i.mySymbol')
+  .leftJoin('binance as bin', 'bin.mySymbol', 'i.mySymbol')
+  .leftJoin('hitbtc as hit', 'hit.mySymbol', 'i.mySymbol')
+  .select('i.mySymbol as symbol',
+    'g.btc as g.btc',
+    'g.usd as g.usd',
+    'bitt.btc as bitt.btc',
+    'bitt.usd as bitt.usd',
+    'bitt.eth as bitt.eth',
+    'bin.btc as bin.btc',
+    'bin.usd as bin.usd',
+    'bin.eth as bin.eth',
+    'hit.btc as hit.btc',
+    'hit.usd as hit.usd',
+    'hit.eth as hit.eth'
+  )
+  .then(function(ticker){
+    console.log(ticker);
+});
+
+// knex.select()
 
 setInterval(function(req, res, next){
   fetch('https://api.hitbtc.com/api/2/public/ticker').then(function(res){
@@ -52,7 +81,6 @@ binanceWs.on('message', function incoming(feed){
   var binanceMkt = {};
   var data = JSON.parse(feed);
   data.forEach(function(ticker){
-    console.log(ticker);
     var last = (parseFloat(ticker['b']) + parseFloat(ticker['a']))/2;
     binanceMkt[ticker['s']] = last;
   })
