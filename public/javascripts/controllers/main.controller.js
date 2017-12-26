@@ -4,9 +4,9 @@ angular
 
 function MainController ($state, $pusher, marketService) {
 
-  $(document).ready(function() {
-    $('select').material_select();
-  });
+  // $(document).ready(function() {
+  //   $('select').material_select();
+  // });
 
   var vm = this;
   vm.bittrexMkt = {};
@@ -19,9 +19,13 @@ function MainController ($state, $pusher, marketService) {
 
   (function getSymbols () {
     marketService.getSymbols().then(function(res){
-      console.log(res)
+      vm.symbolIndex = res;
     })
   })();
+
+  vm.addCurrency = function(){
+    vm.activeTickers.push(vm.currSelected)
+  };
 
   // var symbolIndex = {
   //   'Bitcoin (BTC)': {
@@ -38,43 +42,43 @@ function MainController ($state, $pusher, marketService) {
   // };
 
   vm.activeTickers = [
-    {
-      name: 'Bitcoin',
-      symbol: 'BTC',
-      market: {
-        'USD': {
-          'symbols': {
-            'gdax': 'BTC-USD',
-            'bittrex': 'USDT-BTC',
-            'binance': 'BTCUSDT',
-            'hitbtc': 'BTCUSD'
-          },
-          'decimals': 0
-        }
-      },
-    },
-    {
-      name: 'Ripple',
-      symbol: 'XRP',
-      market: {
-        'BTC': {
-          'symbols': {
-            'bittrex': 'BTC-XRP',
-            'binance': 'XRPBTC',
-            'hitbtc': 'XRPBTC'
-          },
-          'decimals': 8
-        },
-        'USD': {
-          'symbols': {
-            'bittrex': 'USDT-XRP',
-            'binance': '',
-            'hitbtc': 'XRPUSDT'
-          },
-          'decimals': 2
-        }
-      }
-    }
+    // {
+    //   name: 'Bitcoin',
+    //   symbol: 'BTC',
+    //   market: {
+    //     'USD': {
+    //       'symbols': {
+    //         'gdax': 'BTC-USD',
+    //         'bittrex': 'USDT-BTC',
+    //         'binance': 'BTCUSDT',
+    //         'hitbtc': 'BTCUSD'
+    //       },
+    //       'decimals': 0
+    //     }
+    //   },
+    // },
+    // {
+    //   name: 'Ripple',
+    //   symbol: 'XRP',
+    //   market: {
+    //     'BTC': {
+    //       'symbols': {
+    //         'bittrex': 'BTC-XRP',
+    //         'binance': 'XRPBTC',
+    //         'hitbtc': 'XRPBTC'
+    //       },
+    //       'decimals': 8
+    //     },
+    //     'USD': {
+    //       'symbols': {
+    //         'bittrex': 'USDT-XRP',
+    //         'binance': '',
+    //         'hitbtc': 'XRPUSDT'
+    //       },
+    //       'decimals': 2
+    //     }
+    //   }
+    // }
   ];
 
 

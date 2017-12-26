@@ -47,10 +47,12 @@ router.get('/getSymbols', function(req, res, next){
       'hit.eth as hit.eth'
     )
     .then(function(ticker){
-      var marketIndex = {};
+      var marketIndex = [];
       for (var i=0; i<ticker.length; i++) {
-        marketIndex[ticker[i].name] = {
+        marketIndex.push({
+          'name': ticker[i].name,
           'symbol': ticker[i].symbol,
+          'full_name': ticker[i].name + ' (' + ticker[i].symbol + ')',
           market: {
             'USD': {
               'gdax': ticker[i]['g.usd'],
@@ -71,7 +73,7 @@ router.get('/getSymbols', function(req, res, next){
               'hitbtc': ticker[i]['hit.eth']
             }
           }
-        }
+        })
       };
       res.json(marketIndex);
   });

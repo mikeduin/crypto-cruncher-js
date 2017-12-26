@@ -1,10 +1,17 @@
-<div class="input-field col s4">
-  <select ng-model="vm.activeMkt">
+<div class="row">
+  <select class="col s4 browser-default" ng-model="vm.activeMkt">
     <option selected value="BTC">Bitcoin (BTC)</option>
     <option value="USD">USD$ (USD)</option>
     <option value="ETH">Ethereum (ETH)</option>
   </select>
   <label>Select Market</label>
+</div>
+
+<div class="row">
+  <select class="col s4 browser-default" ng-model="vm.currSelected" ng-options="currency.full_name for currency in vm.symbolIndex">
+    <option value="">(select currency)</option>
+  </select>
+  <button class="btn" name="button" ng-click="vm.addCurrency()">Add</button>
 </div>
 
 <div class="row">
@@ -23,14 +30,14 @@
     </thead>
     <tbody>
       <tr ng-repeat="ticker in vm.activeTickers">
-        <td>{{ticker.name}} ({{ticker.symbol}})</td>
+        <td>{{ticker.full_name}}</td>
         <td> low </td>
         <td> high </td>
         <td> spread </td>
-        <td> {{vm.gdaxMkt[ticker.market[vm.activeMkt]['symbols']['gdax']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
-        <td> {{vm.bittrexMkt[ticker.market[vm.activeMkt]['symbols']['bittrex']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
-        <td> {{vm.binanceMkt[ticker.market[vm.activeMkt]['symbols']['binance']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
-        <td> {{vm.hitbtcMkt[ticker.market[vm.activeMkt]['symbols']['hitbtc']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
+        <td> {{vm.gdaxMkt[ticker.market[vm.activeMkt]['gdax']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
+        <td> {{vm.bittrexMkt[ticker.market[vm.activeMkt]['bittrex']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
+        <td> {{vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
+        <td> {{vm.hitbtcMkt[ticker.market[vm.activeMkt]['hitbtc']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
       </tr>
       <!-- <tr>
         <td>Bitcoin <br>BTC</td>
