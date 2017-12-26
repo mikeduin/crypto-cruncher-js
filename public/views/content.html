@@ -20,20 +20,6 @@
         <th>Binance</th>
         <th>HitBTC</th>
       </tr>
-      <!-- <tr>
-        <th></th>
-        <th>Low</th>
-        <th>High</th>
-        <th>Spread %</th>
-        <th>BTC</th>
-        <th>USD$</th>
-        <th>BTC</th>
-        <th>USD$</th>
-        <th>BTC</th>
-        <th>USD$</th>
-        <th>BTC</th>
-        <th>USD$</th>
-      </tr> -->
     </thead>
     <tbody>
       <tr ng-repeat="ticker in vm.activeTickers">
@@ -42,13 +28,9 @@
         <td> high </td>
         <td> spread </td>
         <td> {{vm.gdaxMkt[ticker.market[vm.activeMkt]['symbols']['gdax']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
-        <!-- <td> {{vm.gdaxMkt[ticker.market['USD']['symbols']['gdax']] | number: ticker.market['USD']['decimals']}}</td> -->
         <td> {{vm.bittrexMkt[ticker.market[vm.activeMkt]['symbols']['bittrex']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
-        <!-- <td> {{vm.bittrexMkt[ticker.market['USD']['symbols']['bittrex']] | number: ticker.market['USD']['decimals']}}</td> -->
         <td> {{vm.binanceMkt[ticker.market[vm.activeMkt]['symbols']['binance']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
-        <!-- <td> {{vm.binanceMkt[ticker.market['USD']['symbols']['binance']] | number: ticker.market['USD']['decimals']}}</td> -->
         <td> {{vm.hitbtcMkt[ticker.market[vm.activeMkt]['symbols']['hitbtc']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
-        <!-- <td> {{vm.hitbtcMkt[ticker.market['USD']['symbols']['hitbtc']] | number: ticker.market['USD']['decimals']}}</td> -->
       </tr>
       <!-- <tr>
         <td>Bitcoin <br>BTC</td>
@@ -63,64 +45,7 @@
         <td>{{vm.binanceMkt['BTCUSDT'] | number:0}}</td>
         <td> - </td>
         <td>{{vm.hitbtcMkt['BTCUSD'] | number:0}}</td>
-      </tr>
-      <tr>
-        <td>Ripple <br>XRP</td>
-        <td ng-show="vm.xrpMin !== NaN"> {{vm.xrpMin | number:8}}</td>
-        <td ng-show="vm.xrpMax !== NaN"> {{vm.xrpMax | number:8}}</td>
-        <td ng-show="vm.xrpMin !== NaN && vm.xrpMax !== NaN"> {{ ((vm.xrpMax - vm.xrpMin) / vm.xrpMax) | percentage:1 }}</td>
-        <td><i>n/a</i></td>
-        <td><i>n/a</i></td>
-        <td>{{vm.bittrexMkt['BTC-XRP'] | number:8}}</td>
-        <td>{{vm.bittrexMkt['USDT-XRP'] | number:2}}</td>
-        <td>{{vm.binanceMkt['XRPBTC'] | number:8}}</td>
-        <td>{{vm.binanceMkt['XRPBTC'] * vm.binanceMkt['BTCUSDT'] | number:2}}</td>
-        <td>{{vm.hitbtcMkt['XRPBTC'] | number:8}}</td>
-        <td>{{vm.hitbtcMkt['XRPUSDT'] | number:2}}</td>
-      </tr>
-      <tr>
-        <td>Bitcoin Cash <br>BCC/BCH</td>
-        <td ng-show="vm.bccMin !== NaN"> {{vm.bccMin | number:4}}</td>
-        <td ng-show="vm.bccMax !== NaN"> {{vm.bccMax | number:4}}</td>
-        <td ng-show="vm.bccMin !== NaN && vm.bccMax !== NaN"> {{ ((vm.bccMax - vm.bccMin) / vm.bccMax) | percentage:1 }}</td>
-        <td><i>{{vm.gdaxMkt['BCH-USD'] / vm.gdaxMkt['BTC-USD'] | number:4}}</i></td>
-        <td>{{vm.gdaxMkt['BCH-USD'] | number:2}}</td>
-        <td>{{vm.bittrexMkt['BTC-BCC'] | number:4}}</td>
-        <td>{{vm.bittrexMkt['USDT-BCC'] | number:2}}</td>
-        <td>{{vm.binanceMkt['BCCBTC'] | number:4}}</td>
-        <td>{{vm.binanceMkt['BCCUSDT'] | number:2}}</td>
-        <td>{{vm.hitbtcMkt['BCHBTC'] | number:4}}</td>
-        <td>{{vm.hitbtcMkt['BCHUSD'] | number:2}}</td>
-      </tr>
-      <tr>
-        <td>Litecoin <br> LTC</td>
-        <td ng-show="vm.ltcMin !== NaN"> {{vm.ltcMin | number:4}}</td>
-        <td ng-show="vm.ltcMax !== NaN"> {{vm.ltcMax | number:4}}</td>
-        <td ng-show="vm.ltcMin !== NaN && vm.ltcMax !== NaN"> {{ ((vm.ltcMax - vm.ltcMin) / vm.ltcMax) | percentage:1 }}</td>
-        <td>{{vm.gdaxMkt['LTC-BTC'] | number:4}}</td>
-        <td>{{vm.gdaxMkt['LTC-USD'] | number:2}}</td>
-        <td>{{vm.bittrexMkt['BTC-LTC'] | number:4}}</td>
-        <td>{{vm.bittrexMkt['USDT-LTC'] | number:2}}</td>
-        <td>{{vm.binanceMkt['LTCBTC'] | number:4}}</td>
-        <td>{{vm.binanceMkt['LTCUSDT'] | number:2}}</td>
-        <td>{{vm.hitbtcMkt['LTCBTC'] | number:4}}</td>
-        <td>{{vm.hitbtcMkt['LTCUSD'] | number:2}}</td>
-      </tr>
-      <tr>
-        <td>Ripple <br> XMR</td>
-        <td ng-show="vm.xmrMin !== NaN"> {{vm.xmrMin | number:4}}</td>
-        <td ng-show="vm.xmrMax !== NaN"> {{vm.xmrMax | number:4}}</td>
-        <td ng-show="vm.xmrMin !== NaN && vm.xmrMax !== NaN"> {{ ((vm.xmrMax - vm.xmrMin) / vm.xmrMax) | percentage:1 }}</td>
-        <td><i>n/a</i></td>
-        <td><i>n/a</i></td>
-        <td>{{vm.bittrexMkt['BTC-XMR'] | number:4}}</td>
-        <td>{{vm.bittrexMkt['USDT-XMR'] | number:2}}</td>
-        <td>{{vm.binanceMkt['XMRBTC'] | number:4}}</td>
-        <td>{{vm.binanceMkt['XMRBTC'] * vm.binanceMkt['BTCUSDT'] | number:2}}</td>
-        <td>{{vm.hitbtcMkt['XMRBTC'] | number:4}}</td>
-        <td>{{vm.hitbtcMkt['XMRUSD'] | number:2}}</td>
       </tr> -->
     </tbody>
   </table>
-
 </div>

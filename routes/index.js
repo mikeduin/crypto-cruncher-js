@@ -52,11 +52,12 @@ binanceWs.on('message', function incoming(feed){
   var binanceMkt = {};
   var data = JSON.parse(feed);
   data.forEach(function(ticker){
+    console.log(ticker);
     var last = (parseFloat(ticker['b']) + parseFloat(ticker['a']))/2;
     binanceMkt[ticker['s']] = last;
   })
   pusher.trigger('binance-channel', 'update', binanceMkt)
-})
+});
 
 gdaxWs.on('open', function open() {
   var req = JSON.stringify({
