@@ -30,14 +30,14 @@
     </thead>
     <tbody>
       <tr ng-repeat="ticker in vm.activeTickers">
-        <td>{{ticker.full_name}}</td>
+        <td> {{ticker.full_name}} </td>
         <td> low </td>
         <td> high </td>
         <td> spread </td>
-        <td> {{vm.gdaxMkt[ticker.market[vm.activeMkt]['gdax']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
-        <td> {{vm.bittrexMkt[ticker.market[vm.activeMkt]['bittrex']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
-        <td> {{vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
-        <td> {{vm.hitbtcMkt[ticker.market[vm.activeMkt]['hitbtc']] | number: ticker.market[vm.activeMkt]['decimals']}}</td>
+        <td> {{vm.gdaxMkt[ticker.market[vm.activeMkt]['gdax']] | number: vm.aciveDec}} </td>
+        <td> {{vm.bittrexMkt[ticker.market[vm.activeMkt]['bittrex']] | number: vm.aciveDec}} </td>
+        <td> {{vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] | number: vm.aciveDec}} </td>
+        <td> {{vm.hitbtcMkt[ticker.market[vm.activeMkt]['hitbtc']] | number: vm.aciveDec}} </td>
       </tr>
       <!-- <tr>
         <td>Bitcoin <br>BTC</td>

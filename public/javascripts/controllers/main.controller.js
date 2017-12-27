@@ -16,6 +16,8 @@ function MainController ($state, $pusher, marketService) {
   vm.mins = {};
   vm.maxs = {};
   vm.activeMkt = 'BTC';
+  vm.aciveDec = 8;
+  vm.activeTickers = [];
 
   (function getSymbols () {
     marketService.getSymbols().then(function(res){
@@ -27,71 +29,22 @@ function MainController ($state, $pusher, marketService) {
     vm.activeTickers.push(vm.currSelected)
   };
 
-  // var symbolIndex = {
-  //   'Bitcoin (BTC)': {
-  //     'gdax': 'BTC-USD',
-  //     'bittrex': 'USDT-BTC',
-  //     'binance': 'BTCUSDT',
-  //     'hitbtc': 'BTCUSD'
-  //   },
-  //   'Ripple (XRP)': {
-  //     'bittrex': 'BTC-XRP',
-  //     'binance': 'XRPBTC',
-  //     'hitbtc': 'XRPBTC'
-  //   }
-  // };
-
-  vm.activeTickers = [
-    // {
-    //   name: 'Bitcoin',
-    //   symbol: 'BTC',
-    //   market: {
-    //     'USD': {
-    //       'symbols': {
-    //         'gdax': 'BTC-USD',
-    //         'bittrex': 'USDT-BTC',
-    //         'binance': 'BTCUSDT',
-    //         'hitbtc': 'BTCUSD'
-    //       },
-    //       'decimals': 0
-    //     }
-    //   },
-    // },
-    // {
-    //   name: 'Ripple',
-    //   symbol: 'XRP',
-    //   market: {
-    //     'BTC': {
-    //       'symbols': {
-    //         'bittrex': 'BTC-XRP',
-    //         'binance': 'XRPBTC',
-    //         'hitbtc': 'XRPBTC'
-    //       },
-    //       'decimals': 8
-    //     },
-    //     'USD': {
-    //       'symbols': {
-    //         'bittrex': 'USDT-XRP',
-    //         'binance': '',
-    //         'hitbtc': 'XRPUSDT'
-    //       },
-    //       'decimals': 2
-    //     }
-    //   }
-    // }
-  ];
-
-
-
   function findMins () {
-    // for (var i=0; i<vm.activeTickers.length; i++) {
-    //   var mins = [];
-    //   var symbols = vm.activeTickers[i].market[vm.activeMkt]['symbols'];
-    //   console.log(symbols.length);
-    //   // for (var j=0; j<symbols.length; j++) {
-    //   //   if (symbols[j])
-    //   // }
-    // }
+    vm.marketMins = {};
+    for (var i=0; i<vm.activeTickers.length; i++) {
+      var mins = [];
+      // var markets = vm.activeTickers[i]['market'];
+      // console.log(markets);
+      vm.marketMins[vm.activeTickers[i]['symbol']] = {
+        'USD': Math.min(
+          vm.gdaxMkt[vm.activeTickers[i].market['USD']['gdax']],
+          vm.bittrexMkt[vm.activeTickers[i].market['USD']['bittrex']],
+          vm.binanceMkt[vm.activeTickers[i].market['USD']['binance']],
+          vm.hitbtcMkt[vm.activeTickers[i].market['USD']['hitbtc']]
+        )
+      }
+    };
+    console.log(vm.marketMins);
   };
 
 
