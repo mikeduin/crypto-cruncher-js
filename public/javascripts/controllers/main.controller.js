@@ -5,7 +5,7 @@ angular
 function MainController ($state, $pusher, marketService) {
 
   // $(document).ready(function() {
-  //   $('select').material_select();
+  //   $('.tooltipped').tooltip({delay: 50});
   // });
 
   var vm = this;
@@ -33,12 +33,17 @@ function MainController ($state, $pusher, marketService) {
     })
   })();
 
-  vm.addCurrency = function(){
+  vm.addCurr = function () {
     if(vm.activeTickers.indexOf(vm.currSelected) == -1) {
       vm.activeTickers.push(vm.currSelected)
     } else {
       console.log('currency already in there');
     };
+  };
+
+  vm.removeCurr = function (ticker) {
+    var index = vm.activeTickers.indexOf(ticker);
+    vm.activeTickers.splice(index, 1);
   };
 
   function findMins () {

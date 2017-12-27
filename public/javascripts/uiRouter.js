@@ -1,7 +1,8 @@
 angular
   .module('cryptoCruncher', [
     'ui.router',
-    'pusher-angular'
+    'pusher-angular',
+    'ui.materialize'
   ])
   .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', siteConfig])
   // .config(['PusherServiceProvider', function(PusherServiceProvider){

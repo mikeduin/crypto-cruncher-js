@@ -1,5 +1,9 @@
 /*Arbitrage page classes*/
 
+.spacer {
+  margin-top: 20px;
+}
+
 .sell {
   color: red;
   font-weight: 800;
@@ -8,4 +12,8 @@
 .buy {
   color: green;
   font-weight: 800;
+}
+
+.fa-times-circle:hover {
+  
 }
