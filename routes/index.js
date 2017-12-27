@@ -47,13 +47,6 @@ router.get('/getSymbols', function(req, res, next){
     .then(function(ticker){
       var marketIndex = [];
       for (var i=0; i<ticker.length; i++) {
-        // var usdDec = Math.min(
-        //   ticker[i]['g.usd'],
-        //   ticker[i]['bitt.usd'],
-        //   ticker[i]['bin.usd'],
-        //   ticker[i]['hit.usd']
-        // );
-        // console.log(ticker[i].symbol, ' US min is ', usdDec);
         marketIndex.push({
           'name': ticker[i].name,
           'symbol': ticker[i].symbol,

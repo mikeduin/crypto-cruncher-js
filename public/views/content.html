@@ -1,17 +1,19 @@
-<div class="row">
-  <select class="col s4 browser-default" ng-model="vm.activeMkt" ng-change="vm.adjustDec()">
-    <option selected value="BTC">Bitcoin (BTC)</option>
-    <option value="USD">USD$ (USD)</option>
-    <option value="ETH">Ethereum (ETH)</option>
-  </select>
-  <label>Select Market</label>
-</div>
 
 <div class="row">
-  <select class="col s4 browser-default" ng-model="vm.currSelected" ng-options="currency.full_name for currency in vm.symbolIndex">
-    <option value="">(select currency)</option>
-  </select>
-  <button class="btn" name="button" ng-click="vm.addCurrency()">Add</button>
+  <div class="col s4">
+    <select class="browser-default" ng-model="vm.currSelected" ng-options="currency.full_name for currency in vm.symbolIndex">
+      <option value="">(select currency)</option>
+    </select>
+    <button class="btn" name="button" ng-click="vm.addCurrency()">Add</button>
+  </div>
+  <div class="col s3 offset-s5">
+    <select class="browser-default" ng-model="vm.activeMkt" ng-change="vm.adjustDec()">
+      <option selected value="BTC">Bitcoin (BTC)</option>
+      <option value="USD">USD$ (USD)</option>
+      <option value="ETH">Ethereum (ETH)</option>
+    </select>
+    <label>Select Market</label>
+  </div>
 </div>
 
 <div class="row">
@@ -34,10 +36,10 @@
         <td> {{vm.marketMins[ticker.symbol][vm.activeMkt] | number: vm.activeDec}} </td>
         <td> {{vm.marketMaxs[ticker.symbol][vm.activeMkt] | number: vm.activeDec}} </td>
         <td> {{((vm.marketMaxs[ticker.symbol][vm.activeMkt] - vm.marketMins[ticker.symbol][vm.activeMkt])/vm.marketMaxs[ticker.symbol][vm.activeMkt]) | percentage:1}} </td>
-        <td> {{vm.gdaxMkt[ticker.market[vm.activeMkt]['gdax']] | number: vm.activeDec}} </td>
-        <td> {{vm.bittrexMkt[ticker.market[vm.activeMkt]['bittrex']] | number: vm.activeDec}} </td>
-        <td> {{vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] | number: vm.activeDec}} </td>
-        <td> {{vm.hitbtcMkt[ticker.market[vm.activeMkt]['hitbtc']] | number: vm.activeDec}} </td>
+        <td ng-class="{buy: vm.gdaxMkt[ticker.market[vm.activeMkt]['gdax']] == vm.marketMins[ticker.symbol][vm.activeMkt], sell: vm.gdaxMkt[ticker.market[vm.activeMkt]['gdax']] == vm.marketMaxs[ticker.symbol][vm.activeMkt]}"> {{vm.gdaxMkt[ticker.market[vm.activeMkt]['gdax']] | number: vm.activeDec}} </td>
+        <td ng-class="{buy: vm.bittrexMkt[ticker.market[vm.activeMkt]['bittrex']] == vm.marketMins[ticker.symbol][vm.activeMkt], sell: vm.bittrexMkt[ticker.market[vm.activeMkt]['bittrex']] == vm.marketMaxs[ticker.symbol][vm.activeMkt]}"> {{vm.bittrexMkt[ticker.market[vm.activeMkt]['bittrex']] | number: vm.activeDec}} </td>
+        <td ng-class="{buy: vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] == vm.marketMins[ticker.symbol][vm.activeMkt], sell: vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] == vm.marketMaxs[ticker.symbol][vm.activeMkt]}"> {{vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] | number: vm.activeDec}} </td>
+        <td ng-class="{buy: vm.hitbtcMkt[ticker.market[vm.activeMkt]['hitbtc']] == vm.marketMins[ticker.symbol][vm.activeMkt], sell: vm.hitbtcMkt[ticker.market[vm.activeMkt]['hitbtc']] == vm.marketMaxs[ticker.symbol][vm.activeMkt]}"> {{vm.hitbtcMkt[ticker.market[vm.activeMkt]['hitbtc']] | number: vm.activeDec}} </td>
       </tr>
     </tbody>
   </table>

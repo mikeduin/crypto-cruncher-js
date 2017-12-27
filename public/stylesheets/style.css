@@ -1,0 +1,11 @@
+/*Arbitrage page classes*/
+
+.sell {
+  color: red;
+  font-weight: 800;
+}
+
+.buy {
+  color: green;
+  font-weight: 800;
+}
