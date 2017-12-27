@@ -25,10 +25,7 @@ function MainController ($state, $pusher, marketService) {
   vm.activeTickers = [];
   vm.adjustDec = function(){
     vm.activeDec = vm.decimals[vm.activeMkt];
-  }
-
-  console.log();
-  console.log(vm.activeDec);
+  };
 
   (function getSymbols () {
     marketService.getSymbols().then(function(res){
@@ -37,97 +34,114 @@ function MainController ($state, $pusher, marketService) {
   })();
 
   vm.addCurrency = function(){
-    vm.activeTickers.push(vm.currSelected)
+    if(vm.activeTickers.indexOf(vm.currSelected) == -1) {
+      vm.activeTickers.push(vm.currSelected)
+    } else {
+      console.log('currency already in there');
+    };
   };
 
   function findMins () {
     vm.marketMins = {};
     for (var i=0; i<vm.activeTickers.length; i++) {
-      var mins = [];
-      // var markets = vm.activeTickers[i]['market'];
-      // console.log(markets);
+      var usdMins = [];
+      var btcMins = [];
+      var ethMins = [];
+      if (vm.gdaxMkt[vm.activeTickers[i].market['USD']['gdax']]) {
+        usdMins.push(vm.gdaxMkt[vm.activeTickers[i].market['USD']['gdax']]);
+      };
+      if (vm.bittrexMkt[vm.activeTickers[i].market['USD']['bittrex']]) {
+        usdMins.push(vm.bittrexMkt[vm.activeTickers[i].market['USD']['bittrex']]);
+      };
+      if (vm.binanceMkt[vm.activeTickers[i].market['USD']['binance']]) {
+        usdMins.push(vm.binanceMkt[vm.activeTickers[i].market['USD']['binance']]);
+      };
+      if (vm.hitbtcMkt[vm.activeTickers[i].market['USD']['hitbtc']]) {
+        usdMins.push(vm.hitbtcMkt[vm.activeTickers[i].market['USD']['hitbtc']]);
+      };
+      if (vm.gdaxMkt[vm.activeTickers[i].market['BTC']['gdax']]) {
+        btcMins.push(vm.gdaxMkt[vm.activeTickers[i].market['BTC']['gdax']]);
+      };
+      if (vm.bittrexMkt[vm.activeTickers[i].market['BTC']['bittrex']]) {
+        btcMins.push(vm.bittrexMkt[vm.activeTickers[i].market['BTC']['bittrex']]);
+      };
+      if (vm.binanceMkt[vm.activeTickers[i].market['BTC']['binance']]) {
+        btcMins.push(vm.binanceMkt[vm.activeTickers[i].market['BTC']['binance']]);
+      };
+      if (vm.hitbtcMkt[vm.activeTickers[i].market['BTC']['hitbtc']]) {
+        btcMins.push(vm.hitbtcMkt[vm.activeTickers[i].market['BTC']['hitbtc']]);
+      };
+      if (vm.gdaxMkt[vm.activeTickers[i].market['ETH']['gdax']]) {
+        ethMins.push(vm.gdaxMkt[vm.activeTickers[i].market['ETH']['gdax']]);
+      };
+      if (vm.bittrexMkt[vm.activeTickers[i].market['ETH']['bittrex']]) {
+        ethMins.push(vm.bittrexMkt[vm.activeTickers[i].market['ETH']['bittrex']]);
+      };
+      if (vm.binanceMkt[vm.activeTickers[i].market['ETH']['binance']]) {
+        ethMins.push(vm.binanceMkt[vm.activeTickers[i].market['ETH']['binance']]);
+      };
+      if (vm.hitbtcMkt[vm.activeTickers[i].market['ETH']['hitbtc']]) {
+        ethMins.push(vm.hitbtcMkt[vm.activeTickers[i].market['ETH']['hitbtc']]);
+      };
+
       vm.marketMins[vm.activeTickers[i]['symbol']] = {
-        'USD': Math.min(
-          vm.gdaxMkt[vm.activeTickers[i].market['USD']['gdax']],
-          vm.bittrexMkt[vm.activeTickers[i].market['USD']['bittrex']],
-          vm.binanceMkt[vm.activeTickers[i].market['USD']['binance']],
-          vm.hitbtcMkt[vm.activeTickers[i].market['USD']['hitbtc']]
-        )
-      }
+        'USD': Math.min.apply(null, usdMins),
+        'BTC': Math.min.apply(null, btcMins),
+        'ETC': Math.min.apply(null, ethMins)
+      };
     };
-    console.log(vm.marketMins);
   };
 
-
-
-  //   vm.btcMin = Math.min(
-  //     parseFloat(vm.gdaxMkt['BTC-USD']),
-  //     parseFloat(vm.bittrexMkt['USDT-BTC']),
-  //     parseFloat(vm.binanceMkt['BTCUSDT']),
-  //     parseFloat(vm.hitbtcMkt['BTCUSD'])
-  //   );
-  //
-  //   vm.xrpMin = Math.min(
-  //     parseFloat(vm.bittrexMkt['BTC-XRP']),
-  //     parseFloat(vm.binanceMkt['XRPBTC']),
-  //     parseFloat(vm.hitbtcMkt['XRPBTC'])
-  //   );
-  //
-  //   vm.bccMin = Math.min(
-  //     parseFloat(vm.gdaxMkt['BCH-USD'] / vm.gdaxMkt['BTC-USD']),
-  //     parseFloat(vm.bittrexMkt['BTC-BCC']),
-  //     parseFloat(vm.binanceMkt['BCCBTC']),
-  //     parseFloat(vm.hitbtcMkt['BCHBTC'])
-  //   );
-  //
-  //   vm.ltcMin = Math.min(
-  //     parseFloat(vm.gdaxMkt['LTC-BTC']),
-  //     parseFloat(vm.bittrexMkt['BTC-LTC']),
-  //     parseFloat(vm.binanceMkt['LTCBTC']),
-  //     parseFloat(vm.hitbtcMkt['LTCBTC'])
-  //   );
-  //
-  //   vm.xmrMin = Math.min(
-  //     parseFloat(vm.bittrexMkt['BTC-XMR']),
-  //     parseFloat(vm.binanceMkt['XMRBTC']),
-  //     parseFloat(vm.hitbtcMkt['XMRBTC'])
-  //   );
-  // };
-
   function findMaxs () {
-    vm.btcMax = Math.max(
-      parseFloat(vm.gdaxMkt['BTC-USD']),
-      parseFloat(vm.bittrexMkt['USDT-BTC']),
-      parseFloat(vm.binanceMkt['BTCUSDT']),
-      parseFloat(vm.hitbtcMkt['BTCUSD'])
-    );
+    vm.marketMaxs = {};
+    for (var i=0; i<vm.activeTickers.length; i++) {
+      var usdMaxs = [];
+      var btcMaxs = [];
+      var ethMaxs = [];
+      if (vm.gdaxMkt[vm.activeTickers[i].market['USD']['gdax']]) {
+        usdMaxs.push(vm.gdaxMkt[vm.activeTickers[i].market['USD']['gdax']]);
+      };
+      if (vm.bittrexMkt[vm.activeTickers[i].market['USD']['bittrex']]) {
+        usdMaxs.push(vm.bittrexMkt[vm.activeTickers[i].market['USD']['bittrex']]);
+      };
+      if (vm.binanceMkt[vm.activeTickers[i].market['USD']['binance']]) {
+        usdMaxs.push(vm.binanceMkt[vm.activeTickers[i].market['USD']['binance']]);
+      };
+      if (vm.hitbtcMkt[vm.activeTickers[i].market['USD']['hitbtc']]) {
+        usdMaxs.push(vm.hitbtcMkt[vm.activeTickers[i].market['USD']['hitbtc']]);
+      };
+      if (vm.gdaxMkt[vm.activeTickers[i].market['BTC']['gdax']]) {
+        btcMaxs.push(vm.gdaxMkt[vm.activeTickers[i].market['BTC']['gdax']]);
+      };
+      if (vm.bittrexMkt[vm.activeTickers[i].market['BTC']['bittrex']]) {
+        btcMaxs.push(vm.bittrexMkt[vm.activeTickers[i].market['BTC']['bittrex']]);
+      };
+      if (vm.binanceMkt[vm.activeTickers[i].market['BTC']['binance']]) {
+        btcMaxs.push(vm.binanceMkt[vm.activeTickers[i].market['BTC']['binance']]);
+      };
+      if (vm.hitbtcMkt[vm.activeTickers[i].market['BTC']['hitbtc']]) {
+        btcMaxs.push(vm.hitbtcMkt[vm.activeTickers[i].market['BTC']['hitbtc']]);
+      };
+      if (vm.gdaxMkt[vm.activeTickers[i].market['ETH']['gdax']]) {
+        ethMaxs.push(vm.gdaxMkt[vm.activeTickers[i].market['ETH']['gdax']]);
+      };
+      if (vm.bittrexMkt[vm.activeTickers[i].market['ETH']['bittrex']]) {
+        ethMaxs.push(vm.bittrexMkt[vm.activeTickers[i].market['ETH']['bittrex']]);
+      };
+      if (vm.binanceMkt[vm.activeTickers[i].market['ETH']['binance']]) {
+        ethMaxs.push(vm.binanceMkt[vm.activeTickers[i].market['ETH']['binance']]);
+      };
+      if (vm.hitbtcMkt[vm.activeTickers[i].market['ETH']['hitbtc']]) {
+        ethMaxs.push(vm.hitbtcMkt[vm.activeTickers[i].market['ETH']['hitbtc']]);
+      };
 
-    vm.xrpMax = Math.max(
-      parseFloat(vm.bittrexMkt['BTC-XRP']),
-      parseFloat(vm.binanceMkt['XRPBTC']),
-      parseFloat(vm.hitbtcMkt['XRPBTC'])
-    );
-
-    vm.bccMax = Math.max(
-      parseFloat(vm.gdaxMkt['BCH-USD'] / vm.gdaxMkt['BTC-USD']),
-      parseFloat(vm.bittrexMkt['BTC-BCC']),
-      parseFloat(vm.binanceMkt['BCCBTC']),
-      parseFloat(vm.hitbtcMkt['BCHBTC'])
-    );
-
-    vm.ltcMax = Math.max(
-      parseFloat(vm.gdaxMkt['LTC-BTC']),
-      parseFloat(vm.bittrexMkt['BTC-LTC']),
-      parseFloat(vm.binanceMkt['LTCBTC']),
-      parseFloat(vm.hitbtcMkt['LTCBTC'])
-    );
-
-    vm.xmrMax = Math.max(
-      parseFloat(vm.bittrexMkt['BTC-XMR']),
-      parseFloat(vm.binanceMkt['XMRBTC']),
-      parseFloat(vm.hitbtcMkt['XMRBTC'])
-    );
-  }
+      vm.marketMaxs[vm.activeTickers[i]['symbol']] = {
+        'USD': Math.max.apply(null, usdMaxs),
+        'BTC': Math.max.apply(null, btcMaxs),
+        'ETC': Math.max.apply(null, ethMaxs)
+      };
+    };
+  };
 
   var client = new Pusher('7b31edc5de6a16ed6419', {
     cluster: 'us2'

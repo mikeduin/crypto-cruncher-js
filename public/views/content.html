@@ -32,27 +32,13 @@
       <tr ng-repeat="ticker in vm.activeTickers">
         <td> {{ticker.full_name}} </td>
         <td> {{vm.marketMins[ticker.symbol][vm.activeMkt] | number: vm.activeDec}} </td>
-        <td> high </td>
-        <td> spread </td>
+        <td> {{vm.marketMaxs[ticker.symbol][vm.activeMkt] | number: vm.activeDec}} </td>
+        <td> {{((vm.marketMaxs[ticker.symbol][vm.activeMkt] - vm.marketMins[ticker.symbol][vm.activeMkt])/vm.marketMaxs[ticker.symbol][vm.activeMkt]) | percentage:1}} </td>
         <td> {{vm.gdaxMkt[ticker.market[vm.activeMkt]['gdax']] | number: vm.activeDec}} </td>
         <td> {{vm.bittrexMkt[ticker.market[vm.activeMkt]['bittrex']] | number: vm.activeDec}} </td>
         <td> {{vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] | number: vm.activeDec}} </td>
         <td> {{vm.hitbtcMkt[ticker.market[vm.activeMkt]['hitbtc']] | number: vm.activeDec}} </td>
       </tr>
-      <!-- <tr>
-        <td>Bitcoin <br>BTC</td>
-        <td ng-show="vm.btcMin !== NaN"> {{vm.btcMin | number:0}}</td>
-        <td ng-show="vm.btcMax !== NaN"> {{vm.btcMax | number:0}}</td>
-        <td ng-show="vm.btcMin !== NaN && vm.btcMax !== NaN"> {{ ((vm.btcMax - vm.btcMin) / vm.btcMax) | percentage:1 }}</td>
-        <td> - </td>
-        <td>{{vm.gdaxMkt['BTC-USD'] | number:0}}</td>
-        <td> - </td>
-        <td>{{vm.bittrexMkt['USDT-BTC'] | number:0}}</td>
-        <td> - </td>
-        <td>{{vm.binanceMkt['BTCUSDT'] | number:0}}</td>
-        <td> - </td>
-        <td>{{vm.hitbtcMkt['BTCUSD'] | number:0}}</td>
-      </tr> -->
     </tbody>
   </table>
 </div>
