@@ -15,9 +15,20 @@ function MainController ($state, $pusher, marketService) {
   vm.gdaxMkt = {};
   vm.mins = {};
   vm.maxs = {};
+  vm.decimals = {
+    'BTC': 8,
+    'USD': 2,
+    'ETH': 8
+  };
   vm.activeMkt = 'BTC';
-  vm.aciveDec = 8;
+  vm.activeDec = vm.decimals[vm.activeMkt];
   vm.activeTickers = [];
+  vm.adjustDec = function(){
+    vm.activeDec = vm.decimals[vm.activeMkt];
+  }
+
+  console.log();
+  console.log(vm.activeDec);
 
   (function getSymbols () {
     marketService.getSymbols().then(function(res){

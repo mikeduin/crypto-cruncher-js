@@ -1,5 +1,5 @@
 <div class="row">
-  <select class="col s4 browser-default" ng-model="vm.activeMkt">
+  <select class="col s4 browser-default" ng-model="vm.activeMkt" ng-change="vm.adjustDec()">
     <option selected value="BTC">Bitcoin (BTC)</option>
     <option value="USD">USD$ (USD)</option>
     <option value="ETH">Ethereum (ETH)</option>
@@ -31,13 +31,13 @@
     <tbody>
       <tr ng-repeat="ticker in vm.activeTickers">
         <td> {{ticker.full_name}} </td>
-        <td> low </td>
+        <td> {{vm.marketMins[ticker.symbol][vm.activeMkt] | number: vm.activeDec}} </td>
         <td> high </td>
         <td> spread </td>
-        <td> {{vm.gdaxMkt[ticker.market[vm.activeMkt]['gdax']] | number: vm.aciveDec}} </td>
-        <td> {{vm.bittrexMkt[ticker.market[vm.activeMkt]['bittrex']] | number: vm.aciveDec}} </td>
-        <td> {{vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] | number: vm.aciveDec}} </td>
-        <td> {{vm.hitbtcMkt[ticker.market[vm.activeMkt]['hitbtc']] | number: vm.aciveDec}} </td>
+        <td> {{vm.gdaxMkt[ticker.market[vm.activeMkt]['gdax']] | number: vm.activeDec}} </td>
+        <td> {{vm.bittrexMkt[ticker.market[vm.activeMkt]['bittrex']] | number: vm.activeDec}} </td>
+        <td> {{vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] | number: vm.activeDec}} </td>
+        <td> {{vm.hitbtcMkt[ticker.market[vm.activeMkt]['hitbtc']] | number: vm.activeDec}} </td>
       </tr>
       <!-- <tr>
         <td>Bitcoin <br>BTC</td>
