@@ -1,21 +1,31 @@
 <div class="spacer"></div>
 
-<div class="row">
-  <div class="col s4">
-    <select class="browser-default col s9" ng-model="vm.currSelected" ng-options="currency.full_name for currency in vm.symbolIndex">
-      <option value="">(select currency)</option>
-    </select>
-    <button class="btn col offset-s1 s2" name="button" ng-click="vm.addCurr()">Add</button>
+<div class="row arb-header">
+  <div class="row">
+    <div class="col s4">
+      <select class="browser-default col s9" ng-model="vm.currSelected" ng-options="currency.full_name for currency in vm.symbolIndex | orderBy: 'full_name'">
+        <option value="">(browse all cryptos)</option>
+      </select>
+      <button class="btn col offset-s1 s2" name="button" ng-click="vm.addCurr()">Add</button>
+    </div>
+    <div class="col s5 center-align" ng-click="vm.searchActive = !vm.searchActive">
+      Search for a Crypto
+      <input ng-model="cryptoSearch">
+    </div>
+    <div class="col s3 input-field">
+      <select ng-model="vm.activeMkt" ng-change="vm.adjustDec()">
+        <option selected value="BTC">Bitcoin (BTC)</option>
+        <option value="USD">USD$ (USD)</option>
+        <option value="ETH">Ethereum (ETH)</option>
+      </select>
+      <label>Select Market</label>
+    </div>
   </div>
-  <div class="col s3 offset-s5">
-    <select class="browser-default" ng-model="vm.activeMkt" ng-change="vm.adjustDec()">
-      <option selected value="BTC">Bitcoin (BTC)</option>
-      <option value="USD">USD$ (USD)</option>
-      <option value="ETH">Ethereum (ETH)</option>
-    </select>
-    <label>Select Market</label>
+  <div class="row cryptoSearch" ng-show="vm.searchActive">
+    <span class="findCrypto" ng-repeat="symbol in vm.symbolIndex | filter: cryptoSearch">{{symbol.full_name}}</span>
   </div>
 </div>
+
 
 <div class="row">
   <table class="col s12">

@@ -89,6 +89,20 @@ setInterval(function(req, res, next){
   })
 }, 4000);
 
+// setInterval(function(req, res, next){
+//   fetch('https://www.cryptopia.co.nz/api/GetTradePairs').then(function(res){
+//     return res.json();
+//   }).then(function(data){
+//     var markets = data.Data;
+//     markets.forEach(function(pair){
+//       var baseCurrs = ['Bitcoin', 'Tether', 'Ethereum'];
+//       if(baseCurrs.indexOf(pair.BaseCurrency) !== -1) {
+//         console.log(pair.Label, " ", pair.Currency)
+//       };
+//     })
+//   })
+// }, 2000);
+
 
 bittrex.websockets.listen(function(data, client) {
   var bittrexMkt = {};

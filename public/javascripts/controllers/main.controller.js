@@ -4,9 +4,9 @@ angular
 
 function MainController ($state, $pusher, marketService) {
 
-  // $(document).ready(function() {
-  //   $('.tooltipped').tooltip({delay: 50});
-  // });
+  $(document).ready(function() {
+    $('select').material_select();
+  });
 
   var vm = this;
   vm.bittrexMkt = {};
@@ -15,6 +15,7 @@ function MainController ($state, $pusher, marketService) {
   vm.gdaxMkt = {};
   vm.mins = {};
   vm.maxs = {};
+  vm.searchActive = false;
   vm.decimals = {
     'BTC': 8,
     'USD': 2,
@@ -30,6 +31,7 @@ function MainController ($state, $pusher, marketService) {
   (function getSymbols () {
     marketService.getSymbols().then(function(res){
       vm.symbolIndex = res;
+      console.log(vm.symbolIndex);
     })
   })();
 
