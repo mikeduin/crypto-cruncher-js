@@ -8,11 +8,3 @@ function pctFilter ($filter) {
     return $filter('number')(input*100, decimals) + '%';
   }
 }
-
-// function spread () {
-//   return function (currencies) {
-//     for (var i=0; i<currencies.length: i++) {
-//
-//     }
-//   }
-// }

@@ -29,6 +29,22 @@ function MainController ($state, $pusher, marketService) {
     return ((max-min)/max)
   };
 
+  vm.spreadFilter = function(ticker) {
+    return -((ticker.maxs[vm.activeMkt] - ticker.mins[vm.activeMkt])/ticker.maxs[vm.activeMkt])
+  };
+
+  // vm.spreadFilter = function (ticker) {
+  //   if (ticker) {
+  //       return function (ticker) {
+  //       // for (var i=0; i<currencies.length; i++) {
+  //         // var currency = currencies[i];
+  //       ticker.spread = ((ticker.maxs[activeMkt] - ticker.mins[activeMkt])/ticker.maxs[activeMkt])
+  //       // };
+  //       return ticker;
+  //     }
+  //   };
+  // }
+
 
   (function getSymbols () {
     marketService.getSymbols().then(function(res){
