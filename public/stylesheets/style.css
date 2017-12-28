@@ -6,7 +6,7 @@
 
 .arb-header {
   background-color: #EBEBEB;
-  padding: 15px 0 15px 0;
+  padding: 15px 0 5px 0;
 }
 
 .sell {
@@ -21,7 +21,7 @@
 
 .cryptoSearch {
   border: solid 2px black;
-  height: 80px;
+  height: 100px;
   overflow: scroll;
 }
 
@@ -33,4 +33,8 @@
   padding: 0 10px 0 10px;
   margin: 3px 3px 0 3px;
   display: inline-block;
+}
+
+.wrapper {
+  padding: 0 0 200px 0;
 }

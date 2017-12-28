@@ -3,7 +3,6 @@ angular
   .controller('MainController', ['$state', '$pusher', 'marketService', MainController])
 
 function MainController ($state, $pusher, marketService) {
-
   $(document).ready(function() {
     $('select').material_select();
   });
@@ -16,22 +15,24 @@ function MainController ($state, $pusher, marketService) {
   vm.mins = {};
   vm.maxs = {};
   vm.searchActive = false;
-  vm.decimals = {
-    'BTC': 8,
-    'USD': 2,
-    'ETH': 8
-  };
   vm.activeMkt = 'BTC';
+  vm.decimals = {'BTC': 8, 'USD': 2, 'ETH': 8};
   vm.activeDec = vm.decimals[vm.activeMkt];
   vm.activeTickers = [];
-  vm.adjustDec = function(){
-    vm.activeDec = vm.decimals[vm.activeMkt];
+  vm.adjustDec = adjustDec;
+  vm.showSearch = function () {
+    if (!vm.searchActive) {
+      vm.searchActive = true;
+    }
   };
+  vm.spread = function (max, min) {
+    return ((max-min)/max)
+  };
+
 
   (function getSymbols () {
     marketService.getSymbols().then(function(res){
       vm.symbolIndex = res;
-      console.log(vm.symbolIndex);
     })
   })();
 
@@ -48,8 +49,11 @@ function MainController ($state, $pusher, marketService) {
     vm.activeTickers.splice(index, 1);
   };
 
+  function adjustDec () {
+    vm.activeDec = vm.decimals[vm.activeMkt];
+  }
+
   function findMins () {
-    vm.marketMins = {};
     for (var i=0; i<vm.activeTickers.length; i++) {
       var usdMins = [];
       var btcMins = [];
@@ -91,16 +95,16 @@ function MainController ($state, $pusher, marketService) {
         ethMins.push(vm.hitbtcMkt[vm.activeTickers[i].market['ETH']['hitbtc']]);
       };
 
-      vm.marketMins[vm.activeTickers[i]['symbol']] = {
+      vm.activeTickers[i]['mins'] = {
         'USD': Math.min.apply(null, usdMins),
         'BTC': Math.min.apply(null, btcMins),
         'ETC': Math.min.apply(null, ethMins)
-      };
+      }
     };
+    console.log(vm.activeTickers);
   };
 
   function findMaxs () {
-    vm.marketMaxs = {};
     for (var i=0; i<vm.activeTickers.length; i++) {
       var usdMaxs = [];
       var btcMaxs = [];
@@ -142,7 +146,7 @@ function MainController ($state, $pusher, marketService) {
         ethMaxs.push(vm.hitbtcMkt[vm.activeTickers[i].market['ETH']['hitbtc']]);
       };
 
-      vm.marketMaxs[vm.activeTickers[i]['symbol']] = {
+      vm.activeTickers[i]['maxs'] = {
         'USD': Math.max.apply(null, usdMaxs),
         'BTC': Math.max.apply(null, btcMaxs),
         'ETC': Math.max.apply(null, ethMaxs)
@@ -162,7 +166,6 @@ function MainController ($state, $pusher, marketService) {
     });
     findMins();
     findMaxs();
-    // console.log('vm.bittrexMkt is ', vm.bittrexMkt);
   });
 
   var binanceChannel = pusher.subscribe('binance-channel');
@@ -172,7 +175,6 @@ function MainController ($state, $pusher, marketService) {
     });
     findMins();
     findMaxs();
-    // console.log('vm.binanceMkt is ', vm.binanceMkt);
   });
 
   var gdaxChannel = pusher.subscribe('gdax-channel');
@@ -182,8 +184,7 @@ function MainController ($state, $pusher, marketService) {
     });
     findMins();
     findMaxs();
-    // console.log(data);
-  })
+  });
 
   var hitbtcChannel = pusher.subscribe('hitbtc-channel');
   hitbtcChannel.bind('update', function(data){
@@ -192,7 +193,6 @@ function MainController ($state, $pusher, marketService) {
     });
     findMins();
     findMaxs();
-    // console.log(vm.hitbtcMkt);
-  })
+  });
 
 }
