@@ -20,31 +20,27 @@ function MainController ($state, $pusher, marketService) {
   vm.activeDec = vm.decimals[vm.activeMkt];
   vm.activeTickers = [];
   vm.adjustDec = adjustDec;
+  vm.currSort = vm.spreadFilter;
   vm.showSearch = function () {
     if (!vm.searchActive) {
       vm.searchActive = true;
     }
   };
   vm.spread = function (max, min) {
-    return ((max-min)/max)
+    return ((max-min)/max);
+  };
+
+  vm.currencyToggle = function () {
+    if (vm.currSort !== '-full_name') {
+      vm.currSort = '-full_name';
+    } else {
+      vm.currSort = "full_name";
+    };
   };
 
   vm.spreadFilter = function(ticker) {
     return -((ticker.maxs[vm.activeMkt] - ticker.mins[vm.activeMkt])/ticker.maxs[vm.activeMkt])
   };
-
-  // vm.spreadFilter = function (ticker) {
-  //   if (ticker) {
-  //       return function (ticker) {
-  //       // for (var i=0; i<currencies.length; i++) {
-  //         // var currency = currencies[i];
-  //       ticker.spread = ((ticker.maxs[activeMkt] - ticker.mins[activeMkt])/ticker.maxs[activeMkt])
-  //       // };
-  //       return ticker;
-  //     }
-  //   };
-  // }
-
 
   (function getSymbols () {
     marketService.getSymbols().then(function(res){

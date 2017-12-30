@@ -118,7 +118,15 @@ bittrex.websockets.listen(function(data, client) {
 
 binanceWs.on('message', function incoming(feed){
   var binanceMkt = {};
-  var data = JSON.parse(feed);
+  var data;
+  try {
+    data = JSON.parse(feed);
+  } catch (e) {
+    console.log(e);
+  } finally {
+    data = JSON.parse(feed);
+  }
+  // var data = JSON.parse(feed);
   data.forEach(function(ticker){
     var last = (parseFloat(ticker['b']) + parseFloat(ticker['a']))/2;
     binanceMkt[ticker['s']] = last;
