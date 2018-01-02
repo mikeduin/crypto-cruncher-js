@@ -48,6 +48,7 @@
           <th>Bittrex</th>
           <th>Binance</th>
           <th>HitBTC</th>
+          <th>Cryptopia</th>
         </tr>
       </thead>
       <tbody>
@@ -61,6 +62,7 @@
           <td ng-class="{buy: vm.bittrexMkt[ticker.market[vm.activeMkt]['bittrex']] == ticker.mins[vm.activeMkt], sell: vm.bittrexMkt[ticker.market[vm.activeMkt]['bittrex']] == ticker.maxs[vm.activeMkt]}"> {{vm.bittrexMkt[ticker.market[vm.activeMkt]['bittrex']] | number: vm.activeDec}} </td>
           <td ng-class="{buy: vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] == ticker.mins[vm.activeMkt], sell: vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] == ticker.maxs[vm.activeMkt]}"> {{vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] | number: vm.activeDec}} </td>
           <td ng-class="{buy: vm.hitbtcMkt[ticker.market[vm.activeMkt]['hitbtc']] == ticker.mins[vm.activeMkt], sell: vm.hitbtcMkt[ticker.market[vm.activeMkt]['hitbtc']] == ticker.maxs[vm.activeMkt]}"> {{vm.hitbtcMkt[ticker.market[vm.activeMkt]['hitbtc']] | number: vm.activeDec}} </td>
+          <td ng-class="{buy: vm.cryptopiaMkt[ticker.market[vm.activeMkt]['cryptopia']] == ticker.mins[vm.activeMkt], sell: vm.cryptopiaMkt[ticker.market[vm.activeMkt]['cryptopia']] == ticker.maxs[vm.activeMkt]}"> {{vm.cryptopiaMkt[ticker.market[vm.activeMkt]['cryptopia']] | number: vm.activeDec}} </td>
         </tr>
       </tbody>
     </table>
