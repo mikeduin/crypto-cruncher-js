@@ -12,6 +12,7 @@ function MainController ($state, $pusher, marketService) {
   vm.binanceMkt = {};
   vm.hitbtcMkt = {};
   vm.gdaxMkt = {};
+  vm.cryptopiaMkt = {};
   vm.mins = {};
   vm.maxs = {};
   vm.searchActive = false;
@@ -103,6 +104,9 @@ function MainController ($state, $pusher, marketService) {
       if (vm.hitbtcMkt[vm.activeTickers[i].market['BTC']['hitbtc']]) {
         btcMins.push(vm.hitbtcMkt[vm.activeTickers[i].market['BTC']['hitbtc']]);
       };
+      if (vm.cryptopiaMkt[vm.activeTickers[i].market['BTC']['cryptopia']]) {
+        btcMins.push(vm.cryptopiaMkt[vm.activeTickers[i].market['BTC']['cryptopia']]);
+      };
       if (vm.gdaxMkt[vm.activeTickers[i].market['ETH']['gdax']]) {
         ethMins.push(vm.gdaxMkt[vm.activeTickers[i].market['ETH']['gdax']]);
       };
@@ -152,6 +156,9 @@ function MainController ($state, $pusher, marketService) {
       };
       if (vm.hitbtcMkt[vm.activeTickers[i].market['BTC']['hitbtc']]) {
         btcMaxs.push(vm.hitbtcMkt[vm.activeTickers[i].market['BTC']['hitbtc']]);
+      };
+      if (vm.cryptopiaMkt[vm.activeTickers[i].market['BTC']['cryptopia']]) {
+        btcMaxs.push(vm.cryptopiaMkt[vm.activeTickers[i].market['BTC']['cryptopia']]);
       };
       if (vm.gdaxMkt[vm.activeTickers[i].market['ETH']['gdax']]) {
         ethMaxs.push(vm.gdaxMkt[vm.activeTickers[i].market['ETH']['gdax']]);
@@ -210,6 +217,15 @@ function MainController ($state, $pusher, marketService) {
   hitbtcChannel.bind('update', function(data){
     Object.keys(data).forEach(function(key){
       vm.hitbtcMkt[key] = data[key];
+    });
+    findMins();
+    findMaxs();
+  });
+
+  var cryptopiaChannel = pusher.subscribe('cryptopia-channel');
+  cryptopiaChannel.bind('update', function(data){
+    Object.keys(data).forEach(function(key){
+      vm.cryptopiaMkt[key] = data[key];
     });
     findMins();
     findMaxs();

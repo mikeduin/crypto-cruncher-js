@@ -30,6 +30,7 @@ router.get('/getSymbols', function(req, res, next){
     .leftJoin('gdax as g', 'g.mySymbol', 'i.mySymbol')
     .leftJoin('binance as bin', 'bin.mySymbol', 'i.mySymbol')
     .leftJoin('hitbtc as hit', 'hit.mySymbol', 'i.mySymbol')
+    .leftJoin('cryptopia as cry', 'cry.mySymbol', 'i.mySymbol')
     .select('i.mySymbol as symbol',
       'i.name as name',
       'g.btc as g.btc',
@@ -42,7 +43,8 @@ router.get('/getSymbols', function(req, res, next){
       'bin.eth as bin.eth',
       'hit.btc as hit.btc',
       'hit.usd as hit.usd',
-      'hit.eth as hit.eth'
+      'hit.eth as hit.eth',
+      'cry.btc as cry.btc'
     )
     .then(function(ticker){
       var marketIndex = [];
@@ -62,7 +64,8 @@ router.get('/getSymbols', function(req, res, next){
               'gdax': ticker[i]['g.btc'],
               'bittrex': ticker[i]['bitt.btc'],
               'binance': ticker[i]['bin.btc'],
-              'hitbtc': ticker[i]['hit.btc']
+              'hitbtc': ticker[i]['hit.btc'],
+              'cryptopia': ticker[i]['cry.btc']
             },
             'ETH': {
               'gdax': ticker[i]['g.eth'],
@@ -86,22 +89,21 @@ setInterval(function(req, res, next){
       hitbtcMkt[token.symbol] = token.last
     });
     pusher.trigger('hitbtc-channel', 'update', hitbtcMkt);
-  })
+  });
 }, 4000);
 
-// setInterval(function(req, res, next){
-//   fetch('https://www.cryptopia.co.nz/api/GetTradePairs').then(function(res){
-//     return res.json();
-//   }).then(function(data){
-//     var markets = data.Data;
-//     markets.forEach(function(pair){
-//       var baseCurrs = ['Bitcoin', 'Tether', 'Ethereum'];
-//       if(baseCurrs.indexOf(pair.BaseCurrency) !== -1) {
-//         console.log(pair.Label, " ", pair.Currency)
-//       };
-//     })
-//   })
-// }, 2000);
+setInterval(function(req, res, next){
+  fetch('https://www.cryptopia.co.nz/api/GetMarkets/BTC').then(function(res){
+    return res.json();
+  }).then(function(data){
+    var markets = data.Data;
+    var cryptopiaMkt = {};
+    markets.forEach(function(token){
+      cryptopiaMkt[token.Label] = token.LastPrice;
+    });
+    pusher.trigger('cryptopia-channel', 'update', cryptopiaMkt);
+  });
+}, 4000);
 
 
 bittrex.websockets.listen(function(data, client) {
