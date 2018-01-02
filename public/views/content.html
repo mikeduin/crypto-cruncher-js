@@ -30,8 +30,9 @@
   <div class="sortRow">
     <div class="">
       Sort By:
-      <span ng-click="vm.currencyToggle()">Currency [A-Z]</span>
-      | Spread ... Autosort is: ON | OFF
+      <span ng-click="vm.currencyToggle()">Currency <span>[A-Z]</span>
+      |
+      <span ng-click="vm.spreadToggle()">Spread</span>
     </div>
   </div>
   <div class="row">
@@ -50,7 +51,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="ticker in vm.activeTickers | orderBy: vm.currSort">
+        <tr ng-repeat="ticker in vm.activeTickers">
           <td> {{ticker.full_name}} </td>
           <td> <span ng-click="vm.removeCurr(ticker)" tooltipped data-position="left" data-delay="20" data-tooltip="Remove"><i class="fa fa-times-circle" aria-hidden="true"></i></span> </td>
           <td> {{ticker.mins[vm.activeMkt] | number: vm.activeDec}} </td>

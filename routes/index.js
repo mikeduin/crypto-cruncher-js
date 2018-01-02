@@ -130,8 +130,8 @@ binanceWs.on('message', function incoming(feed){
   data.forEach(function(ticker){
     var last = (parseFloat(ticker['b']) + parseFloat(ticker['a']))/2;
     binanceMkt[ticker['s']] = last;
-  })
-  pusher.trigger('binance-channel', 'update', binanceMkt)
+  });
+  pusher.trigger('binance-channel', 'update', binanceMkt);
 });
 
 gdaxWs.on('open', function open() {

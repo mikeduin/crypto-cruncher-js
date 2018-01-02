@@ -20,7 +20,7 @@ function MainController ($state, $pusher, marketService) {
   vm.activeDec = vm.decimals[vm.activeMkt];
   vm.activeTickers = [];
   vm.adjustDec = adjustDec;
-  vm.currSort = vm.spreadFilter;
+  // vm.currSort = null;
   vm.showSearch = function () {
     if (!vm.searchActive) {
       vm.searchActive = true;
@@ -30,17 +30,26 @@ function MainController ($state, $pusher, marketService) {
     return ((max-min)/max);
   };
 
-  vm.currencyToggle = function () {
-    if (vm.currSort !== '-full_name') {
-      vm.currSort = '-full_name';
-    } else {
-      vm.currSort = "full_name";
-    };
-  };
-
-  vm.spreadFilter = function(ticker) {
-    return -((ticker.maxs[vm.activeMkt] - ticker.mins[vm.activeMkt])/ticker.maxs[vm.activeMkt])
-  };
+  // vm.currencyToggle = function () {
+  //   if (!vm.currSort || vm.currSort === "full_name") {
+  //     vm.currSort = '-full_name';
+  //   } else {
+  //     vm.currSort = "full_name";
+  //   };
+  // };
+  //
+  // vm.spreadToggle = function () {
+  //   vm.currSort = null;
+  //   vm.autoSpreadSort = vm.autoSpreadSort;
+  // };
+  //
+  // vm.autoSpreadSort = function(ticker) {
+  //   if (!vm.currSort) {
+  //     return -((ticker.maxs[vm.activeMkt] - ticker.mins[vm.activeMkt])/ticker.maxs[vm.activeMkt])
+  //   } else {
+  //     return ticker['full_name'];
+  //   };
+  // };
 
   (function getSymbols () {
     marketService.getSymbols().then(function(res){
@@ -113,7 +122,6 @@ function MainController ($state, $pusher, marketService) {
         'ETC': Math.min.apply(null, ethMins)
       }
     };
-    console.log(vm.activeTickers);
   };
 
   function findMaxs () {
