@@ -123,7 +123,7 @@ function MainController ($state, $pusher, marketService) {
       vm.activeTickers[i]['mins'] = {
         'USD': Math.min.apply(null, usdMins),
         'BTC': Math.min.apply(null, btcMins),
-        'ETC': Math.min.apply(null, ethMins)
+        'ETH': Math.min.apply(null, ethMins)
       }
     };
   };
@@ -176,7 +176,7 @@ function MainController ($state, $pusher, marketService) {
       vm.activeTickers[i]['maxs'] = {
         'USD': Math.max.apply(null, usdMaxs),
         'BTC': Math.max.apply(null, btcMaxs),
-        'ETC': Math.max.apply(null, ethMaxs)
+        'ETH': Math.max.apply(null, ethMaxs)
       };
     };
   };
