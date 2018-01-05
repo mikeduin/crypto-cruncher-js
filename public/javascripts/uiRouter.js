@@ -35,4 +35,24 @@ function siteConfig($stateProvider, $urlRouterProvider, $locationProvider) {
         }
       }
     })
+    .state('home.login', {
+      url: 'login',
+      views: {
+        'content@': {
+          templateUrl: 'views/login.html',
+          controller: 'AuthController',
+          controllerAs: 'vm'
+        }
+      }
+    })
+    .state('home.register', {
+      url: 'register',
+      views: {
+        'content@': {
+          templateUrl: 'views/register.html',
+          controller: 'AuthController',
+          controllerAs: 'vm'
+        }
+      }
+    })
 }
