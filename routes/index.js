@@ -6,7 +6,6 @@ var binanceWs = new WebSocket('wss://stream.binance.com:9443/ws/!ticker@arr');
 var gdaxWs = new WebSocket('wss://ws-feed.gdax.com');
 var fetch = require('node-fetch');
 var knex = require('../db/knex');
-
 var Pusher = require('pusher');
 
 /* GET home page. */

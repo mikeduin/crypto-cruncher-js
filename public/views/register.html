@@ -1,5 +1,5 @@
 <div class="row">
-  <form ng-submit="vm.login(user)">
+  <form ng-submit="vm.register(user)">
     <div class="row">
       <div class="col s3 offset-s1 input-field">
         <input type="text" id="first_name" class="validate" ng-model="user.first">
@@ -31,7 +31,9 @@
       </div>
     </div>
     <div class="row">
-
+      <div class="col s3 offset-s2">
+        <button type="submit" class="btn">Register</button>
+      </div>
     </div>
   </form>
 </div>

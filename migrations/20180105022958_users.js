@@ -9,6 +9,7 @@ exports.up = function(knex, Promise) {
     t.string('salt');
     t.string('resetPasswordToken');
     t.date('resetPasswordExpires');
+    t.boolean('admin');
   })
 };
 
