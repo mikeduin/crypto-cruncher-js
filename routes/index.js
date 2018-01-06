@@ -51,7 +51,7 @@ router.get('/getSymbols', function(req, res, next){
         marketIndex.push({
           'name': ticker[i].name,
           'symbol': ticker[i].symbol,
-          'full_name': ticker[i].name + ' (' + ticker[i].symbol + ')',
+          'full_name': ticker[i].symbol+ ' (' + ticker[i].name + ')',
           market: {
             'USD': {
               'gdax': ticker[i]['g.usd'],
