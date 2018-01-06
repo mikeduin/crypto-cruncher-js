@@ -28,7 +28,7 @@ function MainController ($state, $pusher, marketService) {
     }
   };
   vm.spread = function (max, min) {
-    return ((max-min)/max);
+    return ((max-min)/min);
   };
 
   // vm.currencyToggle = function () {
