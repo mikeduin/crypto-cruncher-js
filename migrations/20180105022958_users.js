@@ -10,6 +10,7 @@ exports.up = function(knex, Promise) {
     t.string('resetPasswordToken');
     t.date('resetPasswordExpires');
     t.boolean('admin');
+    t.specificType('favorites', 'jsonb[]');
   })
 };
 
