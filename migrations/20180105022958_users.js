@@ -3,8 +3,8 @@ exports.up = function(knex, Promise) {
     t.increments();
     t.string('first');
     t.string('last');
-    t.string('username');
-    t.string('email');
+    t.string('username').unique();
+    t.string('email').unique();
     t.string('hash');
     t.string('salt');
     t.string('resetPasswordToken');

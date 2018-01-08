@@ -2,7 +2,7 @@ angular
   .module('cryptoCruncher')
   .factory('authService', ['$http', '$window', authService])
 
-function AuthService ($http, $window) {
+function authService ($http, $window) {
 
   var auth = {};
 
@@ -37,18 +37,19 @@ function AuthService ($http, $window) {
 
   auth.register = function(user) {
     return $http.post('/users/register', user)
-    .success(function(data){
+    .then(function(data){
+      console.log('success data is ', data);
       auth.saveToken(data.token);
     });
   };
 
   auth.login = function(user){
     return $http.post('/users/login', user)
-    .success(function(dats){
+    .then(function(data){
+      if (err) {return err};
+
       auth.saveToken(data.token);
-    }).error(function(response){
-      return(response);
-    });
+    })
   };
 
   auth.logout = function(){

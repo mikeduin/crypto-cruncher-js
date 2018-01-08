@@ -3,7 +3,7 @@ var router = express.Router();
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 var passport = require('passport');
-require('dotenv').load();
+var knex = require ('../db/knex');
 
 function Users () {
   return knex('users');
@@ -49,6 +49,7 @@ router.post('/register', function(req, res, next) {
     salt: salt,
     hash: hash,
   }, '*').then(function(user){
+    // console.log('user in res is ', user);
     res.json({token: generateJWT(user)});
   });
 });

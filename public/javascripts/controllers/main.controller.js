@@ -266,10 +266,10 @@ function MainController ($state, $pusher, marketService) {
 
   var cryptopiaVolume = pusher.subscribe('cryptopia-vol');
   cryptopiaVolume.bind('update', function(data){
+    console.log('hello');
     Object.keys(data).forEach(function(key){
       vm.cryptopiaVol[key] = data[key];
     });
-    console.log(vm.cryptopiaVol);
   });
 
 }
