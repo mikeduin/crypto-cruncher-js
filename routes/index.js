@@ -21,6 +21,20 @@ var pusher = new Pusher({
   encrypted: true
 });
 
+var binanceVol = {};
+var gdaxVol = {};
+var bittrexVol = {};
+var hitbtcVol = {};
+var cryptopiaVol = {};
+
+setInterval(function(){
+  pusher.trigger('binance-vol', 'update', binanceVol);
+  pusher.trigger('bittrex-vol', 'update', bittrexVol);
+  pusher.trigger('gdax-vol', 'update', gdaxVol);
+  pusher.trigger('cryptopia-vol', 'update', cryptopiaVol);
+  pusher.trigger('hitbtc-vol', 'update', hitbtcVol);
+}, 10000);
+
 console.log('Connecting ....');
 
 router.get('/getSymbols', function(req, res, next){
@@ -85,7 +99,8 @@ setInterval(function(req, res, next){
   }).then(function(ticker){
     var hitbtcMkt = {};
     ticker.forEach(function(token){
-      hitbtcMkt[token.symbol] = token.last
+      hitbtcMkt[token.symbol] = token.last;
+      hitbtcVol[token.symbol] = token.volume;
     });
     pusher.trigger('hitbtc-channel', 'update', hitbtcMkt);
   });
@@ -99,6 +114,7 @@ setInterval(function(req, res, next){
     var cryptopiaMkt = {};
     markets.forEach(function(token){
       cryptopiaMkt[token.Label] = token.LastPrice;
+      cryptopiaVol[token.Label] = token.Volume;
     });
     pusher.trigger('cryptopia-channel', 'update', cryptopiaMkt);
   });
@@ -111,6 +127,7 @@ bittrex.websockets.listen(function(data, client) {
     data.A.forEach(function(data_for) {
       data_for.Deltas.forEach(function(marketsDelta) {
         bittrexMkt[marketsDelta.MarketName] = marketsDelta.Last;
+        bittrexVol[marketsDelta.MarketName] = marketsDelta.Volume;
       });
     });
   }
@@ -126,11 +143,12 @@ binanceWs.on('message', function incoming(feed){
     console.log(e);
   } finally {
     data = JSON.parse(feed);
-  }
-  // var data = JSON.parse(feed);
+  };
   data.forEach(function(ticker){
     var last = (parseFloat(ticker['b']) + parseFloat(ticker['a']))/2;
+    var vol = parseInt(ticker['v']);
     binanceMkt[ticker['s']] = last;
+    binanceVol[ticker['s']] = vol;
   });
   pusher.trigger('binance-channel', 'update', binanceMkt);
 });
@@ -160,6 +178,7 @@ gdaxWs.on('message', function incoming(feed){
   count++;
   var data = JSON.parse(feed);
   gdaxMkt[data['product_id']] = data['price'];
+  gdaxVol[data['product_id']] = data['volume_24h'];
   if (count % 4 === 0) {
     pusher.trigger('gdax-channel', 'update', gdaxMkt);
   };

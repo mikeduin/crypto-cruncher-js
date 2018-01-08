@@ -9,10 +9,15 @@ function MainController ($state, $pusher, marketService) {
 
   var vm = this;
   vm.bittrexMkt = {};
+  vm.bittrexVol = {};
   vm.binanceMkt = {};
+  vm.binanceVol = {};
   vm.hitbtcMkt = {};
+  vm.hitbtcVol = {};
   vm.gdaxMkt = {};
+  vm.gdaxVol = {};
   vm.cryptopiaMkt = {};
+  vm.cryptopiaVol = {};
   vm.mins = {};
   vm.maxs = {};
   vm.searchActive = false;
@@ -195,6 +200,13 @@ function MainController ($state, $pusher, marketService) {
     findMaxs();
   });
 
+  var bittrexVolume = pusher.subscribe('bittrex-vol');
+  bittrexVolume.bind('update', function(data){
+    Object.keys(data).forEach(function(key){
+      vm.bittrexVol[key] = data[key];
+    });
+  });
+
   var binanceChannel = pusher.subscribe('binance-channel');
   binanceChannel.bind('update', function(data){
     Object.keys(data).forEach(function(key){
@@ -202,6 +214,13 @@ function MainController ($state, $pusher, marketService) {
     });
     findMins();
     findMaxs();
+  });
+
+  var binanceVolume = pusher.subscribe('binance-vol');
+  binanceVolume.bind('update', function(data){
+    Object.keys(data).forEach(function(key){
+      vm.binanceVol[key] = data[key];
+    });
   });
 
   var gdaxChannel = pusher.subscribe('gdax-channel');
@@ -213,6 +232,13 @@ function MainController ($state, $pusher, marketService) {
     findMaxs();
   });
 
+  var gdaxVolume = pusher.subscribe('gdax-vol');
+  gdaxVolume.bind('update', function(data){
+    Object.keys(data).forEach(function(key){
+      vm.gdaxVol[key] = data[key];
+    });
+  });
+
   var hitbtcChannel = pusher.subscribe('hitbtc-channel');
   hitbtcChannel.bind('update', function(data){
     Object.keys(data).forEach(function(key){
@@ -222,6 +248,13 @@ function MainController ($state, $pusher, marketService) {
     findMaxs();
   });
 
+  var hitbtcVolume = pusher.subscribe('hitbtc-vol');
+  hitbtcVolume.bind('update', function(data){
+    Object.keys(data).forEach(function(key){
+      vm.hitbtcVol[key] = data[key];
+    });
+  });
+
   var cryptopiaChannel = pusher.subscribe('cryptopia-channel');
   cryptopiaChannel.bind('update', function(data){
     Object.keys(data).forEach(function(key){
@@ -229,6 +262,14 @@ function MainController ($state, $pusher, marketService) {
     });
     findMins();
     findMaxs();
+  });
+
+  var cryptopiaVolume = pusher.subscribe('cryptopia-vol');
+  cryptopiaVolume.bind('update', function(data){
+    Object.keys(data).forEach(function(key){
+      vm.cryptopiaVol[key] = data[key];
+    });
+    console.log(vm.cryptopiaVol);
   });
 
 }
