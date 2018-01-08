@@ -76,6 +76,12 @@ function MainController ($state, $pusher, marketService) {
     vm.activeTickers.splice(index, 1);
   };
 
+  vm.moveToTop = function (ticker) {
+    var index = vm.activeTickers.indexOf(ticker);
+    vm.activeTickers.splice(index, 1);
+    vm.activeTickers.unshift(ticker);
+  }
+
   function adjustDec () {
     vm.activeDec = vm.decimals[vm.activeMkt];
   }
