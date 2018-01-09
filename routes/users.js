@@ -49,7 +49,6 @@ router.post('/register', function(req, res, next) {
     salt: salt,
     hash: hash,
   }, '*').then(function(user){
-    // console.log('user in res is ', user);
     res.json({token: generateJWT(user)});
   });
 });
@@ -63,12 +62,13 @@ router.post('/login', function(req, res, next){
     if(err){ return next(err); }
 
     if(user){
+      console.log('user is ', user);
       return res.json({token: generateJWT(user)});
     } else {
       return res.status(401).json(info);
     }
   })(req, res, next);
-});
+})
 
 
 module.exports = router;

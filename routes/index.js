@@ -33,7 +33,7 @@ setInterval(function(){
   pusher.trigger('gdax-vol', 'update', gdaxVol);
   pusher.trigger('cryptopia-vol', 'update', cryptopiaVol);
   pusher.trigger('hitbtc-vol', 'update', hitbtcVol);
-}, 120000);
+}, 360000);
 
 console.log('Connecting ....');
 

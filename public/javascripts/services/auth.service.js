@@ -38,17 +38,16 @@ function authService ($http, $window) {
   auth.register = function(user) {
     return $http.post('/users/register', user)
     .then(function(data){
-      console.log('success data is ', data);
-      auth.saveToken(data.token);
+      var token = data.data.token;
+      auth.saveToken(token);
     });
   };
 
   auth.login = function(user){
     return $http.post('/users/login', user)
     .then(function(data){
-      if (err) {return err};
-
-      auth.saveToken(data.token);
+      var token = data.data.token;
+      auth.saveToken(token);
     })
   };
 

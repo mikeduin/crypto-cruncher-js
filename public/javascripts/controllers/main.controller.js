@@ -80,11 +80,11 @@ function MainController ($state, $pusher, marketService) {
     var index = vm.activeTickers.indexOf(ticker);
     vm.activeTickers.splice(index, 1);
     vm.activeTickers.unshift(ticker);
-  }
+  };
 
   function adjustDec () {
     vm.activeDec = vm.decimals[vm.activeMkt];
-  }
+  };
 
   function findMins () {
     for (var i=0; i<vm.activeTickers.length; i++) {

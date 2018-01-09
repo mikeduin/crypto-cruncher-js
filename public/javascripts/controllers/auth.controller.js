@@ -17,11 +17,9 @@ function AuthController ($state, authService) {
 
   vm.login = function(user){
     authService.login(user).then(function(){
-      if (err) {
-        vm.error = err.message;
-      } else {
-        $state.go('home');
-      };
+      $state.go('home');
+    }).catch(function(){
+      console.log("error!");
     });
   };
 
