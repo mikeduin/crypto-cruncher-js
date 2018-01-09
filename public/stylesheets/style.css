@@ -42,3 +42,15 @@
 .wrapper {
   padding: 0 0 200px 0;
 }
+
+.fa-star:hover {
+    color: #C9B057;
+}
+
+.fa-arrow-up:hover {
+  color: #11A62A;
+}
+
+.fa-times-circle:hover {
+  color: #AC2A21;
+}

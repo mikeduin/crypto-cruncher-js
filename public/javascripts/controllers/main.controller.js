@@ -1,8 +1,8 @@
 angular
   .module('cryptoCruncher')
-  .controller('MainController', ['$state', '$pusher', 'marketService', MainController])
+  .controller('MainController', ['$state', '$pusher', 'marketService', 'authService', MainController])
 
-function MainController ($state, $pusher, marketService) {
+function MainController ($state, $pusher, marketService, authService) {
   $(document).ready(function() {
     $('select').material_select();
   });
