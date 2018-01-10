@@ -329,14 +329,6 @@ function MainController ($state, $pusher, marketService, authService, userServic
     findMaxs();
   });
 
-  var cryptopiaVolume = pusher.subscribe('whatever-vol');
-  cryptopiaVolume.bind('update', function(data){
-    console.log('cryptopia vol hit');
-    Object.keys(data).forEach(function(key){
-      vm.cryptopiaVol[key] = data[key];
-    });
-  });
-
   var cryptopiaPs = pusher.subscribe('cryptopia-p');
   cryptopiaPs.bind('update', function(data){
     Object.keys(data).forEach(function(key){
@@ -344,5 +336,11 @@ function MainController ($state, $pusher, marketService, authService, userServic
     });
     console.log(vm.cryptopiaPs);
   });
+
+  setInterval(function(){
+    marketService.fetchCryptopiaVol().then(function(volume){
+      vm.cryptopiaVol = volume;
+    })
+  }, 60000);
 
 }

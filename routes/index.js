@@ -26,24 +26,20 @@ var gdaxVol = {};
 var bittrexVol = {};
 var hitbtcVol = {};
 var cryptopiaVol = {};
-
 var binancePs = {};
 var cryptopiaPs = {};
 
+console.log('Connecting ....');
+
 setInterval(function(){
-  // console.log('binanceVol is ', binanceVol);
-  // console.log('cryptopiaVol is ', cryptopiaVol);
-  // console.log('cryptopiaVol is ', cryptopiaVol);
   pusher.trigger('binance-vol', 'update', binanceVol);
-  // pusher.trigger('binance-p', 'update', binancePs);
+  pusher.trigger('binance-p', 'update', binancePs);
   pusher.trigger('bittrex-vol', 'update', bittrexVol);
   pusher.trigger('gdax-vol', 'update', gdaxVol);
-  // pusher.trigger('cryptopia-p', 'update', cryptopiaPs);
+  pusher.trigger('cryptopia-p', 'update', cryptopiaPs);
   pusher.trigger('hitbtc-vol', 'update', hitbtcVol);
   pusher.trigger('whatever-vol', 'update', cryptopiaVol);
 }, 60000);
-
-console.log('Connecting ....');
 
 router.get('/getSymbols', function(req, res, next){
   knex('index as i')
@@ -99,6 +95,10 @@ router.get('/getSymbols', function(req, res, next){
       };
       res.json(marketIndex);
   });
+})
+
+router.get('/cryptopiaVol', function(req, res, next){
+  res.json(cryptopiaVol);
 })
 
 setInterval(function(req, res, next){
