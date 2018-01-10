@@ -14,6 +14,10 @@
   font-weight: 800;
 }
 
+.favorite {
+  color: #C9B057;
+}
+
 .down {
   color: red;
   font-size: 12px;

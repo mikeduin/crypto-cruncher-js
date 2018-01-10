@@ -90,13 +90,21 @@ function MainController ($state, $pusher, marketService, authService, userServic
   };
 
   vm.toggleFav = function (symbol) {
-    // console.log(ticker);
-    // add to favorites
-    // remember to add logic to ONLY add if it is not already in favorites
-    userService.addFav(vm.currentUser(), symbol).then(function(added){
-      vm.userFavs.push(added[0].symbol);
-      console.log('res in cont is ', res);
-    })
+    if (!authService.currentUser()){
+      alert('Log in to save favorite symbols');
+      return
+    };
+    if (vm.userFavs.indexOf(symbol) == -1) {
+      // add favorite
+      userService.addFav(vm.currentUser(), symbol).then(function(added){
+        vm.userFavs.push(added[0].symbol);
+      })
+    } else {
+      userService.removeFav(vm.currentUser(), symbol).then(function(deleted){
+        var index = vm.userFavs.indexOf(deleted);
+        vm.userFavs.splice(deleted, 1);
+      })
+    }
   };
 
   vm.favsToTable = function() {

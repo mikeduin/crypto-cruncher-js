@@ -73,17 +73,6 @@ router.post('/login', function(req, res, next){
   })(req, res, next);
 })
 
-router.put('/addFav', function(req, res, next){
-  var username = req.body.user;
-  var symbol = req.body.symbol;
-  Favorites().insert({
-    username: username,
-    symbol: symbol
-  }, '*').then(function(added){
-    res.json(added);
-  })
-})
-
 router.get('/allFavs/:user', function(req, res, next){
   var username = req.params.user;
   var favs = [];
@@ -95,6 +84,30 @@ router.get('/allFavs/:user', function(req, res, next){
     return res.json(favs);
   })
 })
+
+router.put('/addFav', function(req, res, next){
+  var username = req.body.user;
+  var symbol = req.body.symbol;
+  Favorites().insert({
+    username: username,
+    symbol: symbol
+  }, '*').then(function(added){
+    res.json(added);
+  })
+})
+
+router.delete('/deleteFav/:username/:symbol', function(req, res, next){
+  var username = req.params.username;
+  var symbol = req.params.symbol;
+  Favorites().where({
+    username: username,
+    symbol: symbol
+  }).del().then(function(){
+    res.json(symbol);
+  })
+})
+
+
 
 
 module.exports = router;

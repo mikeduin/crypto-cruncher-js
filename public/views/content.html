@@ -51,7 +51,7 @@
       <tbody>
         <tr ng-repeat="ticker in vm.activeTickers">
           <td> {{ticker.full_name}} <br> <span ng-class="{up: vm.binancePs[ticker.market[vm.activeMkt]['binance']] > 0, down: vm.binancePs[ticker.market[vm.activeMkt]['binance']] < 0}"> {{vm.binancePs[ticker.market[vm.activeMkt]['binance']] | number: 2}}% </span></td>
-          <td> <span ng-click="vm.toggleFav(ticker.symbol)" tooltipped data-position="left" data-delay="10" data-tooltip="Favorite"><i class="fa fa-star" aria-hidden="true"></i></span> </td>
+          <td> <span ng-click="vm.toggleFav(ticker.symbol)" tooltipped data-position="left" data-delay="10" data-tooltip="Favorite"><i ng-class="{favorite: vm.userFavs.indexOf(ticker.symbol) !== -1}" class="fa fa-star" aria-hidden="true"></i></span> </td>
           <td> <span ng-click="vm.moveToTop(ticker)" tooltipped data-position="top" data-delay="10" data-tooltip="Move to Top"><i class="fa fa-arrow-up" aria-hidden="true"></i></span> </td>
           <td> <span ng-click="vm.removeCurr(ticker)" tooltipped data-position="right" data-delay="10" data-tooltip="Remove"><i class="fa fa-times-circle" aria-hidden="true"></i></span> </td>
           <td> {{ticker.mins[vm.activeMkt] | number: vm.activeDec}} </td>
