@@ -35,13 +35,13 @@ setInterval(function(){
   // console.log('cryptopiaVol is ', cryptopiaVol);
   // console.log('cryptopiaVol is ', cryptopiaVol);
   pusher.trigger('binance-vol', 'update', binanceVol);
-  pusher.trigger('binance-p', 'update', binancePs);
+  // pusher.trigger('binance-p', 'update', binancePs);
   pusher.trigger('bittrex-vol', 'update', bittrexVol);
   pusher.trigger('gdax-vol', 'update', gdaxVol);
-  pusher.trigger('cryptopia-p', 'update', cryptopiaPs);
+  // pusher.trigger('cryptopia-p', 'update', cryptopiaPs);
   pusher.trigger('hitbtc-vol', 'update', hitbtcVol);
   pusher.trigger('whatever-vol', 'update', cryptopiaVol);
-}, 10000);
+}, 60000);
 
 console.log('Connecting ....');
 
