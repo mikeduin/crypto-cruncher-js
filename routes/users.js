@@ -80,7 +80,6 @@ router.get('/allFavs/:user', function(req, res, next){
     for (var i=0; i<data.length; i++) {
       favs.push(data[i].symbol);
     };
-    console.log('favs are ', favs);
     return res.json(favs);
   })
 })
@@ -106,8 +105,5 @@ router.delete('/deleteFav/:username/:symbol', function(req, res, next){
     res.json(symbol);
   })
 })
-
-
-
 
 module.exports = router;

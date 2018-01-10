@@ -28,14 +28,19 @@ var hitbtcVol = {};
 var cryptopiaVol = {};
 
 var binancePs = {};
+var cryptopiaPs = {};
 
 setInterval(function(){
+  // console.log('binanceVol is ', binanceVol);
+  // console.log('cryptopiaVol is ', cryptopiaVol);
+  // console.log('cryptopiaVol is ', cryptopiaVol);
   pusher.trigger('binance-vol', 'update', binanceVol);
   pusher.trigger('binance-p', 'update', binancePs);
   pusher.trigger('bittrex-vol', 'update', bittrexVol);
   pusher.trigger('gdax-vol', 'update', gdaxVol);
-  pusher.trigger('cryptopia-vol', 'update', cryptopiaVol);
+  pusher.trigger('cryptopia-p', 'update', cryptopiaPs);
   pusher.trigger('hitbtc-vol', 'update', hitbtcVol);
+  pusher.trigger('whatever-vol', 'update', cryptopiaVol);
 }, 10000);
 
 console.log('Connecting ....');
@@ -118,8 +123,8 @@ setInterval(function(req, res, next){
     markets.forEach(function(token){
       cryptopiaMkt[token.Label] = token.LastPrice;
       cryptopiaVol[token.Label] = token.Volume;
+      cryptopiaPs[token.Label] = token.Change;
     });
-    // console.log('cryptopiaVol is ', cryptopiaVol);
     pusher.trigger('cryptopia-channel', 'update', cryptopiaMkt);
   });
 }, 4000);
@@ -151,7 +156,7 @@ binanceWs.on('message', function incoming(feed){
   data.forEach(function(ticker){
     var last = (parseFloat(ticker['b']) + parseFloat(ticker['a']))/2;
     var vol = parseInt(ticker['v']);
-    var perc = parseFloat(ticker['P']/100);
+    var perc = parseFloat(ticker['P']);
     binanceMkt[ticker['s']] = last;
     binanceVol[ticker['s']] = vol;
     binancePs[ticker['s']] = perc;

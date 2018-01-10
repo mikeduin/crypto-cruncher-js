@@ -19,6 +19,7 @@ function MainController ($state, $pusher, marketService, authService, userServic
   vm.gdaxVol = {};
   vm.cryptopiaMkt = {};
   vm.cryptopiaVol = {};
+  vm.cryptopiaPs = {};
   vm.mins = {};
   vm.maxs = {};
   vm.searchActive = false;
@@ -100,6 +101,7 @@ function MainController ($state, $pusher, marketService, authService, userServic
         vm.userFavs.push(added[0].symbol);
       })
     } else {
+      // remove favorite
       userService.removeFav(vm.currentUser(), symbol).then(function(deleted){
         var index = vm.userFavs.indexOf(deleted);
         vm.userFavs.splice(index, 1);
@@ -283,6 +285,7 @@ function MainController ($state, $pusher, marketService, authService, userServic
     Object.keys(data).forEach(function(key){
       vm.binancePs[key] = data[key];
     });
+    console.log(vm.binancePs);
   });
 
   var gdaxChannel = pusher.subscribe('gdax-channel');
@@ -326,11 +329,20 @@ function MainController ($state, $pusher, marketService, authService, userServic
     findMaxs();
   });
 
-  var cryptopiaVolume = pusher.subscribe('cryptopia-vol');
+  var cryptopiaVolume = pusher.subscribe('whatever-vol');
   cryptopiaVolume.bind('update', function(data){
+    console.log('cryptopia vol hit');
     Object.keys(data).forEach(function(key){
       vm.cryptopiaVol[key] = data[key];
     });
+  });
+
+  var cryptopiaPs = pusher.subscribe('cryptopia-p');
+  cryptopiaPs.bind('update', function(data){
+    Object.keys(data).forEach(function(key){
+      vm.cryptopiaPs[key] = data[key];
+    });
+    console.log(vm.cryptopiaPs);
   });
 
 }
