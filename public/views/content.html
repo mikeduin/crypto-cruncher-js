@@ -8,7 +8,11 @@
       </select>
       <button class="btn col offset-s1 s2" name="button" ng-click="vm.addCurr()">Add</button>
     </div>
-    <div class="col s3 offset-s5 input-field">
+    <div class="col s4 offset-s1">
+      <button class="btn" ng-click="vm.favsToTable()">Load Favorites</button>
+      <button class="btn" ng-click="vm.fetchFavs()"></button>
+    </div>
+    <div class="col s3 input-field select-area">
       <select ng-model="vm.activeMkt" ng-change="vm.adjustDec()">
         <option selected value="BTC">Bitcoin (BTC)</option>
         <option value="USD">USD$ (USD)</option>

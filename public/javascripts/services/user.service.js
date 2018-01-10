@@ -9,12 +9,14 @@ function userService ($http) {
         symbol: symbol,
         user: user
       };
-      $http.put('/users/addFav', reqObj).then(function(res){
-        console.log('res in service is ', res);
+      return $http.put('/users/addFav', reqObj).then(function(res){
+        return res.data;
+      });
+    },
+    fetchFavs: function (user) {
+      return $http.get('users/allFavs/' + user).then(function(res){
+        return res.data;
       })
     }
-    // getFavorites: function ($http) {
-    //
-    // }
   }
 }

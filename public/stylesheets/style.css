@@ -72,3 +72,8 @@
 .material-tooltip > .backdrop {
   background-color: #929292;
 }
+
+.menu {
+  margin-top: 0;
+  padding-top: 0;
+}

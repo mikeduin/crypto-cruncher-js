@@ -26,6 +26,7 @@ function MainController ($state, $pusher, marketService, authService, userServic
   vm.decimals = {'BTC': 8, 'USD': 2, 'ETH': 8};
   vm.activeDec = vm.decimals[vm.activeMkt];
   vm.activeTickers = [];
+  vm.userFavs = [];
   vm.adjustDec = adjustDec;
   // vm.currSort = null;
   vm.showSearch = function () {
@@ -68,6 +69,13 @@ function MainController ($state, $pusher, marketService, authService, userServic
     return authService.currentUser();
   };
 
+  vm.fetchFavs = function () {
+    userService.fetchFavs(vm.currentUser()).then(function(favs){
+      vm.userFavs = favs;
+    })
+  };
+  vm.fetchFavs();
+
   vm.addCurr = function () {
     if(vm.activeTickers.indexOf(vm.currSelected) == -1) {
       vm.activeTickers.push(vm.currSelected)
@@ -85,10 +93,29 @@ function MainController ($state, $pusher, marketService, authService, userServic
     // console.log(ticker);
     // add to favorites
     // remember to add logic to ONLY add if it is not already in favorites
-    userService.addFav(vm.currentUser(), symbol).then(function(res){
+    userService.addFav(vm.currentUser(), symbol).then(function(added){
+      vm.userFavs.push(added[0].symbol);
       console.log('res in cont is ', res);
     })
-  }
+  };
+
+  vm.favsToTable = function() {
+    if (!authService.currentUser()){
+      alert('Log in to load your favorites');
+    } else {
+      if (vm.userFavs.length == 0) {
+        vm.fetchFavs();
+      };
+      vm.activeTickers = [];
+      for (var i=0; i<vm.userFavs.length; i++) {
+        for (var j=0; j<vm.symbolIndex.length; j++) {
+          if (vm.symbolIndex[j].symbol === vm.userFavs[i]){
+            vm.activeTickers.push(vm.symbolIndex[j])
+          };
+        };
+      };
+    };
+  };
 
   vm.moveToTop = function (ticker) {
     var index = vm.activeTickers.indexOf(ticker);

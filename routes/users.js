@@ -79,8 +79,20 @@ router.put('/addFav', function(req, res, next){
   Favorites().insert({
     username: username,
     symbol: symbol
-  }, '*').then(function(res){
-    console.log(res);
+  }, '*').then(function(added){
+    res.json(added);
+  })
+})
+
+router.get('/allFavs/:user', function(req, res, next){
+  var username = req.params.user;
+  var favs = [];
+  Favorites().where({username: username}).then(function(data){
+    for (var i=0; i<data.length; i++) {
+      favs.push(data[i].symbol);
+    };
+    console.log('favs are ', favs);
+    return res.json(favs);
   })
 })
 
