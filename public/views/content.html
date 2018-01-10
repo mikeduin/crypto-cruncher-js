@@ -8,10 +8,6 @@
       </select>
       <button class="btn col offset-s1 s2" name="button" ng-click="vm.addCurr()">Add</button>
     </div>
-    <!-- <div class="col s5 center-align" ng-click="vm.showSearch()">
-      Search for a Crypto
-      <input ng-model="cryptoSearch">
-    </div> -->
     <div class="col s3 offset-s5 input-field">
       <select ng-model="vm.activeMkt" ng-change="vm.adjustDec()">
         <option selected value="BTC">Bitcoin (BTC)</option>
@@ -20,9 +16,6 @@
       </select>
     </div>
   </div>
-  <!-- <div class="row cryptoSearch" ng-show="vm.searchActive">
-    <span class="findCrypto" ng-repeat="symbol in vm.symbolIndex | filter: cryptoSearch" ng-click="vm.searchSelected = symbol.full_name">{{symbol.full_name}}</span>
-  </div> -->
 </div>
 
 
@@ -53,16 +46,16 @@
       </thead>
       <tbody>
         <tr ng-repeat="ticker in vm.activeTickers">
-          <td> {{ticker.full_name}} </td>
-          <td> <span ng-click="vm.favorite(ticker)" tooltipped data-position="left" data-delay="20" data-tooltip="Favorite"><i class="fa fa-star" aria-hidden="true"></i></span> </td>
-          <td> <span ng-click="vm.moveToTop(ticker)" tooltipped data-position="left" data-delay="20" data-tooltip="Move to Top"><i class="fa fa-arrow-up" aria-hidden="true"></i></span> </td>
-          <td> <span ng-click="vm.removeCurr(ticker)" tooltipped data-position="left" data-delay="20" data-tooltip="Remove"><i class="fa fa-times-circle" aria-hidden="true"></i></span> </td>
+          <td> {{ticker.full_name}} <br> <span ng-class="{up: vm.binancePs[ticker.market[vm.activeMkt]['binance']] > 0, down: vm.binancePs[ticker.market[vm.activeMkt]['binance']] < 0}"> {{vm.binancePs[ticker.market[vm.activeMkt]['binance']] | number: 2}}% </span></td>
+          <td> <span ng-click="vm.toggleFav(ticker.symbol)" tooltipped data-position="left" data-delay="10" data-tooltip="Favorite"><i class="fa fa-star" aria-hidden="true"></i></span> </td>
+          <td> <span ng-click="vm.moveToTop(ticker)" tooltipped data-position="top" data-delay="10" data-tooltip="Move to Top"><i class="fa fa-arrow-up" aria-hidden="true"></i></span> </td>
+          <td> <span ng-click="vm.removeCurr(ticker)" tooltipped data-position="right" data-delay="10" data-tooltip="Remove"><i class="fa fa-times-circle" aria-hidden="true"></i></span> </td>
           <td> {{ticker.mins[vm.activeMkt] | number: vm.activeDec}} </td>
           <td> {{ticker.maxs[vm.activeMkt] | number: vm.activeDec}} </td>
           <td> {{vm.spread(ticker.maxs[vm.activeMkt], ticker.mins[vm.activeMkt]) | percentage: 1}}</td>
           <td> <span ng-class="{buy: vm.gdaxMkt[ticker.market[vm.activeMkt]['gdax']] == ticker.mins[vm.activeMkt], sell: vm.gdaxMkt[ticker.market[vm.activeMkt]['gdax']] == ticker.maxs[vm.activeMkt]}">{{vm.gdaxMkt[ticker.market[vm.activeMkt]['gdax']] | number: vm.activeDec}} </span> <br> <span class="vol">{{vm.gdaxVol[ticker.market[vm.activeMkt]['gdax']] | number: 0}}</span> </td>
           <td> <span ng-class="{buy: vm.bittrexMkt[ticker.market[vm.activeMkt]['bittrex']] == ticker.mins[vm.activeMkt], sell: vm.bittrexMkt[ticker.market[vm.activeMkt]['bittrex']] == ticker.maxs[vm.activeMkt]}">{{vm.bittrexMkt[ticker.market[vm.activeMkt]['bittrex']] | number: vm.activeDec}} </span> <br> <span class="vol">{{vm.bittrexVol[ticker.market[vm.activeMkt]['bittrex']] | number: 0}}</span> </td>
-          <td> <span ng-class="{buy: vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] == ticker.mins[vm.activeMkt], sell: vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] == ticker.maxs[vm.activeMkt]}">{{vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] | number: vm.activeDec}} </span><br> <span class="vol">{{vm.binanceVol[ticker.market[vm.activeMkt]['binance']] | number: 0}}</span> </td>
+          <td> <span ng-class="{buy: vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] == ticker.mins[vm.activeMkt], sell: vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] == ticker.maxs[vm.activeMkt]}">{{vm.binanceMkt[ticker.market[vm.activeMkt]['binance']] | number: vm.activeDec}} </span><br> <span class="vol">{{vm.binanceVol[ticker.market[vm.activeMkt]['binance']] | number: 0}} </span> </td>
           <td> <span ng-class="{buy: vm.hitbtcMkt[ticker.market[vm.activeMkt]['hitbtc']] == ticker.mins[vm.activeMkt], sell: vm.hitbtcMkt[ticker.market[vm.activeMkt]['hitbtc']] == ticker.maxs[vm.activeMkt]}"> {{vm.hitbtcMkt[ticker.market[vm.activeMkt]['hitbtc']] | number: vm.activeDec}}</span> <br> <span class="vol">{{vm.hitbtcVol[ticker.market[vm.activeMkt]['hitbtc']] | number: 0}}</span></td>
           <td> <span ng-class="{buy: vm.cryptopiaMkt[ticker.market[vm.activeMkt]['cryptopia']] == ticker.mins[vm.activeMkt], sell: vm.cryptopiaMkt[ticker.market[vm.activeMkt]['cryptopia']] == ticker.maxs[vm.activeMkt]}"> {{vm.cryptopiaMkt[ticker.market[vm.activeMkt]['cryptopia']] | number: vm.activeDec}}</span> <br> <span class="vol">{{vm.cryptopiaVol[ticker.market[vm.activeMkt]['cryptopia']] | number: 0}}</span> </td>
         </tr>

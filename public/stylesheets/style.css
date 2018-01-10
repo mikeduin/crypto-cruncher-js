@@ -14,9 +14,23 @@
   font-weight: 800;
 }
 
+.down {
+  color: red;
+  font-size: 12px;
+  font-weight: 600;
+  padding-left: 15px;
+}
+
 .buy {
   color: green;
   font-weight: 800;
+}
+
+.up {
+  color: green;
+  font-size: 12px;
+  font-weight: 600;
+  padding-left: 15px;
 }
 
 .vol {
@@ -53,4 +67,8 @@
 
 .fa-times-circle:hover {
   color: #AC2A21;
+}
+
+.material-tooltip > .backdrop {
+  background-color: #929292;
 }

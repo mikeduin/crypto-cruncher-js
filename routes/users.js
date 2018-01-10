@@ -9,6 +9,10 @@ function Users () {
   return knex('users');
 };
 
+function Favorites () {
+  return knex('favorites');
+};
+
 function generateJWT (user) {
   // this function sets expiration of token to 1000 days
   var today = new Date();
@@ -67,6 +71,17 @@ router.post('/login', function(req, res, next){
       return res.status(401).json(info);
     }
   })(req, res, next);
+})
+
+router.put('/addFav', function(req, res, next){
+  var username = req.body.user;
+  var symbol = req.body.symbol;
+  Favorites().insert({
+    username: username,
+    symbol: symbol
+  }, '*').then(function(res){
+    console.log(res);
+  })
 })
 
 

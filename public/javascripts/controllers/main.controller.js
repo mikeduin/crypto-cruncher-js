@@ -1,8 +1,8 @@
 angular
   .module('cryptoCruncher')
-  .controller('MainController', ['$state', '$pusher', 'marketService', 'authService', MainController])
+  .controller('MainController', ['$state', '$pusher', 'marketService', 'authService', 'userService', MainController])
 
-function MainController ($state, $pusher, marketService, authService) {
+function MainController ($state, $pusher, marketService, authService, userService) {
   $(document).ready(function() {
     $('select').material_select();
   });
@@ -12,6 +12,7 @@ function MainController ($state, $pusher, marketService, authService) {
   vm.bittrexVol = {};
   vm.binanceMkt = {};
   vm.binanceVol = {};
+  vm.binancePs = {};
   vm.hitbtcMkt = {};
   vm.hitbtcVol = {};
   vm.gdaxMkt = {};
@@ -63,6 +64,10 @@ function MainController ($state, $pusher, marketService, authService) {
     })
   })();
 
+  vm.currentUser = function () {
+    return authService.currentUser();
+  };
+
   vm.addCurr = function () {
     if(vm.activeTickers.indexOf(vm.currSelected) == -1) {
       vm.activeTickers.push(vm.currSelected)
@@ -75,6 +80,15 @@ function MainController ($state, $pusher, marketService, authService) {
     var index = vm.activeTickers.indexOf(ticker);
     vm.activeTickers.splice(index, 1);
   };
+
+  vm.toggleFav = function (symbol) {
+    // console.log(ticker);
+    // add to favorites
+    // remember to add logic to ONLY add if it is not already in favorites
+    userService.addFav(vm.currentUser(), symbol).then(function(res){
+      console.log('res in cont is ', res);
+    })
+  }
 
   vm.moveToTop = function (ticker) {
     var index = vm.activeTickers.indexOf(ticker);
@@ -229,6 +243,13 @@ function MainController ($state, $pusher, marketService, authService) {
     });
   });
 
+  var binancePs = pusher.subscribe('binance-p');
+  binancePs.bind('update', function(data){
+    Object.keys(data).forEach(function(key){
+      vm.binancePs[key] = data[key];
+    });
+  });
+
   var gdaxChannel = pusher.subscribe('gdax-channel');
   gdaxChannel.bind('update', function(data){
     Object.keys(data).forEach(function(key){
@@ -272,7 +293,6 @@ function MainController ($state, $pusher, marketService, authService) {
 
   var cryptopiaVolume = pusher.subscribe('cryptopia-vol');
   cryptopiaVolume.bind('update', function(data){
-    console.log('hello');
     Object.keys(data).forEach(function(key){
       vm.cryptopiaVol[key] = data[key];
     });
