@@ -18,6 +18,10 @@
   color: #C9B057;
 }
 
+.non-fav {
+  color: black;
+}
+
 .down {
   color: red;
   font-size: 12px;

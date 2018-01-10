@@ -102,7 +102,7 @@ function MainController ($state, $pusher, marketService, authService, userServic
     } else {
       userService.removeFav(vm.currentUser(), symbol).then(function(deleted){
         var index = vm.userFavs.indexOf(deleted);
-        vm.userFavs.splice(deleted, 1);
+        vm.userFavs.splice(index, 1);
       })
     }
   };
