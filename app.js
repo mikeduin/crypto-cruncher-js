@@ -24,6 +24,7 @@ require('./config/passport.js');
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/trades', trades);
 
 app.all('/*', function(req, res, next){
   res.sendFile('public/index.html', { root: __dirname });

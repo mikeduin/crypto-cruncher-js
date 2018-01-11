@@ -55,4 +55,14 @@ function siteConfig($stateProvider, $urlRouterProvider, $locationProvider) {
         }
       }
     })
+    .state('home.trades', {
+      url: 'trades',
+      views: {
+        'content@': {
+          templateUrl: 'views/trades/main.html',
+          controller: 'TradeController',
+          controllerAs: 'vm'
+        }
+      }
+    })
 }

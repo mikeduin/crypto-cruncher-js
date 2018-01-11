@@ -9,9 +9,9 @@ var knex = require('../db/knex');
 var Pusher = require('pusher');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.redirect('index.html');
-});
+// router.get('/', function(req, res, next) {
+//   res.redirect('index.html');
+// });
 
 var pusher = new Pusher({
   appId: process.env.PUSHER_APP_ID,
