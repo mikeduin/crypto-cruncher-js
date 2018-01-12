@@ -1,8 +1,8 @@
 angular
   .module('cryptoCruncher')
-  .controller('MainController', ['$state', '$pusher', 'marketService', 'authService', 'userService', MainController])
+  .controller('ArbController', ['$state', '$pusher', 'marketService', 'authService', 'userService', ArbController])
 
-function MainController ($state, $pusher, marketService, authService, userService) {
+function ArbController ($state, $pusher, marketService, authService, userService) {
   $(document).ready(function() {
     $('select').material_select();
   });

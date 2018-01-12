@@ -1,13 +1,21 @@
 <div class="row">
   <div class="col s12">
-    Select trade type
-    <div class="input-field">
-      <select class="col s4" ng-model="vm.tradeType" ng-change="vm.tradeView(vm.tradeType)">
+    <div class="input-field col s4">
+      <select ng-model="vm.tradeType" ng-change="vm.tradeView(vm.tradeType)">
+        <option value="" disabled selected>What type of trade is this?</option>
         <option value="long">Long-Term Position</option>
         <option value="short">Short-Term Flip</option>
         <option value="arb">Arbitrage</option>
         <option value="transfer">Transfer</option>
+        <option value="powder">Need Dry Powder!</option>
       </select>
+      <label>Trade Type</label>
+    </div>
+    <div class="col s6">
+      {{vm.typeDesc}}
+    </div>
+    <div class="input-field">
+
     </div>
   </div>
 </div>
