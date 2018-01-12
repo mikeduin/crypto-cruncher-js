@@ -2,6 +2,8 @@
   <div class="nav-wrapper">
     <a href="#" class="brand-logo">The Cryptosphere</a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a ui-sref="home.portfolio">Portfolio</a></li>
+      <li><a ui-sref="home.trades">Trades</a></li>
       <li ng-show="vm.isLoggedIn() !== false">{{vm.currentUser()}}</li>
       <li ng-hide="vm.isLoggedIn() !== false"><a ui-sref="home.login">Login</a></li>
       <li ng-show="vm.isLoggedIn() !== false"><a ng-click="vm.logout()">Logout</a></li>

@@ -334,7 +334,6 @@ function MainController ($state, $pusher, marketService, authService, userServic
     Object.keys(data).forEach(function(key){
       vm.cryptopiaPs[key] = data[key];
     });
-    console.log(vm.cryptopiaPs);
   });
 
   setInterval(function(){

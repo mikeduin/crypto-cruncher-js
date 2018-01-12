@@ -9,6 +9,8 @@ require('dotenv').load();
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var portfolio = require('./routes/portfolio');
+var trades = require('./routes/trades');
 
 var app = express();
 
@@ -24,7 +26,7 @@ require('./config/passport.js');
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/trades', trades);
+app.use('/portfolio', portfolio);
 
 app.all('/*', function(req, res, next){
   res.sendFile('public/index.html', { root: __dirname });
