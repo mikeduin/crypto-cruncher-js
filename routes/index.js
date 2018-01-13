@@ -28,6 +28,8 @@ var hitbtcVol = {};
 var cryptopiaVol = {};
 var binancePs = {};
 var cryptopiaPs = {};
+var bitfinexPs = {};
+var bitfinexPs = {};
 
 console.log('Connecting ....');
 
@@ -38,7 +40,8 @@ setInterval(function(){
   pusher.trigger('gdax-vol', 'update', gdaxVol);
   pusher.trigger('cryptopia-p', 'update', cryptopiaPs);
   pusher.trigger('hitbtc-vol', 'update', hitbtcVol);
-  pusher.trigger('whatever-vol', 'update', cryptopiaVol);
+  pusher.trigger('bitfinex-vol', 'update', bitfinexVol);
+  pusher.trigger('bitfinex-p', 'update', bitfinexPs)
 }, 60000);
 
 router.get('/getSymbols', function(req, res, next){
@@ -48,6 +51,7 @@ router.get('/getSymbols', function(req, res, next){
     .leftJoin('binance as bin', 'bin.mySymbol', 'i.mySymbol')
     .leftJoin('hitbtc as hit', 'hit.mySymbol', 'i.mySymbol')
     .leftJoin('cryptopia as cry', 'cry.mySymbol', 'i.mySymbol')
+    .leftJoin('bitfinex as bit', 'bit.symbol', 'i.mySymbol')
     .select('i.mySymbol as symbol',
       'i.name as name',
       'g.btc as g.btc',
@@ -61,7 +65,10 @@ router.get('/getSymbols', function(req, res, next){
       'hit.btc as hit.btc',
       'hit.usd as hit.usd',
       'hit.eth as hit.eth',
-      'cry.btc as cry.btc'
+      'cry.btc as cry.btc',
+      'bit.btc as bit.btc',
+      'bit.eth as bit.eth',
+      'bit.usd as bit.usd'
     )
     .then(function(ticker){
       var marketIndex = [];
@@ -75,20 +82,23 @@ router.get('/getSymbols', function(req, res, next){
               'gdax': ticker[i]['g.usd'],
               'bittrex': ticker[i]['bitt.usd'],
               'binance': ticker[i]['bin.usd'],
-              'hitbtc': ticker[i]['hit.usd']
+              'hitbtc': ticker[i]['hit.usd'],
+              'bitfinex': ticker[i]['bit.usd']
             },
             'BTC': {
               'gdax': ticker[i]['g.btc'],
               'bittrex': ticker[i]['bitt.btc'],
               'binance': ticker[i]['bin.btc'],
               'hitbtc': ticker[i]['hit.btc'],
-              'cryptopia': ticker[i]['cry.btc']
+              'cryptopia': ticker[i]['cry.btc'],
+              'bitfinex': ticker[i]['bit.btc']
             },
             'ETH': {
               'gdax': ticker[i]['g.eth'],
               'bittrex': ticker[i]['bitt.eth'],
               'binance': ticker[i]['bin.eth'],
-              'hitbtc': ticker[i]['hit.eth']
+              'hitbtc': ticker[i]['hit.eth'],
+              'bitfinex': ticker[i]['bit.eth']
             }
           }
         })
@@ -127,6 +137,24 @@ setInterval(function(req, res, next){
     });
     pusher.trigger('cryptopia-channel', 'update', cryptopiaMkt);
   });
+}, 4000);
+
+setInterval(function(res, res, next){
+  fetch('https://api.bitfinex.com/v2/tickers?symbols=tAVTBTC,tBATBTC,tBCHBTC,tBTGBTC,tDASHBTC,tEDOBTC,tEOSBTC,tETCBTC,tETHBTC,tETPBTC,tFUNBTC,tGNTBTC,tIOTABTC,tMNABTC,tNEOBTC,tOMGBTC,tQTUMBTC,tSANBTC,tSNTBTC,tTNBBTC,tXMRBTC,tXRPBTC,tYYWBTC,tZECBTC,tZRXBTC,tDATABTC,tQASHBTC,tSPKBTC,tRRTBTC,tAVTUSD,tBATUSD,tBCHUSD,tBTCUSD,tBTGUSD,tDASHUSD,tEDOUSD,tEOSUSD,tETCUSD,tETHUSD,tETPUSD,tFUNUSD,tGNTUSD,tIOTAUSD,tLTCUSD,tMNAUSD,tNEOUSD,tOMGUSD,tQTUMUSD,tSANUSD,tSNTUSD,tTNBUSD,tTNBUSD,tXMRUSD,tXRPUSD,tYYWUSD,tZECUSD,tZRXUSD,tDATAUSD,tQASHUSD,tSPKUSD,tRRTUSD,tAVTETH,tBATETH,tBCHETH,tEDOETH,tEOSETH,tETPETH,tFUNETH,tGNTETH,tIOTAETH,tMNAETH,tNEOETH,tOMGETH,tQTUMETH,tSANETH,tSNTETH,tTNBETH,tYYWETH,tZRXETH,tDATAETH,tQASHETH,tSPKETH').then(function(res){
+    return res.json();
+  }).then(function(data){
+    var bitfinexMkt = {};
+    data.forEach(function(ticker){
+      //symbol = array[0];
+      //percChg = array[6];
+      //last = array[7];
+      //vol = array[8];
+      bitfinexMkt[ticker[0]] = ticker[7];
+      bitfinexPs[ticker[0]] = ticker[7];
+      bitfinexVol[ticker[0]] = ticker[8];
+    });
+    pusher.trigger('bitfinex-channel', 'update', bitfinexMkt);
+  })
 }, 4000);
 
 

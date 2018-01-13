@@ -3,6 +3,7 @@ exports.up = function(knex, Promise) {
   return knex.schema.createTable('transactions', function(t){
     t.increments();
     t.string('username');
+    t.integer('reference');
     t.datetime('date');
     t.string('exchange');
     t.string('transType');

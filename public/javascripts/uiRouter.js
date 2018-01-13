@@ -115,6 +115,26 @@ function siteConfig($stateProvider, $urlRouterProvider, $locationProvider) {
         }
       }
     })
+    .state('home.addTrade.powder', {
+      url: '/powder',
+      views: {
+        'powder@home.addTrade': {
+          templateUrl: 'views/trades/powder.html',
+          controller: 'TradeController',
+          controllerAs: 'vm'
+        }
+      }
+    })
+    .state('home.addTrade.deposit', {
+      url: '/deposit',
+      views: {
+        'deposit@home.addTrade': {
+          templateUrl: 'views/trades/deposit.html',
+          controller: 'TradeController',
+          controllerAs: 'vm'
+        }
+      }
+    })
     .state('home.portfolio', {
       url: 'portfolio',
       views: {

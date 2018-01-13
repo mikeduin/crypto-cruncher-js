@@ -20,6 +20,9 @@ function ArbController ($state, $pusher, marketService, authService, userService
   vm.cryptopiaMkt = {};
   vm.cryptopiaVol = {};
   vm.cryptopiaPs = {};
+  vm.bitfinexMkt = {};
+  vm.bitfinexVol = {};
+  vm.bitfinexPs = {};
   vm.mins = {};
   vm.maxs = {};
   vm.searchActive = false;
@@ -342,4 +345,27 @@ function ArbController ($state, $pusher, marketService, authService, userService
     })
   }, 60000);
 
+  var bitfinexChannel = pusher.subscribe('bitfinex-channel');
+  bitfinexChannel.bind('update', function(data){
+    Object.keys(data).forEach(function(key){
+      vm.bitfinexMkt[key] = data[key];
+    });
+    findMins();
+    findMaxs();
+  });
+
+  var bitfinexVolume = pusher.subscribe('bitfinex-vol');
+  bitfinexVolume.bind('update', function(data){
+    Object.keys(data).forEach(function(key){
+      vm.bitfinexVol[key] = data[key];
+    });
+  });
+
+  var bitfinexPs = pusher.subscribe('bitfinex-p');
+  bitfinexPs.bind('update', function(data){
+    Object.keys(data).forEach(function(key){
+      vm.bitfinexPs[key] = data[key];
+    });
+    console.log(vm.bitfinexPs);
+  });
 }
