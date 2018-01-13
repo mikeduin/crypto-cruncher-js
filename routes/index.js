@@ -149,8 +149,9 @@ setInterval(function(res, res, next){
       //percChg = array[6];
       //last = array[7];
       //vol = array[8];
+      var perc = ticker[6]*100;
       bitfinexMkt[ticker[0]] = ticker[7];
-      bitfinexPs[ticker[0]] = ticker[7];
+      bitfinexPs[ticker[0]] = perc;
       bitfinexVol[ticker[0]] = ticker[8];
     });
     pusher.trigger('bitfinex-channel', 'update', bitfinexMkt);

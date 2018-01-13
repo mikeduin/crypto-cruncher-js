@@ -367,7 +367,6 @@ function ArbController ($state, $pusher, marketService, authService, userService
     Object.keys(data).forEach(function(key){
       vm.bitfinexMkt[key] = data[key];
     });
-    console.log(vm.bitfinexMkt);
     findMins();
     findMaxs();
   });
