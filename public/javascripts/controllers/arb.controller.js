@@ -157,6 +157,9 @@ function ArbController ($state, $pusher, marketService, authService, userService
       if (vm.hitbtcMkt[vm.activeTickers[i].market['USD']['hitbtc']]) {
         usdMins.push(vm.hitbtcMkt[vm.activeTickers[i].market['USD']['hitbtc']]);
       };
+      if (vm.bitfinexMkt[vm.activeTickers[i].market['USD']['bitfinex']]) {
+        usdMins.push(vm.bitfinexMkt[vm.activeTickers[i].market['USD']['bitfinex']]);
+      };
       if (vm.gdaxMkt[vm.activeTickers[i].market['BTC']['gdax']]) {
         btcMins.push(vm.gdaxMkt[vm.activeTickers[i].market['BTC']['gdax']]);
       };
@@ -172,6 +175,9 @@ function ArbController ($state, $pusher, marketService, authService, userService
       if (vm.cryptopiaMkt[vm.activeTickers[i].market['BTC']['cryptopia']]) {
         btcMins.push(vm.cryptopiaMkt[vm.activeTickers[i].market['BTC']['cryptopia']]);
       };
+      if (vm.bitfinexMkt[vm.activeTickers[i].market['BTC']['bitfinex']]) {
+        btcMins.push(vm.bitfinexMkt[vm.activeTickers[i].market['BTC']['bitfinex']]);
+      };
       if (vm.gdaxMkt[vm.activeTickers[i].market['ETH']['gdax']]) {
         ethMins.push(vm.gdaxMkt[vm.activeTickers[i].market['ETH']['gdax']]);
       };
@@ -183,6 +189,9 @@ function ArbController ($state, $pusher, marketService, authService, userService
       };
       if (vm.hitbtcMkt[vm.activeTickers[i].market['ETH']['hitbtc']]) {
         ethMins.push(vm.hitbtcMkt[vm.activeTickers[i].market['ETH']['hitbtc']]);
+      };
+      if (vm.bitfinexMkt[vm.activeTickers[i].market['ETH']['bitfinex']]) {
+        ethMins.push(vm.bitfinexMkt[vm.activeTickers[i].market['ETH']['bitfinex']]);
       };
 
       vm.activeTickers[i]['mins'] = {
@@ -210,6 +219,9 @@ function ArbController ($state, $pusher, marketService, authService, userService
       if (vm.hitbtcMkt[vm.activeTickers[i].market['USD']['hitbtc']]) {
         usdMaxs.push(vm.hitbtcMkt[vm.activeTickers[i].market['USD']['hitbtc']]);
       };
+      if (vm.bitfinexMkt[vm.activeTickers[i].market['USD']['bitfinex']]) {
+        usdMaxs.push(vm.bitfinexMkt[vm.activeTickers[i].market['USD']['bitfinex']]);
+      };
       if (vm.gdaxMkt[vm.activeTickers[i].market['BTC']['gdax']]) {
         btcMaxs.push(vm.gdaxMkt[vm.activeTickers[i].market['BTC']['gdax']]);
       };
@@ -225,6 +237,9 @@ function ArbController ($state, $pusher, marketService, authService, userService
       if (vm.cryptopiaMkt[vm.activeTickers[i].market['BTC']['cryptopia']]) {
         btcMaxs.push(vm.cryptopiaMkt[vm.activeTickers[i].market['BTC']['cryptopia']]);
       };
+      if (vm.bitfinexMkt[vm.activeTickers[i].market['BTC']['bitfinex']]) {
+        btcMaxs.push(vm.bitfinexMkt[vm.activeTickers[i].market['BTC']['bitfinex']]);
+      };
       if (vm.gdaxMkt[vm.activeTickers[i].market['ETH']['gdax']]) {
         ethMaxs.push(vm.gdaxMkt[vm.activeTickers[i].market['ETH']['gdax']]);
       };
@@ -236,6 +251,9 @@ function ArbController ($state, $pusher, marketService, authService, userService
       };
       if (vm.hitbtcMkt[vm.activeTickers[i].market['ETH']['hitbtc']]) {
         ethMaxs.push(vm.hitbtcMkt[vm.activeTickers[i].market['ETH']['hitbtc']]);
+      };
+      if (vm.bitfinexMkt[vm.activeTickers[i].market['ETH']['bitfinex']]) {
+        ethMaxs.push(vm.bitfinexMkt[vm.activeTickers[i].market['ETH']['bitfinex']]);
       };
 
       vm.activeTickers[i]['maxs'] = {
@@ -288,7 +306,6 @@ function ArbController ($state, $pusher, marketService, authService, userService
     Object.keys(data).forEach(function(key){
       vm.binancePs[key] = data[key];
     });
-    console.log(vm.binancePs);
   });
 
   var gdaxChannel = pusher.subscribe('gdax-channel');
@@ -350,6 +367,7 @@ function ArbController ($state, $pusher, marketService, authService, userService
     Object.keys(data).forEach(function(key){
       vm.bitfinexMkt[key] = data[key];
     });
+    console.log(vm.bitfinexMkt);
     findMins();
     findMaxs();
   });
@@ -366,6 +384,5 @@ function ArbController ($state, $pusher, marketService, authService, userService
     Object.keys(data).forEach(function(key){
       vm.bitfinexPs[key] = data[key];
     });
-    console.log(vm.bitfinexPs);
   });
 }

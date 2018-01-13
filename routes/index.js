@@ -28,7 +28,7 @@ var hitbtcVol = {};
 var cryptopiaVol = {};
 var binancePs = {};
 var cryptopiaPs = {};
-var bitfinexPs = {};
+var bitfinexVol = {};
 var bitfinexPs = {};
 
 console.log('Connecting ....');
@@ -51,7 +51,7 @@ router.get('/getSymbols', function(req, res, next){
     .leftJoin('binance as bin', 'bin.mySymbol', 'i.mySymbol')
     .leftJoin('hitbtc as hit', 'hit.mySymbol', 'i.mySymbol')
     .leftJoin('cryptopia as cry', 'cry.mySymbol', 'i.mySymbol')
-    .leftJoin('bitfinex as bit', 'bit.symbol', 'i.mySymbol')
+    .leftJoin('bitfinex as bit', 'bit.mySymbol', 'i.mySymbol')
     .select('i.mySymbol as symbol',
       'i.name as name',
       'g.btc as g.btc',
