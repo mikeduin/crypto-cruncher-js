@@ -139,7 +139,7 @@ setInterval(function(req, res, next){
   });
 }, 4000);
 
-setInterval(function(res, res, next){
+setInterval(function(req, res, next){
   fetch('https://api.bitfinex.com/v2/tickers?symbols=tAVTBTC,tBATBTC,tBCHBTC,tBTGBTC,tDASHBTC,tEDOBTC,tEOSBTC,tETCBTC,tETHBTC,tETPBTC,tFUNBTC,tGNTBTC,tIOTABTC,tMNABTC,tNEOBTC,tOMGBTC,tQTUMBTC,tSANBTC,tSNTBTC,tTNBBTC,tXMRBTC,tXRPBTC,tYYWBTC,tZECBTC,tZRXBTC,tDATABTC,tQASHBTC,tSPKBTC,tRRTBTC,tAVTUSD,tBATUSD,tBCHUSD,tBTCUSD,tBTGUSD,tDASHUSD,tEDOUSD,tEOSUSD,tETCUSD,tETHUSD,tETPUSD,tFUNUSD,tGNTUSD,tIOTAUSD,tLTCUSD,tMNAUSD,tNEOUSD,tOMGUSD,tQTUMUSD,tSANUSD,tSNTUSD,tTNBUSD,tTNBUSD,tXMRUSD,tXRPUSD,tYYWUSD,tZECUSD,tZRXUSD,tDATAUSD,tQASHUSD,tSPKUSD,tRRTUSD,tAVTETH,tBATETH,tBCHETH,tEDOETH,tEOSETH,tETPETH,tFUNETH,tGNTETH,tIOTAETH,tMNAETH,tNEOETH,tOMGETH,tQTUMETH,tSANETH,tSNTETH,tTNBETH,tYYWETH,tZRXETH,tDATAETH,tQASHETH,tSPKETH').then(function(res){
     return res.json();
   }).then(function(data){
@@ -155,6 +155,20 @@ setInterval(function(res, res, next){
       bitfinexVol[ticker[0]] = ticker[8];
     });
     pusher.trigger('bitfinex-channel', 'update', bitfinexMkt);
+  })
+}, 4000);
+
+setInterval(function(req, res, next){
+  fetch('https://api.kucoin.com/v1/open/tick').then(function(res){
+    return res.json();
+  }).then(function(data){
+    var looped = data.data
+    var kucoinMkt = {};
+    looped.forEach(function(ticker){
+      if (ticker.coinTypePair == 'USDT') {
+        console.log(ticker.coinType);
+      }
+    });
   })
 }, 4000);
 

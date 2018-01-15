@@ -62,7 +62,7 @@ function TradeController ($state, tradeService) {
     }
   }
 
-  vm.intro = "Enter your trade details here. The 'trade type' distinctions exist in order to provide enhanced reporting relative to the type of trades you are making. If you have no interest in such a thing, feel free to leave all trades classified as 'long term positions.' Note that you can always come back and edit any entry in your trade log; nothing you enter here is immutable.";
+  vm.intro = "Enter your trade details here. The 'trade type' distinctions exist in order to provide enhanced reporting relative to the type of trades you are making. If you have no interest in such a thing, feel free to leave all trades classified as 'long term positions.' Note that you can always come back and edit any entry in your trade log.";
 
   var descLong = "Classify a trade as a 'long-term position' when you are buying with plans to hold for the foreseeable future, or closing/reducing a position that you have previously opened as long-term.";
 
