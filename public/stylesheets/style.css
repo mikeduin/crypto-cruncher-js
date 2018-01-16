@@ -1,4 +1,4 @@
-/*Arbitrage page classes*/
+/*Arbitrage page styles*/
 
 .spacer {
   margin-top: 5px;
@@ -82,4 +82,18 @@
 .menu {
   margin-top: 0;
   padding-top: 0;
+}
+
+/* Trade page styles */
+
+#date_mm, #date_dd, #time_hh, #time_mm {
+  width: 35px;
+}
+
+#time_sel {
+  margin-top: 17px;
+}
+
+#date_yyyy {
+  width: 50px;
 }

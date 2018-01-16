@@ -32,12 +32,20 @@ function TradeController ($state, tradeService, marketService) {
 
     function dirView () {
       if (vm.tradeDir == 'openAdd') {
-        vm.dirDesc = descOpen;
+        if (vm.tradeType == 'deposit') {
+          vm.dirDesc = descDeposit;
+        } else {
+          vm.dirDesc = descOpen;
+        };
       } else if (vm.tradeDir == 'closeReduce') {
-        vm.dirDesc = descClose;
+        if (vm.tradeType == 'deposit') {
+          vm.dirDesc = descWithdrawal;
+        } else {
+          vm.dirDesc = descClose;
+        };
       } else if (vm.tradeDir == 'na') {
         vm.dirDesc = descNA;
-      }
+      };
     };
 
 
@@ -45,6 +53,7 @@ function TradeController ($state, tradeService, marketService) {
       vm.typeDesc = descLong;
       vm.partsView = false;
       vm.directionView = true;
+      partsView();
       dirView();
     } else if (vm.tradeType === "short") {
       vm.typeDesc = descShort;
@@ -60,17 +69,18 @@ function TradeController ($state, tradeService, marketService) {
       vm.typeDesc = descPowder;
       vm.partsView = true;
       partsView();
-      dirView()
+      dirView();
     } else if (vm.tradeType === "exchange") {
       vm.typeDesc = descExchange;
       vm.partsView = true;
       partsView();
-      dirView()
-    }else if (vm.tradeType === "deposit") {
+      dirView();
+    } else if (vm.tradeType === "deposit") {
       vm.typeDesc = descDeposit;
       vm.directionView = true;
       vm.partsView = false;
       dirView();
+      $state.go('home.addTrade.deposit');
     } else if (vm.tradeType === "reset") {
       vm.typeDesc = null;
       vm.directionView = false;
@@ -116,4 +126,8 @@ function TradeController ($state, tradeService, marketService) {
   var descClose = "Use this if you are selling an altcoin in exchange for a base currency like Bitcoin or Ethereum."
 
   var descNA = "Use this if you are trading one base currency for another or exchanging two currencies for which you always expect to have positions."
+
+  var descDeposit = "Use this when depositing from your bank account or credit card and into an exchange.";
+
+  var descWithdrawal = "Use this when withdrawing from an exchange and into your bank account.";
 }
