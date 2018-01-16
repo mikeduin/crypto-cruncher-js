@@ -23,6 +23,9 @@ function ArbController ($state, $pusher, marketService, authService, userService
   vm.bitfinexMkt = {};
   vm.bitfinexVol = {};
   vm.bitfinexPs = {};
+  vm.kucoinMkt = {};
+  vm.kucoinVol = {};
+  vm.kucoinPs = {};
   vm.mins = {};
   vm.maxs = {};
   vm.searchActive = false;
@@ -160,6 +163,9 @@ function ArbController ($state, $pusher, marketService, authService, userService
       if (vm.bitfinexMkt[vm.activeTickers[i].market['USD']['bitfinex']]) {
         usdMins.push(vm.bitfinexMkt[vm.activeTickers[i].market['USD']['bitfinex']]);
       };
+      if (vm.kucoinMkt[vm.activeTickers[i].market['USD']['kucoin']]) {
+        usdMins.push(vm.kucoinMkt[vm.activeTickers[i].market['USD']['kucoin']]);
+      };
       if (vm.gdaxMkt[vm.activeTickers[i].market['BTC']['gdax']]) {
         btcMins.push(vm.gdaxMkt[vm.activeTickers[i].market['BTC']['gdax']]);
       };
@@ -178,6 +184,9 @@ function ArbController ($state, $pusher, marketService, authService, userService
       if (vm.bitfinexMkt[vm.activeTickers[i].market['BTC']['bitfinex']]) {
         btcMins.push(vm.bitfinexMkt[vm.activeTickers[i].market['BTC']['bitfinex']]);
       };
+      if (vm.kucoinMkt[vm.activeTickers[i].market['BTC']['kucoin']]) {
+        btcMins.push(vm.kucoinMkt[vm.activeTickers[i].market['BTC']['kucoin']]);
+      };
       if (vm.gdaxMkt[vm.activeTickers[i].market['ETH']['gdax']]) {
         ethMins.push(vm.gdaxMkt[vm.activeTickers[i].market['ETH']['gdax']]);
       };
@@ -192,6 +201,9 @@ function ArbController ($state, $pusher, marketService, authService, userService
       };
       if (vm.bitfinexMkt[vm.activeTickers[i].market['ETH']['bitfinex']]) {
         ethMins.push(vm.bitfinexMkt[vm.activeTickers[i].market['ETH']['bitfinex']]);
+      };
+      if (vm.kucoinMkt[vm.activeTickers[i].market['ETH']['kucoin']]) {
+        ethMins.push(vm.kucoinMkt[vm.activeTickers[i].market['ETH']['kucoin']]);
       };
 
       vm.activeTickers[i]['mins'] = {
@@ -222,6 +234,9 @@ function ArbController ($state, $pusher, marketService, authService, userService
       if (vm.bitfinexMkt[vm.activeTickers[i].market['USD']['bitfinex']]) {
         usdMaxs.push(vm.bitfinexMkt[vm.activeTickers[i].market['USD']['bitfinex']]);
       };
+      if (vm.kucoinMkt[vm.activeTickers[i].market['USD']['kucoin']]) {
+        usdMaxs.push(vm.kucoinMkt[vm.activeTickers[i].market['USD']['kucoin']]);
+      };
       if (vm.gdaxMkt[vm.activeTickers[i].market['BTC']['gdax']]) {
         btcMaxs.push(vm.gdaxMkt[vm.activeTickers[i].market['BTC']['gdax']]);
       };
@@ -240,6 +255,9 @@ function ArbController ($state, $pusher, marketService, authService, userService
       if (vm.bitfinexMkt[vm.activeTickers[i].market['BTC']['bitfinex']]) {
         btcMaxs.push(vm.bitfinexMkt[vm.activeTickers[i].market['BTC']['bitfinex']]);
       };
+      if (vm.kucoinMkt[vm.activeTickers[i].market['BTC']['kucoin']]) {
+        btcMaxs.push(vm.kucoinMkt[vm.activeTickers[i].market['BTC']['kucoin']]);
+      };
       if (vm.gdaxMkt[vm.activeTickers[i].market['ETH']['gdax']]) {
         ethMaxs.push(vm.gdaxMkt[vm.activeTickers[i].market['ETH']['gdax']]);
       };
@@ -254,6 +272,9 @@ function ArbController ($state, $pusher, marketService, authService, userService
       };
       if (vm.bitfinexMkt[vm.activeTickers[i].market['ETH']['bitfinex']]) {
         ethMaxs.push(vm.bitfinexMkt[vm.activeTickers[i].market['ETH']['bitfinex']]);
+      };
+      if (vm.kucoinMkt[vm.activeTickers[i].market['ETH']['kucoin']]) {
+        ethMaxs.push(vm.kucoinMkt[vm.activeTickers[i].market['ETH']['kucoin']]);
       };
 
       vm.activeTickers[i]['maxs'] = {
@@ -382,6 +403,30 @@ function ArbController ($state, $pusher, marketService, authService, userService
   bitfinexPs.bind('update', function(data){
     Object.keys(data).forEach(function(key){
       vm.bitfinexPs[key] = data[key];
+    });
+  });
+
+  var kucoinChannel = pusher.subscribe('kucoin-channel');
+  kucoinChannel.bind('update', function(data){
+    Object.keys(data).forEach(function(key){
+      vm.kucoinMkt[key] = data[key];
+    });
+    console.log(vm.kucoinMkt);
+    findMins();
+    findMaxs();
+  });
+
+  var kucoinVolume = pusher.subscribe('kucoin-vol');
+  kucoinVolume.bind('update', function(data){
+    Object.keys(data).forEach(function(key){
+      vm.kucoinVol[key] = data[key];
+    });
+  });
+
+  var kucoinPs = pusher.subscribe('kucoin-p');
+  kucoinPs.bind('update', function(data){
+    Object.keys(data).forEach(function(key){
+      vm.kucoinPs[key] = data[key];
     });
   });
 }

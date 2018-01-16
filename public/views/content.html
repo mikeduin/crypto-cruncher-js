@@ -46,6 +46,7 @@
           <th>HitBTC</th>
           <th>Cryptopia</th>
           <th>Bitfinex</th>
+          <th>KuCoin</th>
         </tr>
       </thead>
       <tbody>
@@ -69,6 +70,8 @@
           <td> <span ng-class="{buy: vm.cryptopiaMkt[ticker.market[vm.activeMkt]['cryptopia']] == ticker.mins[vm.activeMkt], sell: vm.cryptopiaMkt[ticker.market[vm.activeMkt]['cryptopia']] == ticker.maxs[vm.activeMkt]}"> {{vm.cryptopiaMkt[ticker.market[vm.activeMkt]['cryptopia']] | number: vm.activeDec}}</span> <br> <span class="vol">{{vm.cryptopiaVol[ticker.market[vm.activeMkt]['cryptopia']] | number: 0}} <span ng-show="vm.cryptopiaVol[ticker.market[vm.activeMkt]['cryptopia']]">...</> <span ng-class="{up: vm.cryptopiaPs[ticker.market[vm.activeMkt]['cryptopia']] > 0, down: vm.cryptopiaPs[ticker.market[vm.activeMkt]['cryptopia']] < 0}"> {{vm.cryptopiaPs[ticker.market[vm.activeMkt]['cryptopia']] | number:2}} <span ng-show="vm.cryptopiaPs[ticker.market[vm.activeMkt]['cryptopia']]">%</span> </span> </span>
           </td>
           <td> <span ng-class="{buy: vm.bitfinexMkt[ticker.market[vm.activeMkt]['bitfinex']] == ticker.mins[vm.activeMkt], sell: vm.bitfinexMkt[ticker.market[vm.activeMkt]['bitfinex']] == ticker.maxs[vm.activeMkt]}"> {{vm.bitfinexMkt[ticker.market[vm.activeMkt]['bitfinex']] | number: vm.activeDec}}</span> <br> <span class="vol">{{vm.bitfinexVol[ticker.market[vm.activeMkt]['bitfinex']] | number: 0}} <span ng-show="vm.bitfinexVol[ticker.market[vm.activeMkt]['bitfinex']]">...</> <span ng-class="{up: vm.bitfinexPs[ticker.market[vm.activeMkt]['bitfinex']] > 0, down: vm.bitfinexPs[ticker.market[vm.activeMkt]['bitfinex']] < 0}"> {{vm.bitfinexPs[ticker.market[vm.activeMkt]['bitfinex']] | number:2}} <span ng-show="vm.bitfinexPs[ticker.market[vm.activeMkt]['bitfinex']]">%</span> </span> </span>
+          </td>
+          <td> <span ng-class="{buy: vm.kucoinMkt[ticker.market[vm.activeMkt]['kucoin']] == ticker.mins[vm.activeMkt], sell: vm.kucoinMkt[ticker.market[vm.activeMkt]['kucoin']] == ticker.maxs[vm.activeMkt]}"> {{vm.kucoinMkt[ticker.market[vm.activeMkt]['kucoin']] | number: vm.activeDec}}</span> <br> <span class="vol">{{vm.kucoinVol[ticker.market[vm.activeMkt]['kucoin']] | number: 0}} <span ng-show="vm.kucoinVol[ticker.market[vm.activeMkt]['kucoin']]">...</> <span ng-class="{up: vm.kucoinPs[ticker.market[vm.activeMkt]['kucoin']] > 0, down: vm.kucoinPs[ticker.market[vm.activeMkt]['kucoin']] < 0}"> {{vm.kucoinPs[ticker.market[vm.activeMkt]['kucoin']] | number:2}} <span ng-show="vm.kucoinPs[ticker.market[vm.activeMkt]['kucoin']]">%</span> </span> </span>
           </td>
         </tr>
       </tbody>

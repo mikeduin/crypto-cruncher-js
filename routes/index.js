@@ -30,6 +30,8 @@ var binancePs = {};
 var cryptopiaPs = {};
 var bitfinexVol = {};
 var bitfinexPs = {};
+var kucoinVol = {};
+var kucoinPs = {};
 
 console.log('Connecting ....');
 
@@ -41,7 +43,9 @@ setInterval(function(){
   pusher.trigger('cryptopia-p', 'update', cryptopiaPs);
   pusher.trigger('hitbtc-vol', 'update', hitbtcVol);
   pusher.trigger('bitfinex-vol', 'update', bitfinexVol);
-  pusher.trigger('bitfinex-p', 'update', bitfinexPs)
+  pusher.trigger('bitfinex-p', 'update', bitfinexPs);
+  pusher.trigger('kucoin-vol', 'update', kucoinVol);
+  pusher.trigger('kucoin-p', 'update', kucoinPs)
 }, 60000);
 
 router.get('/getSymbols', function(req, res, next){
@@ -52,6 +56,7 @@ router.get('/getSymbols', function(req, res, next){
     .leftJoin('hitbtc as hit', 'hit.mySymbol', 'i.mySymbol')
     .leftJoin('cryptopia as cry', 'cry.mySymbol', 'i.mySymbol')
     .leftJoin('bitfinex as bit', 'bit.mySymbol', 'i.mySymbol')
+    .leftJoin('kucoin as kuc', 'kuc.mySymbol', 'i.mySymbol')
     .select('i.mySymbol as symbol',
       'i.name as name',
       'g.btc as g.btc',
@@ -68,7 +73,10 @@ router.get('/getSymbols', function(req, res, next){
       'cry.btc as cry.btc',
       'bit.btc as bit.btc',
       'bit.eth as bit.eth',
-      'bit.usd as bit.usd'
+      'bit.usd as bit.usd',
+      'kuc.btc as kuc.btc',
+      'kuc.eth as kuc.eth',
+      'kuc.usd as kuc.usd'
     )
     .then(function(ticker){
       var marketIndex = [];
@@ -83,7 +91,8 @@ router.get('/getSymbols', function(req, res, next){
               'bittrex': ticker[i]['bitt.usd'],
               'binance': ticker[i]['bin.usd'],
               'hitbtc': ticker[i]['hit.usd'],
-              'bitfinex': ticker[i]['bit.usd']
+              'bitfinex': ticker[i]['bit.usd'],
+              'kucoin': ticker[i]['kuc.usd']
             },
             'BTC': {
               'gdax': ticker[i]['g.btc'],
@@ -91,14 +100,16 @@ router.get('/getSymbols', function(req, res, next){
               'binance': ticker[i]['bin.btc'],
               'hitbtc': ticker[i]['hit.btc'],
               'cryptopia': ticker[i]['cry.btc'],
-              'bitfinex': ticker[i]['bit.btc']
+              'bitfinex': ticker[i]['bit.btc'],
+              'kucoin': ticker[i]['kuc.btc']
             },
             'ETH': {
               'gdax': ticker[i]['g.eth'],
               'bittrex': ticker[i]['bitt.eth'],
               'binance': ticker[i]['bin.eth'],
               'hitbtc': ticker[i]['hit.eth'],
-              'bitfinex': ticker[i]['bit.eth']
+              'bitfinex': ticker[i]['bit.eth'],
+              'kucoin': ticker[i]['kuc.eth']
             }
           }
         })
@@ -165,10 +176,12 @@ setInterval(function(req, res, next){
     var looped = data.data
     var kucoinMkt = {};
     looped.forEach(function(ticker){
-      if (ticker.coinTypePair == 'USDT') {
-        console.log(ticker.coinType);
-      }
+      var pct = ticker.changeRate * 100;
+      kucoinMkt[ticker.symbol] = ticker.lastDealPrice;
+      kucoinVol[ticker.symbol] = ticker.vol;
+      kucoinPs[ticker.symbol] = pct;
     });
+    pusher.trigger('kucoin-channel', 'update', kucoinMkt);
   })
 }, 4000);
 
