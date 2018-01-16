@@ -1,58 +1,83 @@
 angular
   .module('cryptoCruncher')
-  .controller('TradeController', ['$state', 'tradeService', TradeController])
+  .controller('TradeController', ['$state', 'tradeService', 'marketService', TradeController])
 
-function TradeController ($state, tradeService) {
+function TradeController ($state, tradeService, marketService) {
   $(document).ready(function() {
     $('select').material_select();
   });
 
   var vm = this;
   vm.tradeType = 'reset';
-  vm.tradeParts = 'half';
+  vm.tradeParts = 'part';
   vm.tradeDir = 'openAdd';
   vm.arbType = 'immed';
+  vm.partsView = false;
+  vm.directionView = false;
+  vm.arbView = false;
 
   vm.tradeView = function () {
-    if (vm.tradeType === "long") {
-      $state.go('home.addTrade.long');
+    function partsView () {
+      if (vm.tradeParts == 'part') {
+        vm.partsView = true;
+        vm.directionView = true;
+        vm.partsDesc = descPart;
+        $state.go('home.addTrade.partial');
+      } else {
+        vm.directionView = false;
+        vm.partsDesc = descWhole;
+        $state.go('home.addTrade.whole');
+      };
+    };
+
+    function dirView () {
+      if (vm.tradeDir == 'openAdd') {
+        vm.dirDesc = descOpen;
+      } else if (vm.tradeDir == 'closeReduce') {
+        vm.dirDesc = descClose;
+      } else if (vm.tradeDir == 'na') {
+        vm.dirDesc = descNA;
+      }
+    };
+
+
+    if (vm.tradeType === "long" || vm.tradeType === "transfer") {
       vm.typeDesc = descLong;
-      // vm.tradeParts = null ... no parts for long term trade
-      // vm.tradeDir = visible, no message needed
-      // vm.arbType = null
+      vm.partsView = false;
+      vm.directionView = true;
+      dirView();
     } else if (vm.tradeType === "short") {
       vm.typeDesc = descShort;
-      if (vm.tradeParts === "half") {
-        vm.partsDesc = descPart;
-      } else {
-        vm.partsDesc = descWhole
-      };
-      $state.go('home.addTrade.short');
+      vm.partsView = true;
+      partsView();
+      dirView();
     } else if (vm.tradeType === "arb") {
       vm.typeDesc = descArb;
-      $state.go('home.addTrade.arb');
-    } else if (vm.tradeType === "transfer") {
-      vm.typeDesc = descTransfer;
-      $state.go('home.addTrade.transfer')
+      vm.partsView = true;
+      partsView();
+      dirView();
     } else if (vm.tradeType === "powder") {
       vm.typeDesc = descPowder;
-      $state.go('home.addTrade.powder')
-    } else if (vm.tradeType === "deposit") {
+      vm.partsView = true;
+      partsView();
+      dirView()
+    } else if (vm.tradeType === "exchange") {
+      vm.typeDesc = descExchange;
+      vm.partsView = true;
+      partsView();
+      dirView()
+    }else if (vm.tradeType === "deposit") {
       vm.typeDesc = descDeposit;
-      $state.go('home.addTrade.deposit')
+      vm.directionView = true;
+      vm.partsView = false;
+      dirView();
     } else if (vm.tradeType === "reset") {
       vm.typeDesc = null;
-      $state.go('home.addTrade');
-    }
+      vm.directionView = false;
+      vm.partsView = false;
+    };
   };
 
-  vm.partsAdj = function (sel) {
-    if (sel === "part") {
-      vm.partsDesc = descHalf;
-    } else if (sel === "all") {
-      vm.partsDesc = descWhole;
-    }
-  };
 
   vm.arbAdj = function (sel) {
     if (sel === "immed") {
@@ -62,7 +87,7 @@ function TradeController ($state, tradeService) {
     }
   }
 
-  vm.intro = "Enter your trade details here. The 'trade type' distinctions exist in order to provide enhanced reporting relative to the type of trades you are making. If you have no interest in such a thing, feel free to leave all trades classified as 'long term positions.' Note that you can always come back and edit any entry in your trade log.";
+  vm.intro = "Enter your trade details here. The 'trade type' distinctions exist both to provide enhanced reporting relative to the types of trades you are making and to help you monitor any open positions that you intend to close. If you have no interest in such things, feel free to leave all trades classified as 'long term positions.' Note that you can always come back and edit any entry in your trade log.";
 
   var descLong = "Classify a trade as a 'long-term position' when you are buying with plans to hold for the foreseeable future, or closing/reducing a position that you have previously opened as long-term.";
 
@@ -72,18 +97,23 @@ function TradeController ($state, tradeService) {
 
   var descPowder = "Use this classification in an instance in which you reduce or liquidate a position with the intent of re-buying as soon as you're able to do so -- but for the time being, you really need some of that 'dry powder' to work with to make another play, and the easiest way to gain that capital is to temporarily sell or reduce this position.";
 
-  var descExchange = "Use this classification when you are exchanging one currency for another assuming no tangible impact on profit or loss, such as a swap for a currency that will move faster between exchanges."
+  var descExchange = "Use 'exchange' when you are trading one currency for another for the sole purpose of moving funds between exchanges more quickly, with the intent to reverse your original transaction as soon as the transfer between exchanges has completed."
 
   var descTransfer = "Use the 'transfer' classification when you are sending currency from one exchange to another.";
 
   var descDeposit = "Use this when depositing USD$ into an exchange.";
 
-  var descPart = "Select 'part of a trade' for things like half of a two-trade play (such as one side of an arbitrage trade), or a component of a larger trade that was entered at multiple price points.";
+  var descPart = "Select 'part of a trade' for things like half of a two-trade play (such as one side of an arbitrage trade), or a component of a larger trade that was entered at multiple price points."
 
-  var descWhole = "Use 'all of a trade' if you are entering both halves of an arbitrage, short-term flip, dry powder grab, or transfer between exchanges.";
+  var descWhole = "Use 'all of a trade' if you are entering both halves of an arbitrage, short-term flip or dry powder grab.";
 
   var arbImmed = "Use the 'immediate' sub-classification if both halves of the play were able to be executed in a reasonable or expected timeframe.";
 
   var arbDelay = "Select 'conversion delay' if circumstances outside of your control -- such as a delay in transfer time from one exchange to another -- resulted in the second-half of a play being settled later than you'd originally planned.";
 
+  var descOpen = "Use this if you are buying an altcoin in exchange for a base currency like Bitcoin or Ethereum."
+
+  var descClose = "Use this if you are selling an altcoin in exchange for a base currency like Bitcoin or Ethereum."
+
+  var descNA = "Use this if you are trading one base currency for another or exchanging two currencies for which you always expect to have positions."
 }
