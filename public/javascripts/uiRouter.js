@@ -70,7 +70,7 @@ function siteConfig($stateProvider, $urlRouterProvider, $locationProvider) {
       views: {
         'content@': {
           templateUrl: 'views/trades/add.html',
-          controller: 'TradeController',
+          controller: 'TradeTypeController',
           controllerAs: 'vm'
         }
       }
@@ -80,7 +80,7 @@ function siteConfig($stateProvider, $urlRouterProvider, $locationProvider) {
       views: {
         'deposit@home.addTrade': {
           templateUrl: 'views/trades/deposit.html',
-          controller: 'TradeController',
+          controller: 'TradeSubmitController',
           controllerAs: 'vm'
         }
       }
@@ -90,7 +90,7 @@ function siteConfig($stateProvider, $urlRouterProvider, $locationProvider) {
       views: {
         'partial@home.addTrade': {
           templateUrl: 'views/trades/partial.html',
-          controller: 'TradeController',
+          controller: 'TradeSubmitController',
           controllerAs: 'vm'
         }
       }
@@ -100,7 +100,7 @@ function siteConfig($stateProvider, $urlRouterProvider, $locationProvider) {
       views: {
         'whole@home.addTrade': {
           templateUrl: 'views/trades/full.html',
-          controller: 'TradeController',
+          controller: 'TradeSubmitController',
           controllerAs: 'vm'
         }
       }

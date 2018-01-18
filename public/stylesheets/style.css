@@ -93,12 +93,50 @@
   background-color: #EEEDEE;
 }
 
-.tradeTable {
+.partial-trade .top {
+  margin: -10px 0 -5px 0;
+  padding-top: 0;
+}
+
+.date-label {
+  display: inline-block;
+  /* padding-top: 40px; */
+}
+
+.partial-trade header {
+  height: 25px;
+  background-color: grey;
+  margin-top: 0px;
+  padding: 0 0 4% 0;
+}
+
+.purch-row {
+  padding-top: 0;
+  margin-top: -10px;
+  background-color: #ECECEC;
+}
+
+.base-q {
+  padding-left: 5px;
+}
+
+.depositTable {
   border: solid 3px #0D60BC;
 }
 
-.tradeTable tr {
+.depositTable tr {
   border: solid 1px #0D60BC;
+  padding: 0;
+  margin: 0;
+  line-height: 20px;
+}
+
+.depositTable td {
+  padding: 0 0 0 10px;
+  margin: 0;
+}
+
+.tradeTable tr {
   padding: 0;
   margin: 0;
   line-height: 20px;
