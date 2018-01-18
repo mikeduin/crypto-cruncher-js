@@ -86,6 +86,13 @@
 
 /* Trade page styles */
 
+.trade-options {
+  border: solid 1px #EEEDEE;
+  padding: 3px 0 5px 0;
+  height: 190px;
+  background-color: #EEEDEE;
+}
+
 .tradeTable {
   border: solid 3px #0D60BC;
 }
