@@ -1,15 +1,15 @@
 angular
   .module('cryptoCruncher')
-  .controller('TradeSubmitController', ['$state', 'tradeService', 'marketService', TradeSubmitController])
+  .controller('TradeSubmitController', ['$state', '$scope', 'tradeService', 'marketService', TradeSubmitController])
 
-function TradeSubmitController ($state, tradeService, marketService) {
+function TradeSubmitController ($state, $scope, tradeService, marketService) {
   $(document).ready(function() {
     $('select').material_select();
   });
-
   var vm = this;
   vm.exchanges = ['GDAX', 'Coinbase', 'Binance', 'Bittrex', 'Bitfinex', 'HitBTC', 'KuCoin', 'Cryptopia', 'Other'];
   vm.symbolSell = 'BTC (Bitcoin)';
+  vm.tradeDir = "openAdd";
   var hour = moment().hour();
   var min = moment().minute();
   vm.trade = {
@@ -23,6 +23,11 @@ function TradeSubmitController ($state, tradeService, marketService) {
     time: new Date(2017, 0, 1, hour, min, 0),
     date: new Date()
   };
+
+  $scope.$on('tradeDir', function(event, data){
+    vm.tradeDir = data.direction;
+    // console.log('data received in submit controller is ', data)
+  });
 
   vm.feeObject = {
     'deposit': {

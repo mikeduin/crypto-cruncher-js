@@ -36,7 +36,7 @@
   </div>
   <div class="directionBox col s3" ng-show="vm.directionView">
     <div class="input-field">
-      <select ng-model="vm.tradeDir" ng-change="vm.tradeView()">
+      <select ng-model="vm.tradeDir" ng-change="vm.tradeView(); vm.emitTypeChange()">
         <option value="openAdd">Opening/Adding to a Position</option>
         <option value="closeReduce">Closing/Reducing a Position</option>
         <option value="na">N/A</option>

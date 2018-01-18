@@ -1,12 +1,11 @@
 angular
   .module('cryptoCruncher')
-  .controller('TradeTypeController', ['$state', TradeTypeController])
+  .controller('TradeTypeController', ['$state', 'tradeService', TradeTypeController])
 
-function TradeTypeController ($state) {
+function TradeTypeController ($state, tradeService) {
   $(document).ready(function() {
     $('select').material_select();
   });
-
   var vm = this;
   vm.tradeType = 'reset';
   vm.tradeParts = 'part';
@@ -16,8 +15,11 @@ function TradeTypeController ($state) {
   vm.directionView = false;
   vm.arbView = false;
 
+  vm.emitTypeChange = function () {
+    tradeService.broadcastType(vm.tradeDir);
+  };
+
   vm.tradeView = function () {
-    console.log(vm.tradeDir);
 
     function partsView () {
       if (vm.tradeParts == 'part') {
