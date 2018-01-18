@@ -86,25 +86,7 @@
 
 /* Trade page styles */
 
-#time_hh, #time_mm {
-  width: 35px;
-}
-
-#time_sel {
-  margin-top: 17px;
-}
-
-/* .clock {
-  padding-top: 20px;
-  padding-bottom: -20px;
-} */
-
-.exchFields {
-  margin: -30px 0 -10px 0;
-}
-
-.timeLabel {
-  /* padding-top: -60px;
-  margin-top: -100px; */
-  font-size: 8px;
+.tradeTable tr td {
+  padding: 0;
+  margin: 0;
 }

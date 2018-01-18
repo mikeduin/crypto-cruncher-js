@@ -1,39 +1,67 @@
     This is the deposit view
+<div class="row">
+  <div class="col s4">
+    <table class="striped tradeTable">
+      <colgroup>
+        <col style="width: 20%">
+        <col style="width: 80%">
+      </colgroup>
+      <tbody>
+        <tr>
+          <td>Date</td>
+          <td>
+            <div class="input-field inline"  style="width: 140px" ng-init="trade.date = vm.defDate">
+              <input ng-model="trade.date" type="date">
+            </div>
+            <span> @ </span>
+            <div class="input-field inline clock" ng-init="trade.time = vm.defTime">
+              <input ng-model="trade.time" type="time">
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Exchange</td>
+          <td class="input-field inline">
+            <select ng-model="trade.exch_deposit" ng-init="trade.exch_deposit = vm.exchanges[0]">
+              <option ng-repeat="exchange in vm.exchanges">{{exchange}}</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>Method</td>
+          <td>
+            <div class="input-field inline">
+              <select ng-model="trade.method" ng-init="trade.method = 'bank'">
+                <option value="bank">Bank Account</option>
+                <option value="card">Credit Card</option>
+              </select>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <div class="input-field inline">
+            <td>Amount</td>
+            <td>$
+              <div class="input-field inline">
+                <input type="number" min="0.00" value="0.00" step="0.01">
+              </div>
+            </td>
+          </div>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 <form ng-submit="vm.tradeSubmit(trade)">
-  <div class="row">
-    <div class="col s6">
-      <div class="dateFields">
-        <span>Date</span>
-        <div class="input-field inline">
-          <input ng-model="trade.date" type="date">
-        </div>
-        <span> @ </span>
-        <div class="input-field inline clock">
-          <input ng-model="trade.time" type="time">
-        </div>
-        <!-- <div class="input-field inline">
-          <input type="datetime-local" ng-model="trade.date">
-        </div> -->
-      </div>
-    </div>
-  </div>
 
-  <div class="row tradeRow">
+
+  <!-- <div class="row tradeRow">
     <div class="col s6">
-      <div class="exchFields">
-        <span>Exchange</span>
-        <div class="input-field inline">
-          <select ng-model="trade.exch_deposit" ng-init="trade.exch_deposit = vm.exchanges[0]">
-            <option ng-repeat="exchange in vm.exchanges">{{exchange}}</option>
-            <!-- <option value="GDAX">GDAX</option>
-            <option value="Coinbase">Coinbase</option>
-            <option value="Bitfinex">Bitfinex</option>
-            <option value="other">Other</option> -->
-          </select>
-        </div>
-      </div>
+      <span>Amount</span>
+      <span class="dollar">$</span>
+
     </div>
-  </div>
+  </div> -->
 
   <div class="row">
     <div class="col s4">

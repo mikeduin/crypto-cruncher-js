@@ -8,6 +8,8 @@ function TradeController ($state, tradeService, marketService) {
   });
 
   var vm = this;
+  vm.defTime = new Date(2017, 0, 1, 12, 00, 0);
+  vm.defDate = new Date();
   vm.tradeType = 'reset';
   vm.tradeParts = 'part';
   vm.tradeDir = 'openAdd';
@@ -18,9 +20,6 @@ function TradeController ($state, tradeService, marketService) {
   vm.exchanges = ['GDAX', 'Coinbase', 'Binance', 'Bittrex', 'Bitfinex', 'HitBTC', 'KuCoin', 'Cryptopia', 'Other'];
 
   vm.tradeSubmit = function(trade) {
-    console.log(trade);
-    console.log(trade.date.getDate());
-    // console.log('minutes are ', trade.time.getMinutes())
     var date = moment().set({
       'year': trade.date.getFullYear(),
       'month': trade.date.getMonth(),
