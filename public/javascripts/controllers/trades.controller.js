@@ -154,6 +154,4 @@ function TradeController ($state, tradeService, marketService) {
   var descDepositDir = "Use when depositing into an exchange.";
 
   var descWithdrawal = "Use when withdrawing from an exchange and into your bank account.";
-
-  vm.coinbaseWarn = "Never use Coinbase! You can avoid their fees by using GDAX. Read more <a href='https://steemit.com/cryptocurrency/@beevo/how-to-not-pay-coinbase-fees-usd-to-btc-eth-ltc' target='_blank'>here</a>."
 }
