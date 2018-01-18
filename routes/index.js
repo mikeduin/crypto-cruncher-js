@@ -35,18 +35,18 @@ var kucoinPs = {};
 
 console.log('Connecting ....');
 
-setInterval(function(){
-  pusher.trigger('binance-vol', 'update', binanceVol);
-  pusher.trigger('binance-p', 'update', binancePs);
-  pusher.trigger('bittrex-vol', 'update', bittrexVol);
-  pusher.trigger('gdax-vol', 'update', gdaxVol);
-  pusher.trigger('cryptopia-p', 'update', cryptopiaPs);
-  pusher.trigger('hitbtc-vol', 'update', hitbtcVol);
-  pusher.trigger('bitfinex-vol', 'update', bitfinexVol);
-  pusher.trigger('bitfinex-p', 'update', bitfinexPs);
-  pusher.trigger('kucoin-vol', 'update', kucoinVol);
-  pusher.trigger('kucoin-p', 'update', kucoinPs)
-}, 60000);
+// setInterval(function(){
+//   pusher.trigger('binance-vol', 'update', binanceVol);
+//   pusher.trigger('binance-p', 'update', binancePs);
+//   pusher.trigger('bittrex-vol', 'update', bittrexVol);
+//   pusher.trigger('gdax-vol', 'update', gdaxVol);
+//   pusher.trigger('cryptopia-p', 'update', cryptopiaPs);
+//   pusher.trigger('hitbtc-vol', 'update', hitbtcVol);
+//   pusher.trigger('bitfinex-vol', 'update', bitfinexVol);
+//   pusher.trigger('bitfinex-p', 'update', bitfinexPs);
+//   pusher.trigger('kucoin-vol', 'update', kucoinVol);
+//   pusher.trigger('kucoin-p', 'update', kucoinPs)
+// }, 60000);
 
 router.get('/getSymbols', function(req, res, next){
   knex('index as i')
@@ -131,7 +131,7 @@ setInterval(function(req, res, next){
       hitbtcMkt[token.symbol] = token.last;
       hitbtcVol[token.symbol] = token.volume;
     });
-    pusher.trigger('hitbtc-channel', 'update', hitbtcMkt);
+    // pusher.trigger('hitbtc-channel', 'update', hitbtcMkt);
   });
 }, 4000);
 
@@ -146,7 +146,7 @@ setInterval(function(req, res, next){
       cryptopiaVol[token.Label] = token.Volume;
       cryptopiaPs[token.Label] = token.Change;
     });
-    pusher.trigger('cryptopia-channel', 'update', cryptopiaMkt);
+    // pusher.trigger('cryptopia-channel', 'update', cryptopiaMkt);
   });
 }, 4000);
 
@@ -165,7 +165,7 @@ setInterval(function(req, res, next){
       bitfinexPs[ticker[0]] = perc;
       bitfinexVol[ticker[0]] = ticker[8];
     });
-    pusher.trigger('bitfinex-channel', 'update', bitfinexMkt);
+    // pusher.trigger('bitfinex-channel', 'update', bitfinexMkt);
   })
 }, 4000);
 
@@ -181,7 +181,7 @@ setInterval(function(req, res, next){
       kucoinVol[ticker.symbol] = ticker.vol;
       kucoinPs[ticker.symbol] = pct;
     });
-    pusher.trigger('kucoin-channel', 'update', kucoinMkt);
+    // pusher.trigger('kucoin-channel', 'update', kucoinMkt);
   })
 }, 4000);
 
@@ -196,7 +196,7 @@ bittrex.websockets.listen(function(data, client) {
       });
     });
   }
-  pusher.trigger('bittrex-channel', 'update', bittrexMkt);
+  // pusher.trigger('bittrex-channel', 'update', bittrexMkt);
 });
 
 binanceWs.on('message', function incoming(feed){
@@ -217,7 +217,7 @@ binanceWs.on('message', function incoming(feed){
     binanceVol[ticker['s']] = vol;
     binancePs[ticker['s']] = perc;
   });
-  pusher.trigger('binance-channel', 'update', binanceMkt);
+  // pusher.trigger('binance-channel', 'update', binanceMkt);
 });
 
 gdaxWs.on('open', function open() {
@@ -247,7 +247,7 @@ gdaxWs.on('message', function incoming(feed){
   gdaxMkt[data['product_id']] = data['price'];
   gdaxVol[data['product_id']] = data['volume_24h'];
   if (count % 4 === 0) {
-    pusher.trigger('gdax-channel', 'update', gdaxMkt);
+    // pusher.trigger('gdax-channel', 'update', gdaxMkt);
   };
 })
 

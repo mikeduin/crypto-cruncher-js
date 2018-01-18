@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
+var moment = require('moment');
 require('dotenv').load();
 
 var index = require('./routes/index');

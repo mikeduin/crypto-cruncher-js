@@ -15,6 +15,21 @@ function TradeController ($state, tradeService, marketService) {
   vm.partsView = false;
   vm.directionView = false;
   vm.arbView = false;
+  vm.exchanges = ['GDAX', 'Coinbase', 'Binance', 'Bittrex', 'Bitfinex', 'HitBTC', 'KuCoin', 'Cryptopia', 'Other'];
+
+  vm.tradeSubmit = function(trade) {
+    console.log(trade);
+    console.log(trade.date.getDate());
+    // console.log('minutes are ', trade.time.getMinutes())
+    var date = moment().set({
+      'year': trade.date.getFullYear(),
+      'month': trade.date.getMonth(),
+      'date': trade.date.getDate(),
+      'hour': trade.time.getHours(),
+      'minute': trade.time.getMinutes()
+    });
+    console.log(date);
+  };
 
   vm.tradeView = function () {
     function partsView () {
