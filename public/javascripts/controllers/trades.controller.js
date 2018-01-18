@@ -8,8 +8,6 @@ function TradeController ($state, tradeService, marketService) {
   });
 
   var vm = this;
-  vm.defTime = new Date(2017, 0, 1, 12, 00, 0);
-  vm.defDate = new Date();
   vm.tradeType = 'reset';
   vm.tradeParts = 'part';
   vm.tradeDir = 'openAdd';
@@ -18,6 +16,16 @@ function TradeController ($state, tradeService, marketService) {
   vm.directionView = false;
   vm.arbView = false;
   vm.exchanges = ['GDAX', 'Coinbase', 'Binance', 'Bittrex', 'Bitfinex', 'HitBTC', 'KuCoin', 'Cryptopia', 'Other'];
+
+  vm.trade = {
+    deposit: 0,
+    fee: 0,
+    total: 0,
+    method: 'bank',
+    exchange: vm.exchanges[0],
+    time: new Date(2017, 0, 1, 12, 00, 0),
+    date: new Date()
+  };
 
   vm.tradeSubmit = function(trade) {
     var date = moment().set({
@@ -38,6 +46,7 @@ function TradeController ($state, tradeService, marketService) {
         vm.partsDesc = descPart;
         $state.go('home.addTrade.partial');
       } else {
+        vm.partsView = true;
         vm.directionView = false;
         vm.partsDesc = descWhole;
         $state.go('home.addTrade.whole');
@@ -47,7 +56,7 @@ function TradeController ($state, tradeService, marketService) {
     function dirView () {
       if (vm.tradeDir == 'openAdd') {
         if (vm.tradeType == 'deposit') {
-          vm.dirDesc = descDeposit;
+          vm.dirDesc = descDepositDir;
         } else {
           vm.dirDesc = descOpen;
         };
@@ -96,10 +105,11 @@ function TradeController ($state, tradeService, marketService) {
       dirView();
       $state.go('home.addTrade.deposit');
     } else if (vm.tradeType === "reset") {
-      vm.typeDesc = null;
       vm.directionView = false;
       vm.partsView = false;
-    };
+      dirView();
+      $state.go('home.addTrade');
+    }
   };
 
 
@@ -125,9 +135,9 @@ function TradeController ($state, tradeService, marketService) {
 
   var descTransfer = "Use the 'transfer' classification when you are sending currency from one exchange to another.";
 
-  var descDeposit = "Use this when depositing USD$ into an exchange.";
+  var descDeposit = "Use this only when depositing USD$ into an exchange. If you are logging a purchase of  cryptocurrency with USD$, select a different trade type.";
 
-  var descPart = "Select 'part of a trade' for things like half of a two-trade play (such as one side of an arbitrage trade), or a component of a larger trade that was entered at multiple price points."
+  var descPart = "Select 'part of a trade' for entries like half of a two-trade play (such as one side of an arbitrage trade), or a component of a larger position that was entered at multiple price points."
 
   var descWhole = "Use 'all of a trade' if you are entering both halves of an arbitrage, short-term flip or dry powder grab.";
 
@@ -135,13 +145,15 @@ function TradeController ($state, tradeService, marketService) {
 
   var arbDelay = "Select 'conversion delay' if circumstances outside of your control -- such as a delay in transfer time from one exchange to another -- resulted in the second-half of a play being settled later than you'd originally planned.";
 
-  var descOpen = "Use this if you are buying an altcoin in exchange for a base currency like Bitcoin or Ethereum."
+  var descOpen = "Use this if you are buying an altcoin in exchange for a base currency like Bitcoin or Ethereum.";
 
-  var descClose = "Use this if you are selling an altcoin in exchange for a base currency like Bitcoin or Ethereum."
+  var descClose = "Use this if you are selling an altcoin in exchange for a base currency like Bitcoin or Ethereum.";
 
-  var descNA = "Use this if you are trading one base currency for another or exchanging two currencies for which you always expect to have positions."
+  var descNA = "Use this if you are trading one base currency for another or exchanging two currencies for which you always expect to have positions.";
 
-  var descDeposit = "Use this when depositing from your bank account or credit card and into an exchange.";
+  var descDepositDir = "Use when depositing into an exchange.";
 
-  var descWithdrawal = "Use this when withdrawing from an exchange and into your bank account.";
+  var descWithdrawal = "Use when withdrawing from an exchange and into your bank account.";
+
+  vm.coinbaseWarn = "Never use Coinbase! You can avoid their fees by using GDAX. Read more <a href='https://steemit.com/cryptocurrency/@beevo/how-to-not-pay-coinbase-fees-usd-to-btc-eth-ltc' target='_blank'>here</a>."
 }

@@ -75,56 +75,6 @@ function siteConfig($stateProvider, $urlRouterProvider, $locationProvider) {
         }
       }
     })
-    // .state('home.addTrade.long', {
-    //   url: '/long',
-    //   views: {
-    //     'long@home.addTrade': {
-    //       templateUrl: 'views/trades/long.html',
-    //       controller: 'TradeController',
-    //       controllerAs: 'vm'
-    //     }
-    //   }
-    // })
-    // .state('home.addTrade.short', {
-    //   url: '/short',
-    //   views: {
-    //     'short@home.addTrade': {
-    //       templateUrl: 'views/trades/short.html',
-    //       controller: 'TradeController',
-    //       controllerAs: 'vm'
-    //     }
-    //   }
-    // })
-    // .state('home.addTrade.arb', {
-    //   url: '/arb',
-    //   views: {
-    //     'arb@home.addTrade': {
-    //       templateUrl: 'views/trades/arb.html',
-    //       controller: 'TradeController',
-    //       controllerAs: 'vm'
-    //     }
-    //   }
-    // })
-    // .state('home.addTrade.transfer', {
-    //   url: '/transfer',
-    //   views: {
-    //     'transfer@home.addTrade': {
-    //       templateUrl: 'views/trades/transfer.html',
-    //       controller: 'TradeController',
-    //       controllerAs: 'vm'
-    //     }
-    //   }
-    // })
-    // .state('home.addTrade.powder', {
-    //   url: '/powder',
-    //   views: {
-    //     'powder@home.addTrade': {
-    //       templateUrl: 'views/trades/powder.html',
-    //       controller: 'TradeController',
-    //       controllerAs: 'vm'
-    //     }
-    //   }
-    // })
     .state('home.addTrade.deposit', {
       url: '/deposit',
       views: {

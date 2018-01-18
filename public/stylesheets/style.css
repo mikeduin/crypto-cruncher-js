@@ -86,7 +86,23 @@
 
 /* Trade page styles */
 
-.tradeTable tr td {
+.tradeTable tr {
   padding: 0;
   margin: 0;
+  line-height: 20px;
+}
+
+.tradeTable td {
+  padding: 0 0 0 10px;
+  margin: 0;
+}
+
+.tradeDesc {
+  font-size: 10px;
+}
+
+.warn {
+  display: inline-block;
+  color: red;
+  font-size: 8px;
 }

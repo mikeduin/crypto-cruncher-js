@@ -1,71 +1,86 @@
-    This is the deposit view
 <div class="row">
-  <div class="col s4">
-    <table class="striped tradeTable">
-      <colgroup>
-        <col style="width: 20%">
-        <col style="width: 80%">
-      </colgroup>
-      <tbody>
-        <tr>
-          <td>Date</td>
-          <td>
-            <div class="input-field inline"  style="width: 140px" ng-init="trade.date = vm.defDate">
-              <input ng-model="trade.date" type="date">
-            </div>
-            <span> @ </span>
-            <div class="input-field inline clock" ng-init="trade.time = vm.defTime">
-              <input ng-model="trade.time" type="time">
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Exchange</td>
-          <td class="input-field inline">
-            <select ng-model="trade.exch_deposit" ng-init="trade.exch_deposit = vm.exchanges[0]">
-              <option ng-repeat="exchange in vm.exchanges">{{exchange}}</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>Method</td>
-          <td>
-            <div class="input-field inline">
-              <select ng-model="trade.method" ng-init="trade.method = 'bank'">
-                <option value="bank">Bank Account</option>
-                <option value="card">Credit Card</option>
-              </select>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <div class="input-field inline">
-            <td>Amount</td>
-            <td>$
-              <div class="input-field inline">
-                <input type="number" min="0.00" value="0.00" step="0.01">
+  <div class="col s5">
+    <form ng-submit="vm.tradeSubmit(vm.trade)">
+      <table class="striped tradeTable">
+        <colgroup>
+          <col style="width: 20%">
+          <col style="width: 80%">
+        </colgroup>
+        <tbody>
+          <tr>
+            <td>Date</td>
+            <td>
+              <div class="input-field inline"  style="width: 140px">
+                <input ng-model="vm.trade.date" type="date">
+              </div>
+              <span> @ </span>
+              <div class="input-field inline clock">
+                <input ng-model="vm.trade.time" type="time">
               </div>
             </td>
-          </div>
-        </tr>
-      </tbody>
-    </table>
+          </tr>
+          <tr>
+            <td>Exchange</td>
+            <td>
+              <div class="input-field inline">
+                <select ng-model="vm.trade.exchange" class="inline">
+                  <option ng-repeat="exchange in vm.exchanges">{{exchange}}</option>
+                </select>
+              </div>
+              <span ng-bind-html="vm.coinbaseWarn | rawHtml" class="warn"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>Method</td>
+            <td>
+              <div class="input-field inline">
+                <select ng-model="vm.trade.method">
+                  <option value="bank">Bank Account</option>
+                  <option value="card">Credit Card</option>
+                </select>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <div class="input-field inline">
+              <td>Deposit Amount</td>
+              <td>$
+                <div class="input-field inline">
+                  <input ng-model="vm.trade.deposit | number:2">
+                </div>
+              </td>
+            </div>
+          </tr>
+          <tr>
+            <div class="input-field inline">
+              <td>Fee</td>
+              <td>$
+                <div class="input-field inline">
+                  <input ng-model="vm.trade.fee | number:2">
+                </div>
+                <span>Note goes here</span>
+              </td>
+            </div>
+          </tr>
+          <tr>
+            <div class="input-field inline">
+              <td>Amount Received</td>
+              <td>$
+                <div class="input-field inline">
+                  <input ng-model="vm.trade.total | number:2">
+                </div>
+              </td>
+            </div>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <div class="input-field inline">
+                <button type="submit">Submit</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
   </div>
 </div>
-<form ng-submit="vm.tradeSubmit(trade)">
-
-
-  <!-- <div class="row tradeRow">
-    <div class="col s6">
-      <span>Amount</span>
-      <span class="dollar">$</span>
-
-    </div>
-  </div> -->
-
-  <div class="row">
-    <div class="col s4">
-      <button type="submit">Submit</button>
-    </div>
-  </div>
-</form>
