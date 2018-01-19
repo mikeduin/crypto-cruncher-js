@@ -5,6 +5,7 @@ angular
 function TradeSubmitController ($state, $scope, tradeService, marketService) {
   $(document).ready(function() {
     $('select').material_select();
+    Materialize.updateTextFields();
   });
   var vm = this;
   vm.exchanges = ['GDAX', 'Coinbase', 'Binance', 'Bittrex', 'Bitfinex', 'HitBTC', 'KuCoin', 'Cryptopia', 'Other'];
@@ -19,7 +20,7 @@ function TradeSubmitController ($state, $scope, tradeService, marketService) {
     method: 'bank',
     exchange: vm.exchanges[0],
     curr_sold: 'BTC',
-    qty: 0,
+    // qty: 0,
     time: new Date(2017, 0, 1, hour, min, 0),
     date: new Date()
   };
@@ -55,6 +56,10 @@ function TradeSubmitController ($state, $scope, tradeService, marketService) {
       vm.symbolIndex = res;
     })
   })();
+
+  vm.calcCost = function() {
+    vm.trade.total_cost = vm.trade.qty * vm.trade.rate;
+  };
 
   vm.findCurrency = function (symbol) {
     var found = false;
