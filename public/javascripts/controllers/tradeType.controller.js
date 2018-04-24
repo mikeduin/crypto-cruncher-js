@@ -9,7 +9,7 @@ function TradeTypeController ($state, tradeService) {
   var vm = this;
   vm.tradeType = 'reset';
   vm.tradeParts = 'part';
-  vm.tradeDir = 'openAdd';
+  vm.tradeDir = 'buy';
   vm.arbType = 'immed';
   vm.partsView = false;
   vm.directionView = false;
@@ -36,13 +36,13 @@ function TradeTypeController ($state, tradeService) {
     };
 
     function dirView () {
-      if (vm.tradeDir == 'openAdd') {
+      if (vm.tradeDir == 'buy') {
         if (vm.tradeType == 'deposit') {
           vm.dirDesc = descDepositDir;
         } else {
           vm.dirDesc = descOpen;
         };
-      } else if (vm.tradeDir == 'closeReduce') {
+      } else if (vm.tradeDir == 'sell') {
         if (vm.tradeType == 'deposit') {
           vm.dirDesc = descWithdrawal;
         } else {
@@ -112,7 +112,7 @@ function TradeTypeController ($state, tradeService) {
 
   var descArb = "The 'arbitrage' classification should be used when making a pair of trades to take advantage of market inefficiencies across different exchanges.";
 
-  var descPowder = "Use this classification in an instance in which you reduce or liquidate a position with the intent of re-buying as soon as you're able to do so -- but for the time being, you really need some of that 'dry powder' to work with to make another play, and the easiest way to gain that capital is to temporarily sell or reduce a position.";
+  var descPowder = "Use this classification when you reduce or liquidate a position with the intent of re-buying as soon as possible -- but for the time being, you really need some of that 'dry powder' to work with to make another play, and the easiest way to gain that capital is to temporarily sell or reduce a position.";
 
   var descExchange = "Use 'exchange' when you are trading one currency for another for the sole purpose of moving funds between exchanges more quickly, with the intent to reverse your original transaction as soon as the transfer between exchanges has completed."
 
@@ -120,7 +120,7 @@ function TradeTypeController ($state, tradeService) {
 
   var descDeposit = "Use this only when depositing USD$ into an exchange. If you are logging a purchase of  cryptocurrency with USD$, select a different trade type.";
 
-  var descPart = "Select 'part of a trade' for entries like half of a two-trade play (such as one side of an arbitrage trade), or a component of a larger position that was entered at multiple price points."
+  var descPart = "Select 'part of a trade' for entries like half of a two-trade play (such as one side of an arbitrage trade), opening/adding to a long-term position, or a component of a larger position that was entered at multiple price points."
 
   var descWhole = "Use 'all of a trade' if you are entering both halves of an arbitrage, short-term flip or dry powder grab.";
 
@@ -128,11 +128,9 @@ function TradeTypeController ($state, tradeService) {
 
   var arbDelay = "Select 'conversion delay' if circumstances outside of your control -- such as a delay in transfer time from one exchange to another -- resulted in the second-half of a play being settled later than you'd originally planned.";
 
-  var descOpen = "Use this if you are buying an altcoin in exchange for a base currency like Bitcoin or Ethereum.";
+  var descOpen = "Use this if you are BUYING an altcoin in exchange for a base currency like Bitcoin or Ethereum. If you are exchanging two base currencies or currencies for which you always expect to have positions, disregard this category.";
 
-  var descClose = "Use this if you are selling an altcoin in exchange for a base currency like Bitcoin or Ethereum.";
-
-  var descNA = "Use this if you are trading one base currency for another or exchanging two currencies for which you always expect to have positions.";
+  var descClose = "Use this if you are SELLING an altcoin in exchange for a base currency like Bitcoin or Ethereum. If you are exchanging two base currencies or currencies for which you always expect to have positions, disregard this category.";
 
   var descDepositDir = "Use when depositing into an exchange.";
 

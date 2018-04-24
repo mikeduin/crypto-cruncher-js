@@ -1,32 +1,42 @@
 <div class="row">
   <div class="col s8" style="border: solid black 1px">
-    <form class="partial-trade">
+    <form class="partial-trade" ng-submit="vm.submitTrade(vm.trade)">
       <section class="row top">
-        <div class="col s8">
-          <div class="date-label">Time of Trade:</div>
+        <div class="col s4">
+          <div class="input-field inline">
+            <select ng-model="vm.trade.exchange">
+              <option ng-repeat="exchange in vm.exchanges">{{exchange}}</option>
+            </select>
+            <label>Exchange</label>
+          </div>
+          <!-- <div style="display: inline-block">
+            <span>
+              <input ng-model="vm.trade.method" class="with-gap" name="method" type="radio" id="account" value="account">
+              <label for="account">Account</label>
+            </span>
+            <span>
+              <input ng-model="vm.trade.method" class="with-gap" name="method" type="radio" id="card" value="card">
+              <label for="card">Credit Card</label>
+            </span>
+          </div> -->
+        </div>
+        <div class="col s8 right-align">
+          <div class="lead-label">Time of Trade:</div>
           <div class="input-field inline"  style="width: 140px">
-            <input ng-model="vm.trade.date" type="date">
+            <input ng-model="vm.trade.date" type="date" id="trade.date">
           </div>
           <span> @ </span>
           <div class="input-field inline clock">
             <input ng-model="vm.trade.time" type="time">
           </div>
         </div>
-        <div class="col s4">
-          Exchange:
-          <div class="input-field inline">
-            <select ng-model="vm.trade.exchange">
-              <option ng-repeat="exchange in vm.exchanges">{{exchange}}</option>
-            </select>
-          </div>
-        </div>
       </section>
       <section class="row purch-row">
         <div class="col s2 center-align">
-          <div ng-class="{'trade-buy': vm.tradeDir == 'openAdd'}" ng-if="vm.tradeDir == 'openAdd'">
+          <div ng-class="{'trade-buy': vm.tradeDir == 'buy'}" ng-if="vm.tradeDir == 'buy'">
             BUYING:
           </div>
-          <div ng-class="{'trade-sell': vm.tradeDir == 'closeReduce'}" ng-if="vm.tradeDir == 'closeReduce'">
+          <div ng-class="{'trade-sell': vm.tradeDir == 'sell'}" ng-if="vm.tradeDir == 'sell'">
             SELLING:
           </div>
         </div>
@@ -45,23 +55,26 @@
         <div class="col s5 purch-cat">
           @
           <div class="input-field inline">
-            <input ng-model="vm.trade.rate" id="id_curr_rate" type="number" ng-change="vm.calcCost()">
+            <input ng-model="vm.trade.rate" id="curr_rate" type="number" ng-change="vm.calcCost()">
             <label for="curr_rate">Rate</label>
           </div>
           <span>{{vm.trade.curr_sold}}</span><span class="base-q" tooltipped data-position="top" data-delay="10" data-tooltip="You can change your base currency below."><i class="fa fa-question-circle" aria-hidden="true"></i></span>
         </div>
       </section>
       <section class="row confirm-row">
-        <div class="col s4 center-align">
-          {{vm.symbolBuy}}
+        <div class="col s5 offset-s1">
+          <i>Buy Symbol Validator:</i> {{vm.symbolBuy}}
+        </div>
+        <div class="col s5 offset-s1 left-align">
+          <i>Sell Symbol Validator:</i> {{vm.symbolSell}}
         </div>
       </section>
       <section class="row sell-row">
         <div class="col s2 center-align">
-          <div ng-class="{'trade-sell': vm.tradeDir == 'openAdd'}" ng-if="vm.tradeDir == 'openAdd'">
+          <div ng-class="{'trade-sell': vm.tradeDir == 'buy'}" ng-if="vm.tradeDir == 'buy'">
             AT A COST OF:
           </div>
-          <div ng-class="{'trade-buy': vm.tradeDir == 'closeReduce'}" ng-if="vm.tradeDir == 'closeReduce'">
+          <div ng-class="{'trade-buy': vm.tradeDir == 'sell'}" ng-if="vm.tradeDir == 'sell'">
             GETTING BACK:
           </div>
         </div>
@@ -77,15 +90,41 @@
             <label for="curr_sold">Currency Sold</label>
           </div>
         </div>
+        <div class="col s5">
+          <div class="input-field inline">
+            <input ng-model="vm.trade.fee" id="trade_fee" type="number">
+            <label for="trade_fee">Fee</label>
+          </div>
+          <div class="input-field inline">
+            <input ng-model="vm.trade.fee_curr" id="trade_fee_curr" type="text">
+            <label for="trade_fee_curr">Fee Currency</label>
+          </div>
+        </div>
       </section>
-      <!-- <header class="row">
-        <div class="col s12 center-align" ng-if="vm.tradeDir == 'openAdd'">
-          - WHAT DID IT COST YOU? -
+      <section class="row summary-row">
+        <div class="col s2 center-align">
+          <div class="trade-summary">
+            TRADE SUMMARY:
+          </div>
         </div>
-        <div class="col s12 center-align" ng-if="vm.tradeDir == 'closeReduce'">
-          - WHAT'S COMING BACK TO YOU? -
+        <div class="col s10">
+          <ul>
+            <li>
+              <span ng-if="vm.tradeDir == 'buy'">Buying</span><span ng-if="vm.tradeDir == 'sell'">Selling</span> <span ng-if="vm.trade.qty">{{vm.trade.qty}}</span><span ng-if="!vm.trade.qty">0</span> shares of <span ng-if="vm.trade.curr_bought">{{vm.symbolBuy}}</span><span ng-if="!vm.trade.curr_bought">(symbol)</span> at a rate of <span ng-if="vm.trade.rate">{{vm.trade.rate}}</span><span ng-if="!vm.trade.rate">0.00</span> {{vm.trade.curr_sold}} on {{vm.trade.exchange}}
+            </li>
+            <li>Fee is {{vm.trade.fee}} {{vm.trade.fee_curr}}</li>
+            <li>Total cost is
+              <span ng-show="vm.trade.curr_sold == vm.trade.fee_curr">{{vm.trade.total_cost + vm.trade.fee | number:8}} {{vm.trade.fee_curr}}</span>
+              <span ng-show="vm.trade.curr_sold != vm.trade.fee_curr">{{vm.trade.total_cost | number:8}} {{vm.trade.curr_sold}} + {{vm.trade.fee | number:8}} {{vm.trade.fee_curr}}</span>
+            </li>
+          </ul>
         </div>
-      </header> -->
+      </section>
+      <section class="row">
+        <div class="col s4 offset-s2">
+          <button class="btn" type="submit">Submit Trade</button>
+        </div>
+      </section>
     </form>
   </div>
 </div>

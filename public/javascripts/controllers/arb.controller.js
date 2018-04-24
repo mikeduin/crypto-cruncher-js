@@ -411,7 +411,7 @@ function ArbController ($state, $pusher, marketService, authService, userService
     Object.keys(data).forEach(function(key){
       vm.kucoinMkt[key] = data[key];
     });
-    console.log(vm.kucoinMkt);
+    // console.log(vm.kucoinMkt);
     findMins();
     findMaxs();
   });

@@ -89,18 +89,18 @@
 .trade-options {
   border: solid 1px #EEEDEE;
   padding: 3px 0 5px 0;
-  height: 190px;
+  height: 175px;
   background-color: #EEEDEE;
+}
+
+.lead-label {
+  display: inline-block;
+  color: #A19E9E;
 }
 
 .partial-trade .top {
   margin: -10px 0 -5px 0;
   padding-top: 0;
-}
-
-.date-label {
-  display: inline-block;
-  /* padding-top: 40px; */
 }
 
 .partial-trade header .row {
@@ -112,6 +112,7 @@
 
 .purch-row {
   padding-top: 0;
+  margin-top: 0;
   background-color: #ECECEC;
 }
 
@@ -127,6 +128,12 @@
 }
 
 .sell-row {
+  margin-top: -20px;
+  padding-top: 0;
+  background-color: #ECECEC;
+}
+
+.summary-row {
   margin-top: -20px;
   padding-top: 0;
   background-color: #ECECEC;
@@ -154,6 +161,14 @@
   height: 60px;
   font-weight: 800;
   padding-top: 15%;
+}
+
+.trade-summary {
+  background-color: black;
+  color: white;
+  height: 60px;
+  font-weight: 800;
+  padding-top: 5%;
 }
 
 .depositTable {
