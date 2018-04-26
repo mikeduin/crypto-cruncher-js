@@ -10,6 +10,11 @@ function tradeService ($http, $timeout, $rootScope) {
           direction: dir
         }, 3000);
       });
+    },
+    submitTrade: function (trade) {
+      return $http.post('/trades/submitTrade', trade).then(function(res){
+        return res
+      })
     }
   }
 }

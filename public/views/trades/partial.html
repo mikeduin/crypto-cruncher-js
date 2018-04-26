@@ -42,7 +42,7 @@
         </div>
         <div class="col s3 purch-cat right-align">
           <div class="input-field inline">
-            <input ng-model="vm.trade.qty" id="curr_quantity" type="number" ng-change="vm.calcCost()">
+            <input ng-model="vm.trade.qty" id="curr_quantity" type="number" ng-change="vm.calcCost()" step="any">
             <label for="curr_quantity">Enter Quantity</label>
           </div>
         </div>
@@ -55,7 +55,7 @@
         <div class="col s5 purch-cat">
           @
           <div class="input-field inline">
-            <input ng-model="vm.trade.rate" id="curr_rate" type="number" ng-change="vm.calcCost()">
+            <input ng-model="vm.trade.rate" id="curr_rate" type="number" ng-change="vm.calcCost()" step="any">
             <label for="curr_rate">Rate</label>
           </div>
           <span>{{vm.trade.curr_sold}}</span><span class="base-q" tooltipped data-position="top" data-delay="10" data-tooltip="You can change your base currency below."><i class="fa fa-question-circle" aria-hidden="true"></i></span>
@@ -80,7 +80,7 @@
         </div>
         <div class="col s3 right-align">
           <div class="input-field inline">
-            <input disabled ng-model="vm.trade.total_cost" id="total_cost" type="number">
+            <input disabled ng-model="vm.trade.total_cost" id="total_cost" type="number" step="any">
             <label for="total_cost">Total Cost</label>
           </div>
         </div>
@@ -92,7 +92,7 @@
         </div>
         <div class="col s5">
           <div class="input-field inline">
-            <input ng-model="vm.trade.fee" id="trade_fee" type="number">
+            <input ng-model="vm.trade.fee" id="trade_fee" type="number" step="any">
             <label for="trade_fee">Fee</label>
           </div>
           <div class="input-field inline">

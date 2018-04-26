@@ -1,8 +1,8 @@
 angular
   .module('cryptoCruncher')
-  .controller('TradeSubmitController', ['$state', '$scope', 'tradeService', 'marketService', TradeSubmitController])
+  .controller('TradeSubmitController', ['$state', '$scope', 'tradeService', 'marketService', 'authService', TradeSubmitController])
 
-function TradeSubmitController ($state, $scope, tradeService, marketService) {
+function TradeSubmitController ($state, $scope, tradeService, marketService, authService) {
   $(document).ready(function() {
     $('select').material_select();
     Materialize.updateTextFields();
@@ -13,19 +13,36 @@ function TradeSubmitController ($state, $scope, tradeService, marketService) {
   vm.tradeDir = "buy";
   var hour = moment().hour();
   var min = moment().minute();
+  function currentUser() {
+    return authService.currentUser();
+  }
   vm.trade = {
     deposit: 0,
     fee: 0,
-    total: 0,
     method: 'bank',
     exchange: vm.exchanges[0],
     curr_sold: 'BTC',
-    fee_curr: 'BTC', 
+    fee_curr: 'BTC',
     total_cost: 0,
     method: 'account',
-    // qty: 0,
     time: new Date(2017, 0, 1, hour, min, 0),
-    date: new Date()
+    date: new Date(),
+    username: currentUser()
+  };
+
+  vm.submitTrade = function(trade) {
+    var date = moment().set({
+      'year': trade.date.getFullYear(),
+      'month': trade.date.getMonth(),
+      'date': trade.date.getDate(),
+      'hour': trade.time.getHours(),
+      'minute': trade.time.getMinutes()
+    });
+    trade.date = date;
+    trade.logged = new Date();
+    tradeService.submitTrade(trade).then(function(res){
+      console.log(res);
+    });
   };
 
   $scope.$on('tradeDir', function(event, data){
@@ -54,8 +71,6 @@ function TradeSubmitController ($state, $scope, tradeService, marketService) {
       'bittrex': 0.0025
     }
   };
-
-
 
   vm.feeCalc = function () {
     var tradeType;
@@ -124,18 +139,6 @@ function TradeSubmitController ($state, $scope, tradeService, marketService) {
     } else if (!found && symbol !== undefined) {
       vm.symbolBuy = "Currency not found!";
     };
-  };
-
-
-  vm.tradeSubmit = function(trade) {
-    var date = moment().set({
-      'year': trade.date.getFullYear(),
-      'month': trade.date.getMonth(),
-      'date': trade.date.getDate(),
-      'hour': trade.time.getHours(),
-      'minute': trade.time.getMinutes()
-    });
-    console.log(date);
   };
 
   var feeBinance = "(a) Binance fee calculations assume your fees are being paid in the currency of your trade proceeds, which carries a 0.1% fee. If you are using BNB (Binance Coin) to pay your fees, reduce your fee by 50%. (b) Binance fees are reflected in your account following the close of a trade, and you will not see the fee adjustment in your trade screen. For example: if you buy 1.00 ETH in exchange for BTC, your trade proceeds will appear as 1.00 ETH on the trade screen, but your account will be credited 0.999 ETH (1 ETH / 0.1% fee = 0.999 ETH)."
