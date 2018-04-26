@@ -6,7 +6,7 @@
 <div class="row trade-options">
   <div class="typeBox col s3">
     <div class="input-field">
-      <select ng-model="vm.tradeType" ng-change="vm.tradeView()">
+      <select ng-model="vm.tradeType" ng-change="vm.tradeView(); vm.emitTypeChange()">
         <option value="reset" selected>What type of trade is this?</option>
         <option value="long">Long-Term Position</option>
         <option value="short">Short-Term Flip</option>
@@ -24,7 +24,7 @@
   </div>
   <div class="partsBox col s3" ng-show="vm.partsView">
     <div class="input-field">
-      <select ng-model="vm.tradeParts" ng-change="vm.tradeView()">
+      <select ng-model="vm.tradeParts" ng-change="vm.tradeView(); vm.emitTypeChange()">
         <option value="part">Part of a trade</option>
         <option value="all">All of a trade</option>
       </select>
@@ -48,7 +48,7 @@
   </div>
   <div class="arbBox col s3" ng-show="vm.arbView">
     <div class="input-field" >
-      <select ng-model="vm.arbType" ng-change="vm.tradeView()">
+      <select ng-model="vm.arbType" ng-change="vm.tradeView(); vm.emitTypeChange()">
         <option value="immed">Immediate</option>
         <option value="delay">Conversion Delay</option>
       </select>

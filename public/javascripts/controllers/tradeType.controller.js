@@ -16,7 +16,7 @@ function TradeTypeController ($state, tradeService) {
   vm.arbView = false;
 
   vm.emitTypeChange = function () {
-    tradeService.broadcastType(vm.tradeDir);
+    tradeService.broadcastType(vm.tradeDir, vm.tradeType, vm.tradeParts);
   };
 
   vm.tradeView = function () {

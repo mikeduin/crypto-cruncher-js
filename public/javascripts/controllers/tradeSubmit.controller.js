@@ -15,16 +15,15 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
   var min = moment().minute();
   function currentUser() {
     return authService.currentUser();
-  }
+  };
   vm.trade = {
     deposit: 0,
     fee: 0,
     method: 'bank',
     exchange: vm.exchanges[0],
-    curr_sold: 'BTC',
-    fee_curr: 'BTC',
-    total_cost: 0,
-    method: 'account',
+    sellSymbol: 'BTC',
+    feeSymbol: 'BTC',
+    subTotal: 0,
     time: new Date(2017, 0, 1, hour, min, 0),
     date: new Date(),
     username: currentUser()
@@ -40,13 +39,23 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
     });
     trade.date = date;
     trade.logged = new Date();
+    trade.time = null;
+    trade.type = vm.tradeType;
+    trade.direction = vm.tradeDir;
+    if (trade.type !== 'deposit') {
+      trade.deposit = null;
+      trade.method = null;
+    };
+    console.log('trade is ', trade);
     tradeService.submitTrade(trade).then(function(res){
       console.log(res);
     });
   };
 
   $scope.$on('tradeDir', function(event, data){
-    vm.tradeDir = data.direction;
+    vm.tradeDir = data.direction,
+    vm.tradeType = data.type,
+    vm.tradeParts = data.parts
   });
 
   vm.feeObject = {
@@ -80,7 +89,7 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
       tradeType = vm.tradeDir;
     };
 
-    // vm.tradeFee = (vm.trade.total_cost *
+    // vm.tradeFee = (vm.trade.subTotal *
     //   vm.feeObject[tradeType][vm.trade.exchange]
     // )
     // if (vm.trade.exchange === 'GDAX') {
@@ -122,7 +131,7 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
   })();
 
   vm.calcCost = function() {
-    vm.trade.total_cost = vm.trade.qty * vm.trade.rate;
+    vm.trade.subTotal = vm.trade.buyQty * vm.trade.buyRate;
   };
 
   vm.findCurrency = function (symbol) {

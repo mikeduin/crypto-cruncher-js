@@ -42,23 +42,23 @@
         </div>
         <div class="col s3 purch-cat right-align">
           <div class="input-field inline">
-            <input ng-model="vm.trade.qty" id="curr_quantity" type="number" ng-change="vm.calcCost()" step="any">
+            <input ng-model="vm.trade.buyQty" id="curr_quantity" type="number" ng-change="vm.calcCost()" step="any">
             <label for="curr_quantity">Enter Quantity</label>
           </div>
         </div>
         <div class="col s2 purch-cat">
           <div class="input-field inline">
-            <input ng-model="vm.trade.curr_bought" id="curr_bought" type="text"  ng-blur="vm.findCurrency(vm.trade.curr_bought, 'buy')">
+            <input ng-model="vm.trade.buySymbol" id="curr_bought" type="text"  ng-blur="vm.findCurrency(vm.trade.buySymbol, 'buy')">
             <label for="curr_bought">Symbol</label>
           </div>
         </div>
         <div class="col s5 purch-cat">
           @
           <div class="input-field inline">
-            <input ng-model="vm.trade.rate" id="curr_rate" type="number" ng-change="vm.calcCost()" step="any">
+            <input ng-model="vm.trade.buyRate" id="curr_rate" type="number" ng-change="vm.calcCost()" step="any">
             <label for="curr_rate">Rate</label>
           </div>
-          <span>{{vm.trade.curr_sold}}</span><span class="base-q" tooltipped data-position="top" data-delay="10" data-tooltip="You can change your base currency below."><i class="fa fa-question-circle" aria-hidden="true"></i></span>
+          <span>{{vm.trade.sellSymbol}}</span><span class="base-q" tooltipped data-position="top" data-delay="10" data-tooltip="You can change your base currency below."><i class="fa fa-question-circle" aria-hidden="true"></i></span>
         </div>
       </section>
       <section class="row confirm-row">
@@ -80,13 +80,13 @@
         </div>
         <div class="col s3 right-align">
           <div class="input-field inline">
-            <input disabled ng-model="vm.trade.total_cost" id="total_cost" type="number" step="any">
+            <input disabled ng-model="vm.trade.subTotal" id="total_cost" type="number" step="any">
             <label for="total_cost">Total Cost</label>
           </div>
         </div>
         <div class="col s2">
           <div class="input-field inline">
-            <input ng-model="vm.trade.curr_sold" id="curr_sold" type="text" ng-blur="vm.findCurrency(vm.trade.curr_bought, 'sell')">
+            <input ng-model="vm.trade.sellSymbol" id="curr_sold" type="text" ng-blur="vm.findCurrency(vm.trade.buySymbol, 'sell')">
             <label for="curr_sold">Currency Sold</label>
           </div>
         </div>
@@ -96,7 +96,7 @@
             <label for="trade_fee">Fee</label>
           </div>
           <div class="input-field inline">
-            <input ng-model="vm.trade.fee_curr" id="trade_fee_curr" type="text">
+            <input ng-model="vm.trade.feeSymbol" id="trade_fee_curr" type="text">
             <label for="trade_fee_curr">Fee Currency</label>
           </div>
         </div>
@@ -110,12 +110,12 @@
         <div class="col s10">
           <ul>
             <li>
-              <span ng-if="vm.tradeDir == 'buy'">Buying</span><span ng-if="vm.tradeDir == 'sell'">Selling</span> <span ng-if="vm.trade.qty">{{vm.trade.qty}}</span><span ng-if="!vm.trade.qty">0</span> shares of <span ng-if="vm.trade.curr_bought">{{vm.symbolBuy}}</span><span ng-if="!vm.trade.curr_bought">(symbol)</span> at a rate of <span ng-if="vm.trade.rate">{{vm.trade.rate}}</span><span ng-if="!vm.trade.rate">0.00</span> {{vm.trade.curr_sold}} on {{vm.trade.exchange}}
+              <span ng-if="vm.tradeDir == 'buy'">Buying</span><span ng-if="vm.tradeDir == 'sell'">Selling</span> <span ng-if="vm.trade.buyQty">{{vm.trade.buyQty}}</span><span ng-if="!vm.trade.buyQty">0</span> shares of <span ng-if="vm.trade.buySymbol">{{vm.symbolBuy}}</span><span ng-if="!vm.trade.buySymbol">(symbol)</span> at a rate of <span ng-if="vm.trade.buyRate">{{vm.trade.buyRate}}</span><span ng-if="!vm.trade.buyRate">0.00</span> {{vm.trade.sellSymbol}} on {{vm.trade.exchange}}
             </li>
-            <li>Fee is {{vm.trade.fee}} {{vm.trade.fee_curr}}</li>
+            <li>Fee is {{vm.trade.fee}} {{vm.trade.feeSymbol}}</li>
             <li>Total cost is
-              <span ng-show="vm.trade.curr_sold == vm.trade.fee_curr">{{vm.trade.total_cost + vm.trade.fee | number:8}} {{vm.trade.fee_curr}}</span>
-              <span ng-show="vm.trade.curr_sold != vm.trade.fee_curr">{{vm.trade.total_cost | number:8}} {{vm.trade.curr_sold}} + {{vm.trade.fee | number:8}} {{vm.trade.fee_curr}}</span>
+              <span ng-show="vm.trade.sellSymbol == vm.trade.feeSymbol">{{vm.trade.subTotal + vm.trade.fee | number:8}} {{vm.trade.feeSymbol}}</span>
+              <span ng-show="vm.trade.sellSymbol != vm.trade.feeSymbol">{{vm.trade.subTotal | number:8}} {{vm.trade.sellSymbol}} + {{vm.trade.fee | number:8}} {{vm.trade.feeSymbol}}</span>
             </li>
           </ul>
         </div>
@@ -158,7 +158,7 @@
             <td class="cat">Currency</td>
             <td style="height: 10px">
               <div class="input-field inline">
-                <input ng-model="vm.trade.curr_bought" ng-blur="vm.findCurrency(vm.trade.curr_bought, 'buy')">
+                <input ng-model="vm.trade.buySymbol" ng-blur="vm.findCurrency(vm.trade.buySymbol, 'buy')">
               </div>
             </td>
             <td>{{vm.symbolBuy}}</td>
@@ -168,7 +168,7 @@
               <td class="cat"> Quantity</td>
               <td style="height: 10px">
                 <div class="input-field inline">
-                  <input ng-model="vm.trade.qty">
+                  <input ng-model="vm.trade.buyQty">
                 </div>
               </td>
               <td></td>
@@ -179,17 +179,17 @@
               <td class="cat"> Rate </td>
               <td style="height: 10px">
                 <div class="input-field inline">
-                  <input ng-model="vm.trade.rate">
+                  <input ng-model="vm.trade.buyRate">
                 </div>
               </td>
-              <td style="font-size: 24px">{{vm.trade.curr_sold}}</td>
+              <td style="font-size: 24px">{{vm.trade.sellSymbol}}</td>
             </div>
           </tr>
           <tr class="sell-row">
             <td class="cat">Base Currency Sold</td>
             <td>
               <div class="input-field inline">
-                <input ng-model="vm.trade.curr_sold" ng-blur="vm.findCurrency(vm.trade.curr_bought, 'sell')">
+                <input ng-model="vm.trade.sellSymbol" ng-blur="vm.findCurrency(vm.trade.buySymbol, 'sell')">
               </div>
             </td>
             <td>{{vm.symbolSell}}</td>
