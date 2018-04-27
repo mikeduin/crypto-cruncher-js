@@ -13,13 +13,14 @@ exports.up = function(knex, Promise) {
     t.string('feeSymbol');
     t.float('fee');
     t.float('totalCost');
-    t.float('btc_usd');
+    t.float('base_usd');
     t.float('usd_basis');
     t.string('exchange');
     t.string('trans_type');
     t.string('trans_subtype');
     t.string('arb_type');
     t.string('notes');
+    t.string('txid');
   })
 };
 

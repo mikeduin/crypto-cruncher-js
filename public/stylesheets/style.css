@@ -139,6 +139,17 @@
   background-color: #ECECEC;
 }
 
+.notes-row {
+  margin-top: -20px;
+  padding: 0;
+  background-color: #ECECEC;
+}
+
+textarea.materialize-textarea {
+  padding: 0 !important;
+  line-height: 20px !important;
+}
+
 .base-q {
   padding-left: 5px;
 }

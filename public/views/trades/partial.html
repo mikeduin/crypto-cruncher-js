@@ -90,11 +90,13 @@
             <label for="curr_sold">Currency Sold</label>
           </div>
         </div>
-        <div class="col s5">
+        <div class="col s2">
           <div class="input-field inline">
             <input ng-model="vm.trade.fee" id="trade_fee" type="number" step="any">
             <label for="trade_fee">Fee</label>
           </div>
+        </div>
+        <div class="col s2">
           <div class="input-field inline">
             <input ng-model="vm.trade.feeSymbol" id="trade_fee_curr" type="text">
             <label for="trade_fee_curr">Fee Currency</label>
@@ -107,7 +109,7 @@
             TRADE SUMMARY:
           </div>
         </div>
-        <div class="col s10">
+        <div class="col s8">
           <ul>
             <li>
               <span ng-if="vm.tradeDir == 'buy'">Buying</span><span ng-if="vm.tradeDir == 'sell'">Selling</span> <span ng-if="vm.trade.buyQty">{{vm.trade.buyQty}}</span><span ng-if="!vm.trade.buyQty">0</span> shares of <span ng-if="vm.trade.buySymbol">{{vm.symbolBuy}}</span><span ng-if="!vm.trade.buySymbol">(symbol)</span> at a rate of <span ng-if="vm.trade.buyRate">{{vm.trade.buyRate}}</span><span ng-if="!vm.trade.buyRate">0.00</span> {{vm.trade.sellSymbol}} on {{vm.trade.exchange}}
@@ -119,8 +121,27 @@
             </li>
           </ul>
         </div>
+        <div class="col s2" ng-show="vm.trade.sellSymbol !== 'USD'">
+          <div class="input-field inline">
+            <input name="base_usd" type="number" step="any" ng-model="vm.trade.base_usd">
+            <label for="base_usd">1 {{vm.trade.sellSymbol}} = (?) USD</label>
+          </div>
+        </div>
       </section>
-      <section class="row">
+      <section class="row notes-row">
+        <div class="col s2">
+          Notes
+        </div>
+        <div class="input-field col s6">
+          <textarea name="notes" class="materialize-textarea" ng-model="vm.trade.notes"></textarea>
+          <label for="notes">Notes</label>
+        </div>
+        <div class="input-field col s4">
+          <input type="text" name="txid" ng-model="vm.trade.txid">
+          <label for="txid">Tx ID</label>
+        </div>
+      </section>
+      <section class="row summary-row">
         <div class="col s4 offset-s2">
           <button class="btn" type="submit">Submit Trade</button>
         </div>

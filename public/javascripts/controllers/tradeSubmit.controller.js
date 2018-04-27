@@ -46,6 +46,12 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
       trade.deposit = null;
       trade.method = null;
     };
+    if (trade.sellSymbol == 'USD') {
+      trade.base_usd = 1;
+    };
+    if (trade.base_usd) {
+      trade.usd_basis = trade.subTotal * trade.base_usd;
+    };
     console.log('trade is ', trade);
     tradeService.submitTrade(trade).then(function(res){
       console.log(res);
