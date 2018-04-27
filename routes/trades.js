@@ -25,7 +25,7 @@ router.post('/submitTrade', function(req, res, next){
     exchange: trade.exchange,
     trans_type: trade.type,
     notes: trade.notes
-  }).then(function(res){
+  }, '*').then(function(res){
     console.log(res);
   })
 })
