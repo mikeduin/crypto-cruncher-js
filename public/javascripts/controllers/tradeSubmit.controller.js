@@ -59,31 +59,33 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
   };
 
   $scope.$on('tradeDir', function(event, data){
-    vm.tradeDir = data.direction,
-    vm.tradeType = data.type,
-    vm.tradeParts = data.parts
+    vm.tradeDir = data.direction;
+    vm.tradeType = data.type;
+    vm.tradeParts = data.parts;
+    console.log(
+      'vm.tradeDir is ', vm.tradeDir, ' and vm.tradeType is ', vm.tradeType, ' and vm.tradeParts is ', vm.tradeParts);
   });
 
   vm.feeObject = {
     'deposit': {
-      'coinbase': 0,
-      'kucoin': 0
+      'Coinbase': 0,
+      'Kucoin': 0
     },
     'buy': {
-      'coinbase': 0.0149,
-      'binance': 0.001,
-      'hitbtc': 0.001,
-      'cryptopia': 0.002,
-      'kucoin': 0.001,
-      'bittrex': 0.0025
+      'Coinbase': 0.0149,
+      'Binance': 0.001,
+      'HitBTC': 0.001,
+      'Cryptopia': 0.002,
+      'Kucoin': 0.001,
+      'Bittrex': 0.0025
     },
     'sell': {
-      'coinbase': 0.0149,
-      'binance': 0.001,
-      'hitbtc': 0.001,
-      'cryptopia': 0.002,
-      'kucoin': 0.001,
-      'bittrex': 0.0025
+      'Coinbase': 0.0149,
+      'Binance': 0.001,
+      'HitBTC': 0.001,
+      'Cryptopia': 0.002,
+      'Kucoin': 0.001,
+      'Bittrex': 0.0025
     }
   };
 
@@ -95,9 +97,10 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
       tradeType = vm.tradeDir;
     };
 
-    // vm.tradeFee = (vm.trade.subTotal *
-    //   vm.feeObject[tradeType][vm.trade.exchange]
-    // )
+    vm.trade.fee = (vm.trade.subTotal *
+      vm.feeObject[tradeType][vm.trade.exchange]
+    );
+
     // if (vm.trade.exchange === 'GDAX') {
     //   if (vm.tradeType === 'deposit') {
     //     // USD deposits into GDAX are free
@@ -125,7 +128,7 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
     //     // MERGE THIS INTO DEPOSIT LATER; just keeping template intact for now
     //     vm.trade.fee = 0;
     //   } else {
-    //     var trade.fee
+    //     vm.trade.fee
     //   }
     // }
   };
@@ -138,6 +141,7 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
 
   vm.calcCost = function() {
     vm.trade.subTotal = vm.trade.buyQty * vm.trade.buyRate;
+    vm.feeCalc();
   };
 
   vm.findCurrency = function (symbol) {

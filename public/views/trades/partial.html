@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col s8" style="border: solid black 1px">
+  <div class="col s10 offset-s1 trade-box z-depth-2">
     <form class="partial-trade" ng-submit="vm.submitTrade(vm.trade)">
       <section class="row top">
         <div class="col s4">
@@ -31,7 +31,7 @@
           </div>
         </div>
       </section>
-      <section class="row purch-row">
+      <section class="row">
         <div class="col s2 center-align">
           <div ng-class="{'trade-buy': vm.tradeDir == 'buy'}" ng-if="vm.tradeDir == 'buy'">
             BUYING:
@@ -40,7 +40,7 @@
             SELLING:
           </div>
         </div>
-        <div class="col s3 purch-cat right-align">
+        <div class="col s3 purch-cat center-align">
           <div class="input-field inline">
             <input ng-model="vm.trade.buyQty" id="curr_quantity" type="number" ng-change="vm.calcCost()" step="any">
             <label for="curr_quantity">Enter Quantity</label>
@@ -50,6 +50,7 @@
           <div class="input-field inline">
             <input ng-model="vm.trade.buySymbol" id="curr_bought" type="text"  ng-blur="vm.findCurrency(vm.trade.buySymbol, 'buy')">
             <label for="curr_bought">Symbol</label>
+            <div class="symbol-val">{{vm.symbolBuy}}</div>
           </div>
         </div>
         <div class="col s5 purch-cat">
@@ -58,18 +59,14 @@
             <input ng-model="vm.trade.buyRate" id="curr_rate" type="number" ng-change="vm.calcCost()" step="any">
             <label for="curr_rate">Rate</label>
           </div>
-          <span>{{vm.trade.sellSymbol}}</span><span class="base-q" tooltipped data-position="top" data-delay="10" data-tooltip="You can change your base currency below."><i class="fa fa-question-circle" aria-hidden="true"></i></span>
+          <div class="input-field inline">
+            <input ng-model="vm.trade.sellSymbol" id="curr_sold" type="text" ng-blur="vm.findCurrency(vm.trade.buySymbol, 'sell')">
+            <label for="curr_sold">Currency Sold</label>
+            <div class="symbol-val">{{vm.symbolSell}}</div>
+          </div>
         </div>
       </section>
-      <section class="row confirm-row">
-        <div class="col s5 offset-s1">
-          <i>Buy Symbol Validator:</i> {{vm.symbolBuy}}
-        </div>
-        <div class="col s5 offset-s1 left-align">
-          <i>Sell Symbol Validator:</i> {{vm.symbolSell}}
-        </div>
-      </section>
-      <section class="row sell-row">
+      <section class="row">
         <div class="col s2 center-align">
           <div ng-class="{'trade-sell': vm.tradeDir == 'buy'}" ng-if="vm.tradeDir == 'buy'">
             AT A COST OF:
@@ -83,14 +80,16 @@
             <input disabled ng-model="vm.trade.subTotal" id="total_cost" type="number" step="any">
             <label for="total_cost">Total Cost</label>
           </div>
-        </div>
-        <div class="col s2">
           <div class="input-field inline">
-            <input ng-model="vm.trade.sellSymbol" id="curr_sold" type="text" ng-blur="vm.findCurrency(vm.trade.buySymbol, 'sell')">
-            <label for="curr_sold">Currency Sold</label>
+            <span>{{vm.trade.sellSymbol}}</span><span class="base-q" tooltipped data-position="top" data-delay="10" data-tooltip="You can change your 'Currency Sold' above."><i class="fa fa-question-circle" aria-hidden="true"></i></span>
           </div>
         </div>
+      </section>
+      <section class="row">
         <div class="col s2">
+          Fee
+        </div>
+        <div class="col s3 center-align">
           <div class="input-field inline">
             <input ng-model="vm.trade.fee" id="trade_fee" type="number" step="any">
             <label for="trade_fee">Fee</label>
@@ -102,8 +101,9 @@
             <label for="trade_fee_curr">Fee Currency</label>
           </div>
         </div>
+
       </section>
-      <section class="row summary-row">
+      <section class="row">
         <div class="col s2 center-align">
           <div class="trade-summary">
             TRADE SUMMARY:
@@ -128,7 +128,7 @@
           </div>
         </div>
       </section>
-      <section class="row notes-row">
+      <section class="row">
         <div class="col s2">
           Notes
         </div>
@@ -141,7 +141,7 @@
           <label for="txid">Tx ID</label>
         </div>
       </section>
-      <section class="row summary-row">
+      <section class="row">
         <div class="col s4 offset-s2">
           <button class="btn" type="submit">Submit Trade</button>
         </div>
@@ -149,115 +149,3 @@
     </form>
   </div>
 </div>
-
-<!-- <div class="row">
-  <div class="col s5">
-    <form ng-submit="vm.tradeSubmit(vm.trade)">
-      <table class="tradeTable z-depth-3">
-        <colgroup>
-          <col style="width: 20%">
-          <col style="width: 40%">
-          <col style="width: 40%">
-        </colgroup>
-        <tbody>
-          <tr>
-            <td class="cat">Date Processed</td>
-            <td colspan="2">
-              <div class="input-field inline"  style="width: 140px">
-                <input ng-model="vm.trade.date" type="date">
-              </div>
-              <span> @ </span>
-              <div class="input-field inline clock">
-                <input ng-model="vm.trade.time" type="time">
-              </div>
-            </td>
-          </tr>
-          <tr class="purch-row">
-            <td colspan="3" class="center-align">PURCHASED</td>
-          </tr>
-          <tr class="purch-row">
-            <td class="cat">Currency</td>
-            <td style="height: 10px">
-              <div class="input-field inline">
-                <input ng-model="vm.trade.buySymbol" ng-blur="vm.findCurrency(vm.trade.buySymbol, 'buy')">
-              </div>
-            </td>
-            <td>{{vm.symbolBuy}}</td>
-          </tr>
-          <tr class="purch-row">
-            <div class="input-field inline">
-              <td class="cat"> Quantity</td>
-              <td style="height: 10px">
-                <div class="input-field inline">
-                  <input ng-model="vm.trade.buyQty">
-                </div>
-              </td>
-              <td></td>
-            </div>
-          </tr>
-          <tr class="purch-row">
-            <div class="input-field inline">
-              <td class="cat"> Rate </td>
-              <td style="height: 10px">
-                <div class="input-field inline">
-                  <input ng-model="vm.trade.buyRate">
-                </div>
-              </td>
-              <td style="font-size: 24px">{{vm.trade.sellSymbol}}</td>
-            </div>
-          </tr>
-          <tr class="sell-row">
-            <td class="cat">Base Currency Sold</td>
-            <td>
-              <div class="input-field inline">
-                <input ng-model="vm.trade.sellSymbol" ng-blur="vm.findCurrency(vm.trade.buySymbol, 'sell')">
-              </div>
-            </td>
-            <td>{{vm.symbolSell}}</td>
-          </tr>
-          <tr>
-            <td class="cat">Exchange</td>
-            <td>
-              <div class="input-field inline">
-                <select ng-model="vm.trade.exchange">
-                  <option ng-repeat="exchange in vm.exchanges">{{exchange}}</option>
-                </select>
-              </div>
-            </td>
-            <td>
-            </td>
-          </tr>
-          <tr>
-            <div class="input-field inline">
-              <td class="cat">Fee</td>
-              <td>$
-                <div class="input-field inline">
-                  <input ng-model="vm.trade.fee | number:2">
-                </div>
-              </td>
-              <td></td>
-            </div>
-          </tr>
-          <tr>
-            <div class="input-field inline">
-              <td class="cat">Amount Received</td>
-              <td>$
-                <div class="input-field inline">
-                  <input ng-model="vm.trade.total | number:2">
-                </div>
-              </td>
-              <td></td>
-            </div>
-          </tr>
-          <tr>
-            <td colspan="3">
-              <div class="input-field inline">
-                <button class="btn center-align" type="submit">Submit</button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </form>
-  </div>
-</div> -->
