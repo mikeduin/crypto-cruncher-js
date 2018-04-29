@@ -97,8 +97,6 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
       tradeType = vm.tradeDir;
     };
 
-    console.log('vm.trade.sellSymbol is ', vm.trade.sellSymbol);
-
     if (vm.trade.sellSymbol == 'USD') {
       vm.trade.fee = parseFloat((vm.trade.subTotal * vm.feeObject[tradeType][vm.trade.exchange]).toFixed(2));
     } else {
@@ -141,6 +139,18 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
     // }
   };
 
+  vm.calcTotal = function () {
+    if (vm.trade.sellSymbol == 'USD' && vm.trade.feeSymbol == 'USD') {
+      var totalCost = vm.trade.subTotal + vm.trade.fee
+      vm.totalCost = totalCost + ' USD';
+    } else if (vm.trade.sellSymbol == 'BTC' && vm.trade.feeSymbol == 'BTC') {
+      var totalCost = vm.trade.subTotal + vm.trade.fee
+      vm.totalCost = totalCost + ' BTC';
+    } else {
+      vm.totalCost = vm.trade.subTotal + ' ' + vm.trade.sellSymbol + ' + ' + vm.trade.fee + ' ' +  vm.trade.feeSymbol;
+    }
+  };
+
   (function getSymbols () {
     marketService.getSymbols().then(function(res){
       vm.symbolIndex = res;
@@ -150,6 +160,7 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
   vm.calcCost = function() {
     vm.trade.subTotal = vm.trade.buyQty * vm.trade.buyRate;
     vm.feeCalc();
+    vm.calcTotal();
   };
 
   vm.findCurrency = function (symbol) {
