@@ -4,7 +4,7 @@
       <section class="row top">
         <div class="col s4">
           <div class="input-field inline">
-            <select ng-model="vm.trade.exchange">
+            <select ng-model="vm.trade.exchange" ng-change="vm.calcCost()">
               <option ng-repeat="exchange in vm.exchanges">{{exchange}}</option>
             </select>
             <label>Exchange</label>
@@ -48,7 +48,7 @@
         </div>
         <div class="col s2 purch-cat">
           <div class="input-field inline">
-            <input ng-model="vm.trade.buySymbol" id="curr_bought" type="text"  ng-blur="vm.findCurrency(vm.trade.buySymbol, 'buy')">
+            <input ng-model="vm.trade.buySymbol" id="curr_bought" type="text"  ng-blur="vm.findCurrency(vm.trade.buySymbol, 'Buy')">
             <label for="curr_bought">Symbol</label>
             <div class="symbol-val">{{vm.symbolBuy}}</div>
           </div>
@@ -60,7 +60,7 @@
             <label for="curr_rate">Rate</label>
           </div>
           <div class="input-field inline">
-            <input ng-model="vm.trade.sellSymbol" id="curr_sold" type="text" ng-blur="vm.findCurrency(vm.trade.buySymbol, 'sell'); vm.trade.feeSymbol = vm.trade.sellSymbol; vm.calcCost()">
+            <input ng-model="vm.trade.sellSymbol" id="curr_sold" type="text" ng-blur="vm.trade.feeSymbol = vm.trade.sellSymbol; vm.calcCost()">
             <label for="curr_sold">Currency Sold</label>
             <div class="symbol-val">{{vm.symbolSell}}</div>
           </div>
@@ -91,7 +91,7 @@
         </div>
         <div class="col s3 center-align">
           <div class="input-field inline">
-            <input ng-model="vm.trade.fee" id="trade_fee" type="number" step="any">
+            <input ng-model="vm.trade.fee" id="trade_fee" type="number" step="any" ng-blur="vm.calcTotal()">
             <label for="trade_fee">Fee</label>
           </div>
         </div>

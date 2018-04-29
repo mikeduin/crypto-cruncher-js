@@ -141,10 +141,10 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
 
   vm.calcTotal = function () {
     if (vm.trade.sellSymbol == 'USD' && vm.trade.feeSymbol == 'USD') {
-      var totalCost = vm.trade.subTotal + vm.trade.fee
+      var totalCost = vm.trade.subTotal + vm.trade.fee;
       vm.totalCost = totalCost + ' USD';
     } else if (vm.trade.sellSymbol == 'BTC' && vm.trade.feeSymbol == 'BTC') {
-      var totalCost = vm.trade.subTotal + vm.trade.fee
+      var totalCost = vm.trade.subTotal + vm.trade.fee;
       vm.totalCost = totalCost + ' BTC';
     } else {
       vm.totalCost = vm.trade.subTotal + ' ' + vm.trade.sellSymbol + ' + ' + vm.trade.fee + ' ' +  vm.trade.feeSymbol;
@@ -158,12 +158,20 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
   })();
 
   vm.calcCost = function() {
-    vm.trade.subTotal = vm.trade.buyQty * vm.trade.buyRate;
+    if (vm.trade.sellSymbol == 'USD') {
+      var subTotal =  parseFloat(vm.trade.buyQty * vm.trade.buyRate).toFixed(2);
+      vm.trade.subTotal = parseFloat(subTotal);
+      console.log('trade.subtotal is ', vm.trade.subTotal);
+    } else {
+      var subTotal = parseFloat(vm.trade.buyQty * vm.trade.buyRate).toFixed(8);
+      vm.trade.subTotal = parseFloat(subTotal);
+    }
+    // vm.trade.subTotal = vm.trade.buyQty * vm.trade.buyRate;
     vm.feeCalc();
     vm.calcTotal();
   };
 
-  vm.findCurrency = function (symbol) {
+  vm.findCurrency = function (symbol, dir) {
     var found = false;
     var lower = symbol.toLowerCase();
     for (var i=0; i<vm.symbolIndex.length; i++) {
