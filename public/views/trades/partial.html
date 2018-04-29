@@ -60,7 +60,7 @@
             <label for="curr_rate">Rate</label>
           </div>
           <div class="input-field inline">
-            <input ng-model="vm.trade.sellSymbol" id="curr_sold" type="text" ng-blur="vm.findCurrency(vm.trade.buySymbol, 'sell')">
+            <input ng-model="vm.trade.sellSymbol" id="curr_sold" type="text" ng-blur="vm.findCurrency(vm.trade.buySymbol, 'sell'); vm.calcCost()">
             <label for="curr_sold">Currency Sold</label>
             <div class="symbol-val">{{vm.symbolSell}}</div>
           </div>

@@ -97,9 +97,17 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
       tradeType = vm.tradeDir;
     };
 
-    vm.trade.fee = (vm.trade.subTotal *
-      vm.feeObject[tradeType][vm.trade.exchange]
-    );
+    console.log('vm.trade.sellSymbol is ', vm.trade.sellSymbol);
+
+    if (vm.trade.sellSymbol == 'USD') {
+      vm.trade.fee = parseFloat((vm.trade.subTotal * vm.feeObject[tradeType][vm.trade.exchange]).toFixed(2));
+    } else {
+      vm.trade.fee = (vm.trade.subTotal *
+        vm.feeObject[tradeType][vm.trade.exchange]
+      );
+    };
+
+
 
     // if (vm.trade.exchange === 'GDAX') {
     //   if (vm.tradeType === 'deposit') {
