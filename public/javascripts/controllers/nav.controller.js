@@ -16,4 +16,6 @@ function NavController ($state, authService) {
   vm.currentUser = function(){
     return authService.currentUser();
   };
+
+  
 }

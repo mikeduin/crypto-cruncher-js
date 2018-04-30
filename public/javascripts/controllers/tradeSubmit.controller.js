@@ -64,6 +64,7 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
         trade.creditTotal = trade.qty;
         trade.creditSymbol = trade.symbolOne;
         trade.debitSymbol = trade.symbolTwo;
+        trade.debitTotal = trade.subTotal;
         if (trade.symbolTwo === trade.feeSymbol) {
           trade.totalCost = trade.subTotal + trade.fee;
         };
@@ -222,6 +223,7 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
   // THIS FN CURRENTLY ISNT DOING SHIT, DELETE IF NOT FIXED
   vm.anotherTrade = function() {
     vm.tradeType = 'reset';
+    $state.go('home');
     $state.go('home.addTrade');
   }
 
