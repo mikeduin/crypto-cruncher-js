@@ -97,7 +97,7 @@
         </div>
         <div class="col s2">
           <div class="input-field inline">
-            <input ng-model="vm.trade.feeSymbol" id="trade_fee_curr" type="text" ng-blur="vm.calcCost()">
+            <input ng-model="vm.trade.feeSymbol" id="trade_fee_curr" type="text">
             <label for="trade_fee_curr">Fee Currency</label>
           </div>
         </div>
@@ -144,4 +144,18 @@
       </section>
     </form>
   </div>
+</div>
+
+
+<div id="confirm-modal" class="modal">
+    <div class="modal-content">
+      <h4>Trade entered!</h4>
+      <p>You've successfully entered a trade of {{vm.trade.buyQty}} {{vm.trade.buySymbol}} at a rate of {{vm.trade.buyRate}} {{vm.trade.sellSymbol}}, totaling {{vm.trade.subTotal}} {{vm.trade.sellSymbol}} (before fees).</p>
+      <p>What next?</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Enter Another Trade</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">View Trade Log</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">View Portfolio</a>
+    </div>
 </div>

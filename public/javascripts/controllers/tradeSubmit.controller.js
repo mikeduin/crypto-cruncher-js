@@ -6,6 +6,7 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
   $(document).ready(function() {
     $('select').material_select();
     Materialize.updateTextFields();
+    $('.modal').modal();
   });
   var vm = this;
   vm.exchanges = ['GDAX', 'Coinbase', 'Binance', 'Bittrex', 'Bitfinex', 'HitBTC', 'KuCoin', 'Cryptopia', 'Other'];
@@ -52,9 +53,8 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
     if (trade.base_usd) {
       trade.usd_basis = trade.subTotal * trade.base_usd;
     };
-    console.log('trade is ', trade);
     tradeService.submitTrade(trade).then(function(res){
-      console.log(res);
+      $('#confirm-modal').modal('open');
     });
   };
 
@@ -62,8 +62,6 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
     vm.tradeDir = data.direction;
     vm.tradeType = data.type;
     vm.tradeParts = data.parts;
-    console.log(
-      'vm.tradeDir is ', vm.tradeDir, ' and vm.tradeType is ', vm.tradeType, ' and vm.tradeParts is ', vm.tradeParts);
   });
 
   vm.feeObject = {
@@ -141,11 +139,11 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
 
   vm.calcTotal = function () {
     if (vm.trade.sellSymbol == 'USD' && vm.trade.feeSymbol == 'USD') {
-      var totalCost = vm.trade.subTotal + vm.trade.fee;
-      vm.totalCost = totalCost + ' USD';
+      var totalCost = (vm.trade.subTotal + vm.trade.fee).toFixed(2);
+      vm.totalCost = parseFloat(totalCost) + ' USD';
     } else if (vm.trade.sellSymbol == 'BTC' && vm.trade.feeSymbol == 'BTC') {
-      var totalCost = vm.trade.subTotal + vm.trade.fee;
-      vm.totalCost = totalCost + ' BTC';
+      var totalCost = (vm.trade.subTotal + vm.trade.fee).toFixed(8);
+      vm.totalCost = parseFloat(totalCost) + ' BTC';
     } else {
       vm.totalCost = vm.trade.subTotal + ' ' + vm.trade.sellSymbol + ' + ' + vm.trade.fee + ' ' +  vm.trade.feeSymbol;
     }
@@ -159,14 +157,12 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
 
   vm.calcCost = function() {
     if (vm.trade.sellSymbol == 'USD') {
-      var subTotal =  parseFloat(vm.trade.buyQty * vm.trade.buyRate).toFixed(2);
+      var subTotal =  (vm.trade.buyQty * vm.trade.buyRate).toFixed(2);
       vm.trade.subTotal = parseFloat(subTotal);
-      console.log('trade.subtotal is ', vm.trade.subTotal);
     } else {
-      var subTotal = parseFloat(vm.trade.buyQty * vm.trade.buyRate).toFixed(8);
+      var subTotal = (vm.trade.buyQty * vm.trade.buyRate).toFixed(8);
       vm.trade.subTotal = parseFloat(subTotal);
     }
-    // vm.trade.subTotal = vm.trade.buyQty * vm.trade.buyRate;
     vm.feeCalc();
     vm.calcTotal();
   };
