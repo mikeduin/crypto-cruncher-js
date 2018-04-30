@@ -5,11 +5,11 @@ exports.up = function(knex, Promise) {
     t.datetime('datetime');
     t.datetime('logged');
     t.string('username');
-    t.string('buySymbol');
-    t.specificType('buyQty', 'decimal');
+    t.string('creditSymbol');
+    t.specificType('creditTotal', 'decimal');
     t.specificType('buyRate', 'decimal');
-    t.string('sellSymbol');
-    t.specificType('subTotal', 'decimal');
+    t.string('debitSymbol');
+    t.specificType('debitTotal', 'decimal');
     t.string('feeSymbol');
     t.specificType('fee', 'decimal');
     t.specificType('totalCost', 'decimal');

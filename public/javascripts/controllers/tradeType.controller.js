@@ -1,8 +1,8 @@
 angular
   .module('cryptoCruncher')
-  .controller('TradeTypeController', ['$state', 'tradeService', TradeTypeController])
+  .controller('TradeTypeController', ['$state', '$scope', 'tradeService', TradeTypeController])
 
-function TradeTypeController ($state, tradeService) {
+function TradeTypeController ($state, $scope, tradeService) {
   $(document).ready(function() {
     $('select').material_select();
   });
@@ -15,12 +15,17 @@ function TradeTypeController ($state, tradeService) {
   vm.directionView = false;
   vm.arbView = false;
 
+  $scope.$on('tradeDir', function(event, data){
+    vm.tradeDir = data.direction;
+    vm.tradeType = data.type;
+    vm.tradeParts = data.parts;
+  });
+
   vm.emitTypeChange = function () {
     tradeService.broadcastType(vm.tradeDir, vm.tradeType, vm.tradeParts);
   };
 
   vm.tradeView = function () {
-
     function partsView () {
       if (vm.tradeParts == 'part') {
         vm.partsView = true;
@@ -52,7 +57,6 @@ function TradeTypeController ($state, tradeService) {
         vm.dirDesc = descNA;
       };
     };
-
 
     if (vm.tradeType === "long" || vm.tradeType === "transfer") {
       vm.typeDesc = descLong;

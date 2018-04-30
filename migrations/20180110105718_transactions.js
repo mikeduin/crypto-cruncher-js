@@ -8,11 +8,11 @@ exports.up = function(knex, Promise) {
     t.string('exchange');
     t.string('transType');
     t.string('transSubType');
-    t.string('buySymbol');
-    t.float('buyQty');
+    t.string('creditSymbol');
+    t.float('creditTotal');
     t.float('buyRate');
     t.float('buyTotal');
-    t.string('sellSymbol');
+    t.string('debitSymbol');
     t.float('sellQty');
     t.float('sellTotal');
     t.string('feeSymbol');

@@ -6,6 +6,7 @@ function tradeService ($http, $timeout, $rootScope) {
   return {
     broadcastType: function (dir, type, parts) {
       $timeout(function(){
+        console.log('in service: ', dir, type, parts);
         $rootScope.$broadcast('tradeDir', {
           direction: dir,
           type: type,
@@ -14,7 +15,6 @@ function tradeService ($http, $timeout, $rootScope) {
       });
     },
     submitTrade: function (trade) {
-      console.log('trade in service is ', trade);
       return $http.post('/trades/submitTrade', trade).then(function(res){
         return res
       })

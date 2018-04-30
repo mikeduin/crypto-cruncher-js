@@ -42,15 +42,15 @@
         </div>
         <div class="col s3 purch-cat center-align">
           <div class="input-field inline">
-            <input ng-model="vm.trade.buyQty" id="curr_quantity" type="number" ng-change="vm.calcCost()" step="any">
+            <input ng-model="vm.trade.qty" id="curr_quantity" type="number" ng-change="vm.calcCost()" step="any">
             <label for="curr_quantity">Enter Quantity</label>
           </div>
         </div>
         <div class="col s2 purch-cat">
           <div class="input-field inline">
-            <input ng-model="vm.trade.buySymbol" id="curr_bought" type="text"  ng-blur="vm.findCurrency(vm.trade.buySymbol, 'Buy')">
+            <input ng-model="vm.trade.symbolOne" id="curr_bought" type="text"  ng-blur="vm.findCurrency(vm.trade.symbolOne, 'Buy')">
             <label for="curr_bought">Symbol</label>
-            <div class="symbol-val">{{vm.symbolBuy}}</div>
+            <div class="symbol-val">{{vm.symbolCredit}}</div>
           </div>
         </div>
         <div class="col s5 purch-cat">
@@ -60,9 +60,10 @@
             <label for="curr_rate">Rate</label>
           </div>
           <div class="input-field inline">
-            <input ng-model="vm.trade.sellSymbol" id="curr_sold" type="text" ng-blur="vm.trade.feeSymbol = vm.trade.sellSymbol; vm.calcCost()">
-            <label for="curr_sold">Currency Sold</label>
-            <div class="symbol-val">{{vm.symbolSell}}</div>
+            <input ng-model="vm.trade.symbolTwo" id="curr_sold" type="text" ng-blur="vm.trade.feeSymbol = vm.trade.symbolTwo; vm.calcCost()">
+            <label ng-show="vm.tradeDir == 'buy'" for="curr_sold">Currency Sold</label>
+            <label ng-show="vm.tradeDir == 'sell'" for="curr_sold">Currency Returned</label>
+            <div class="symbol-val">{{vm.symbolDebit}}</div>
           </div>
         </div>
       </section>
@@ -78,10 +79,11 @@
         <div class="col s3 right-align">
           <div class="input-field inline">
             <input disabled ng-model="vm.trade.subTotal" id="total_cost" type="number" step="any">
-            <label for="total_cost">Total Cost</label>
+            <label ng-show="vm.tradeDir == 'buy'" for="total_cost">Total Cost</label>
+            <label ng-show="vm.tradeDir == 'sell'" for="total_cost">Proceeds Before Fees</label>
           </div>
           <div class="input-field inline">
-            <span>{{vm.trade.sellSymbol}}</span><span class="base-q" tooltipped data-position="top" data-delay="10" data-tooltip="You can change your 'Currency Sold' above."><i class="fa fa-question-circle" aria-hidden="true"></i></span>
+            <span>{{vm.trade.symbolTwo}}</span><span class="base-q" tooltipped data-position="top" data-delay="10" data-tooltip="You can change your 'Currency Sold' above."><i class="fa fa-question-circle" aria-hidden="true"></i></span>
           </div>
         </div>
       </section>
@@ -111,16 +113,17 @@
         <div class="col s8">
           <ul>
             <li>
-              <span ng-if="vm.tradeDir == 'buy'">Buying</span><span ng-if="vm.tradeDir == 'sell'">Selling</span> <span ng-if="vm.trade.buyQty">{{vm.trade.buyQty}}</span><span ng-if="!vm.trade.buyQty">0</span> shares of <span ng-if="vm.trade.buySymbol">{{vm.symbolBuy}}</span><span ng-if="!vm.trade.buySymbol">(symbol)</span> at a rate of <span ng-if="vm.trade.buyRate">{{vm.trade.buyRate}}</span><span ng-if="!vm.trade.buyRate">0.00</span> {{vm.trade.sellSymbol}} on {{vm.trade.exchange}}
+              <span ng-if="vm.tradeDir == 'buy'">Buying</span><span ng-if="vm.tradeDir == 'sell'">Selling</span> <span ng-if="vm.trade.qty">{{vm.trade.qty}}</span><span ng-if="!vm.trade.qty">0</span> shares of <span ng-if="vm.trade.symbolOne">{{vm.symbolCredit}}</span><span ng-if="!vm.trade.symbolOne">(symbol)</span> at a rate of <span ng-if="vm.trade.buyRate">{{vm.trade.buyRate}}</span><span ng-if="!vm.trade.buyRate">0.00</span> {{vm.trade.symbolTwo}} on {{vm.trade.exchange}}
             </li>
             <li>Fee is {{vm.trade.fee}} {{vm.trade.feeSymbol}}</li>
-            <li>Total cost is {{vm.totalCost}}</li>
+            <li ng-show="vm.tradeDir == 'buy'">Total cost is {{vm.totalCost}}</li>
+            <li ng-show="vm.tradeDir == 'sell'">Total proceeds are {{vm.totalCost}}</li>
           </ul>
         </div>
-        <div class="col s2" ng-show="vm.trade.sellSymbol !== 'USD'">
+        <div class="col s2" ng-show="vm.trade.symbolTwo !== 'USD'">
           <div class="input-field inline">
             <input name="base_usd" type="number" step="any" ng-model="vm.trade.base_usd">
-            <label for="base_usd">1 {{vm.trade.sellSymbol}} = (?) USD</label>
+            <label for="base_usd">1 {{vm.trade.symbolTwo}} = (?) USD</label>
           </div>
         </div>
       </section>
@@ -150,12 +153,12 @@
 <div id="confirm-modal" class="modal">
     <div class="modal-content">
       <h4>Trade entered!</h4>
-      <p>You've successfully entered a trade of {{vm.trade.buyQty}} {{vm.trade.buySymbol}} at a rate of {{vm.trade.buyRate}} {{vm.trade.sellSymbol}}, totaling {{vm.trade.subTotal}} {{vm.trade.sellSymbol}} (before fees).</p>
+      <p>You've successfully entered a trade of {{vm.trade.qty}} {{vm.trade.symbolOne}} at a rate of {{vm.trade.buyRate}} {{vm.trade.symbolTwo}}, totaling {{vm.trade.subTotal}} {{vm.trade.symbolTwo}} (before fees).</p>
       <p>What next?</p>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Enter Another Trade</a>
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">View Trade Log</a>
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">View Portfolio</a>
+      <a ng-click="vm.anotherTrade()" class="modal-action modal-close waves-effect waves-green btn-flat">Enter Another Trade</a>
+      <a ui-sref="home.trades" class="modal-action modal-close waves-effect waves-green btn-flat">View Trade Log</a>
+      <a ui-sref="home.portfolio" class="modal-action modal-close waves-effect waves-green btn-flat">View Portfolio</a>
     </div>
 </div>

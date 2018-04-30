@@ -10,7 +10,7 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
   });
   var vm = this;
   vm.exchanges = ['GDAX', 'Coinbase', 'Binance', 'Bittrex', 'Bitfinex', 'HitBTC', 'KuCoin', 'Cryptopia', 'Other'];
-  vm.symbolSell = 'BTC (Bitcoin)';
+  vm.symbolDebit = 'BTC (Bitcoin)';
   vm.tradeDir = "buy";
   var hour = moment().hour();
   var min = moment().minute();
@@ -22,7 +22,7 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
     fee: 0,
     method: 'bank',
     exchange: vm.exchanges[0],
-    sellSymbol: 'BTC',
+    symbolTwo: 'BTC',
     feeSymbol: 'BTC',
     subTotal: 0,
     time: new Date(2017, 0, 1, hour, min, 0),
@@ -47,12 +47,35 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
       trade.deposit = null;
       trade.method = null;
     };
-    if (trade.sellSymbol == 'USD') {
+    if (trade.symbolTwo == 'USD') {
       trade.base_usd = 1;
     };
     if (trade.base_usd) {
       trade.usd_basis = trade.subTotal * trade.base_usd;
     };
+    // NOTES ON BELOW FOR OTHER exchanges
+    // This has been set up this way because in Coinbase, the initial calcuated proceeds (creditTotal) are then reduced by the fee, meaning the ACTUAL proceeds are less than what is originally calculated
+    // This is similar to how things should work for Binance buys ...
+    // So what you do is set the totalCost to the original creditTotal so that INCLUDES the fee in the DB ...
+    // Then, subtract the fee to get the ACTUAL proceeds to be inserted as creditTotal into the DB
+
+    if (trade.exchange == 'Coinbase') {
+      if (vm.tradeDir == 'buy') {
+        trade.creditTotal = trade.qty;
+        trade.creditSymbol = trade.symbolOne;
+        trade.debitSymbol = trade.symbolTwo;
+        if (trade.symbolTwo === trade.feeSymbol) {
+          trade.totalCost = trade.subTotal + trade.fee;
+        };
+      } else if (vm.tradeDir == 'sell') {
+        trade.totalCost = trade.subTotal;
+        trade.creditTotal = trade.subTotal - trade.fee;
+        trade.creditSymbol = trade.symbolTwo;
+        trade.debitTotal = trade.qty;
+        trade.debitSymbol = trade.symbolOne;
+      };
+    }
+
     tradeService.submitTrade(trade).then(function(res){
       $('#confirm-modal').modal('open');
     });
@@ -95,7 +118,7 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
       tradeType = vm.tradeDir;
     };
 
-    if (vm.trade.sellSymbol == 'USD') {
+    if (vm.trade.symbolTwo == 'USD') {
       vm.trade.fee = parseFloat((vm.trade.subTotal * vm.feeObject[tradeType][vm.trade.exchange]).toFixed(2));
     } else {
       vm.trade.fee = (vm.trade.subTotal *
@@ -138,15 +161,28 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
   };
 
   vm.calcTotal = function () {
-    if (vm.trade.sellSymbol == 'USD' && vm.trade.feeSymbol == 'USD') {
-      var totalCost = (vm.trade.subTotal + vm.trade.fee).toFixed(2);
-      vm.totalCost = parseFloat(totalCost) + ' USD';
-    } else if (vm.trade.sellSymbol == 'BTC' && vm.trade.feeSymbol == 'BTC') {
-      var totalCost = (vm.trade.subTotal + vm.trade.fee).toFixed(8);
-      vm.totalCost = parseFloat(totalCost) + ' BTC';
-    } else {
-      vm.totalCost = vm.trade.subTotal + ' ' + vm.trade.sellSymbol + ' + ' + vm.trade.fee + ' ' +  vm.trade.feeSymbol;
+    if (vm.tradeDir == 'buy') {
+      if (vm.trade.symbolTwo == 'USD' && vm.trade.feeSymbol == 'USD') {
+        var totalCost = (vm.trade.subTotal + vm.trade.fee).toFixed(2);
+        vm.totalCost = parseFloat(totalCost) + ' USD';
+      } else if (vm.trade.symbolTwo == 'BTC' && vm.trade.feeSymbol == 'BTC') {
+        var totalCost = (vm.trade.subTotal + vm.trade.fee).toFixed(8);
+        vm.totalCost = parseFloat(totalCost) + ' BTC';
+      } else {
+        vm.totalCost = vm.trade.subTotal + ' ' + vm.trade.symbolTwo + ' + ' + vm.trade.fee + ' ' +  vm.trade.feeSymbol;
+      }
+    } else if (vm.tradeDir == 'sell') {
+      if (vm.trade.symbolTwo == 'USD' && vm.trade.feeSymbol == 'USD') {
+        var totalCost = (vm.trade.subTotal - vm.trade.fee).toFixed(2);
+        vm.totalCost = parseFloat(totalCost) + ' USD';
+      } else if (vm.trade.symbolTwo == 'BTC' && vm.trade.feeSymbol == 'BTC') {
+        var totalCost = (vm.trade.subTotal - vm.trade.fee).toFixed(8);
+        vm.totalCost = parseFloat(totalCost) + ' BTC';
+      } else {
+        vm.totalCost = vm.trade.subTotal + ' ' + vm.trade.symbolTwo + ' - ' + vm.trade.fee + ' ' +  vm.trade.feeSymbol;
+      }
     }
+
   };
 
   (function getSymbols () {
@@ -156,11 +192,11 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
   })();
 
   vm.calcCost = function() {
-    if (vm.trade.sellSymbol == 'USD') {
-      var subTotal =  (vm.trade.buyQty * vm.trade.buyRate).toFixed(2);
+    if (vm.trade.symbolTwo == 'USD') {
+      var subTotal =  (vm.trade.qty * vm.trade.buyRate).toFixed(2);
       vm.trade.subTotal = parseFloat(subTotal);
     } else {
-      var subTotal = (vm.trade.buyQty * vm.trade.buyRate).toFixed(8);
+      var subTotal = (vm.trade.qty * vm.trade.buyRate).toFixed(8);
       vm.trade.subTotal = parseFloat(subTotal);
     }
     vm.feeCalc();
@@ -172,16 +208,22 @@ function TradeSubmitController ($state, $scope, tradeService, marketService, aut
     var lower = symbol.toLowerCase();
     for (var i=0; i<vm.symbolIndex.length; i++) {
       if (vm.symbolIndex[i].symbol.toLowerCase() == lower) {
-        vm.symbolBuy = vm.symbolIndex[i].full_name;
+        vm.symbolCredit = vm.symbolIndex[i].full_name;
         found = true;
       };
     };
     if (symbol == undefined || symbol == null || symbol == ''){
-      vm.symbolBuy = '';
+      vm.symbolCredit = '';
     } else if (!found && symbol !== undefined) {
-      vm.symbolBuy = "Currency not found!";
+      vm.symbolCredit = "Currency not found!";
     };
   };
+
+  // THIS FN CURRENTLY ISNT DOING SHIT, DELETE IF NOT FIXED
+  vm.anotherTrade = function() {
+    vm.tradeType = 'reset';
+    $state.go('home.addTrade');
+  }
 
   var feeBinance = "(a) Binance fee calculations assume your fees are being paid in the currency of your trade proceeds, which carries a 0.1% fee. If you are using BNB (Binance Coin) to pay your fees, reduce your fee by 50%. (b) Binance fees are reflected in your account following the close of a trade, and you will not see the fee adjustment in your trade screen. For example: if you buy 1.00 ETH in exchange for BTC, your trade proceeds will appear as 1.00 ETH on the trade screen, but your account will be credited 0.999 ETH (1 ETH / 0.1% fee = 0.999 ETH)."
 

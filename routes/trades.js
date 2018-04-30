@@ -13,17 +13,19 @@ router.post('/submitTrade', function(req, res, next){
     datetime: trade.date,
     logged: trade.logged,
     username: trade.username,
-    buySymbol: trade.buySymbol,
-    buyQty: trade.buyQty,
+    creditSymbol: trade.creditSymbol,
+    creditTotal: trade.creditTotal,
     buyRate: trade.buyRate,
-    sellSymbol: trade.sellSymbol,
-    subTotal: trade.subTotal,
+    debitSymbol: trade.debitSymbol,
+    debitTotal: trade.debitTotal,
     feeSymbol: trade.feeSymbol,
     fee: trade.fee,
     base_usd: trade.base_usd,
     usd_basis: trade.usd_basis,
+    totalCost: trade.totalCost,
     exchange: trade.exchange,
     trans_type: trade.type,
+    txid: trade.txid,
     notes: trade.notes
   }, '*').then(function(entry){
     res.json(entry);
